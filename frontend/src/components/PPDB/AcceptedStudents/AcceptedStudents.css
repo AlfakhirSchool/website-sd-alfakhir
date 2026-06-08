@@ -1,0 +1,385 @@
+/* AcceptedStudents Styles for PPDB Results */
+
+.accepted-students-container {
+  width: 100%;
+  border-radius: 32px;
+  background: white;
+  border: 1px solid #f1f5f9;
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.03);
+  padding: 5px;
+  overflow-x: auto;
+}
+
+.accepted-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 6px;
+  text-align: left;
+  table-layout: auto;
+}
+
+.accepted-table-header {
+  background: #1a2b4b;
+  border-bottom: 2px solid #f59e0b;
+}
+
+.accepted-table-th {
+  padding: 8px 20px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.accepted-table-th.center {
+  text-align: center;
+}
+
+.accepted-table-th.width-small {
+  width: 60px;
+}
+
+.accepted-table-th.width-medium {
+  width: 180px;
+}
+
+/* Row Styles */
+.accepted-row {
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  border: 1px solid #f1f5f9;
+  position: relative;
+}
+
+.accepted-row:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+  border-color: #e2e8f0;
+}
+
+.accepted-cell {
+  padding: 12px 20px;
+  position: relative;
+}
+
+.accepted-cell.index-cell {
+  text-align: center;
+  border-top-left-radius: 16px;
+  border-bottom-left-radius: 16px;
+  border-left: 4px solid #f59e0b;
+}
+
+.accepted-cell.name-cell {
+  padding: 16px 20px;
+}
+
+.accepted-cell.status-cell {
+  text-align: center;
+  border-top-right-radius: 16px;
+  border-bottom-right-radius: 16px;
+}
+
+/* Sub Components */
+.student-index-badge {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #1a2b4b;
+  background: #fffbeb;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  border: 1px solid #fef3c7;
+}
+
+.student-info-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.student-name {
+  font-weight: 800;
+  color: #1a2b4b;
+  font-size: 1.1rem;
+  letter-spacing: -0.3px;
+  line-height: 1.2;
+}
+
+.student-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.student-id-badge {
+  padding: 4px 10px;
+  background: #f0f9ff;
+  color: #1a2b4b;
+  border-radius: 8px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  border: 1px solid #e0f2fe;
+  letter-spacing: 0.5px;
+}
+
+.student-school {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #64748b;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* Status Badges */
+.status-badge-outer {
+  position: relative;
+  display: inline-flex;
+  padding: 2px;
+  border-radius: 99px;
+}
+
+.status-badge-inner {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: white;
+  padding: 10px 22px;
+  border-radius: 99px;
+  font-size: 0.7rem;
+  font-weight: 900;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+  transform: skewX(-20deg);
+}
+
+.status-icon-frame {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+
+.decorative-bar {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 40%;
+  background: #f59e0b;
+  border-radius: 4px 0 0 4px;
+  opacity: 0.6;
+}
+
+/* Animations */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes runningLine {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.running-border {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #f59e0b, transparent);
+  background-size: 200% 100%;
+  animation: runningLine 3s linear infinite;
+  opacity: 0.6;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #f1f5f9;
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  margin: 0 auto 20px;
+  animation: spin 1s linear infinite;
+}
+
+/* Empty State */
+.empty-state {
+  padding: 120px 20px;
+  text-align: center;
+}
+
+.empty-icon-frame {
+  width: 80px;
+  height: 80px;
+  background: #f8fafc;
+  border-radius: 50%;
+  margin: 0 auto 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #cbd5e1;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .accepted-students-container {
+    padding: 0;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+  }
+
+  .accepted-table, 
+  .accepted-table thead, 
+  .accepted-table tbody, 
+  .accepted-table th, 
+  .accepted-table td, 
+  .accepted-table tr {
+    display: block;
+    width: 100%;
+  }
+
+  .accepted-table thead {
+    display: none; /* Hide header on mobile */
+  }
+
+  .accepted-row {
+    margin-bottom: 20px;
+    background: white;
+    border-radius: 24px;
+    padding: 20px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+    border: 1px solid #f1f5f9;
+    display: flex !important;
+    flex-direction: column;
+    gap: 15px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .accepted-cell {
+    padding: 0 !important;
+    border: none !important;
+    text-align: left !important;
+  }
+
+  .accepted-cell.index-cell {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 15px !important;
+    border-bottom: 1px dashed #f1f5f9 !important;
+  }
+
+  .student-index-badge {
+    margin: 0;
+    width: 28px;
+    height: 28px;
+    font-size: 0.75rem;
+  }
+
+  /* Label for mobile */
+  .accepted-cell::before {
+    content: attr(data-label);
+    display: block;
+    font-size: 0.65rem;
+    font-weight: 800;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+
+  .accepted-cell.index-cell::before {
+    content: "# Rank";
+    margin-bottom: 0;
+  }
+
+  .accepted-cell.name-cell::before {
+    content: "Student Information";
+  }
+
+  .accepted-cell.status-cell::before {
+    content: "Current Status";
+  }
+
+  /* Re-adjusting the internal flex layout in name-cell */
+  .student-name-row-mobile {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .student-info-stack {
+    width: 100%;
+  }
+
+  .student-name {
+    font-size: 1.05rem;
+    white-space: normal;
+    word-break: break-word;
+  }
+
+  .student-meta-row {
+    margin-top: 10px;
+  }
+
+  .status-badge-outer {
+    width: 100%;
+  }
+
+  .status-badge-inner {
+    width: 100%;
+    justify-content: center;
+    padding: 12px;
+  }
+
+  .decorative-bar {
+    width: 100%;
+    height: 3px;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    transform: none;
+    border-radius: 0;
+  }
+
+  .running-border {
+    display: none;
+  }
+
+  .pagination-container-mobile {
+    flex-direction: column;
+    gap: 15px;
+    padding: 20px 15px !important;
+    text-align: center;
+  }
+
+  .pagination-container-mobile span {
+    font-size: 0.7rem !important;
+  }
+}

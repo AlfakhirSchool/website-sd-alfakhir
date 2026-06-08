@@ -1,0 +1,2071 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SDI Al Fakhir — Antigravity Admin Panel</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,300;1,9..144,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Antigravity Deep Space Core Palette */
+    --space-bg: #07080d;
+    --space-card: #0d0f17;
+    --space-elevated: #131622;
+    --space-surface: rgba(19, 22, 34, 0.75);
+    
+    /* Accents & Luminous Elements */
+    --amber: #d4820a;
+    --amber-light: #f59e0b;
+    --amber-pale: rgba(245, 158, 11, 0.12);
+    --teal: #0d7c6e;
+    --teal-light: #2dd4bf;
+    --teal-pale: rgba(45, 212, 191, 0.12);
+    --rose: #e07064;
+    --rose-pale: rgba(224, 112, 100, 0.12);
+    
+    /* Typography & Borders */
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --text-dim: #475569;
+    --border-line: rgba(255, 255, 255, 0.06);
+    --border-soft: rgba(255, 255, 255, 0.03);
+    --border-glow-amber: rgba(245, 158, 11, 0.25);
+    --border-glow-teal: rgba(45, 212, 191, 0.25);
+    
+    /* Dramatic Shadows */
+    --shadow-float: 0 12px 40px rgba(0, 0, 0, 0.8), 0 4px 12px rgba(0, 0, 0, 0.4);
+    --shadow-glow-amber: 0 0 25px rgba(212, 130, 10, 0.15);
+    --shadow-glow-teal: 0 0 25px rgba(13, 124, 110, 0.15);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--space-bg);
+    color: var(--text-main);
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Subtle Ambient Mesh Background */
+  body::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: 
+      radial-gradient(circle at 15% 15%, rgba(212, 130, 10, 0.06) 0%, transparent 45%),
+      radial-gradient(circle at 85% 85%, rgba(13, 124, 110, 0.05) 0%, transparent 45%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ─── SIDEBAR ─── */
+  .sidebar {
+    width: 240px;
+    flex-shrink: 0;
+    background: var(--space-card);
+    border-right: 1px solid var(--border-line);
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    position: relative;
+    z-index: 10;
+  }
+
+  .sidebar-brand {
+    padding: 28px 24px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid var(--border-line);
+  }
+
+  .brand-logo {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, var(--space-elevated) 0%, #1a1e2f 100%);
+    border: 1px solid var(--border-glow-amber);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+    box-shadow: 0 0 15px rgba(212, 130, 10, 0.2);
+  }
+
+  .brand-text h1 {
+    font-family: 'Fraunces', serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 0.02em;
+    line-height: 1.2;
+  }
+
+  .brand-text span {
+    font-size: 9px;
+    color: var(--amber-light);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  .sidebar-user {
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid var(--border-line);
+    position: relative;
+  }
+
+  .user-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    background: var(--space-elevated);
+    border: 1px solid var(--border-line);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Fraunces', serif;
+    font-size: 15px;
+    color: var(--amber-light);
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .user-info strong {
+    display: block;
+    font-size: 13px;
+    color: var(--text-main);
+    font-weight: 600;
+  }
+
+  .user-info small {
+    font-size: 10px;
+    color: var(--text-muted);
+  }
+
+  .online-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--teal-light);
+    border-radius: 50%;
+    position: absolute;
+    bottom: 20px;
+    left: 52px;
+    box-shadow: 0 0 8px var(--teal-light);
+    animation: pulseGlow 2s infinite;
+  }
+
+  @keyframes pulseGlow {
+    0%, 100% { opacity: 1; box-shadow: 0 0 8px var(--teal-light); }
+    50% { opacity: 0.4; box-shadow: none; }
+  }
+
+  .sidebar-nav {
+    flex: 1;
+    padding: 16px 12px;
+    overflow-y: auto;
+  }
+
+  .nav-label {
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    padding: 12px 12px 6px;
+    font-weight: 700;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    color: var(--text-muted);
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 2px;
+    text-decoration: none;
+    border: 1px solid transparent;
+  }
+
+  .nav-item:hover {
+    background: var(--space-elevated);
+    color: white;
+    border-color: var(--border-line);
+    transform: translateX(3px);
+  }
+
+  .nav-item.active {
+    background: var(--space-elevated);
+    color: var(--amber-light);
+    font-weight: 600;
+    border-color: var(--border-glow-amber);
+    box-shadow: inset 0 0 12px rgba(212, 130, 10, 0.1);
+  }
+
+  .nav-icon {
+    width: 16px;
+    height: 16px;
+    opacity: 0.7;
+    flex-shrink: 0;
+    transition: all 0.2s;
+  }
+
+  .nav-item:hover .nav-icon { opacity: 1; color: white; }
+  .nav-item.active .nav-icon { opacity: 1; color: var(--amber-light); }
+
+  .sidebar-footer {
+    padding: 16px 12px;
+    border-top: 1px solid var(--border-line);
+  }
+
+  .logout-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    color: var(--text-muted);
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.2s;
+    width: 100%;
+    border: 1px solid transparent;
+    background: none;
+  }
+
+  .logout-btn:hover {
+    background: var(--rose-pale);
+    color: var(--rose);
+    border-color: rgba(224, 112, 100, 0.25);
+    box-shadow: 0 0 15px rgba(224, 112, 100, 0.1);
+  }
+
+  /* ─── MAIN APP CONTAINER ─── */
+  .main {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 5;
+  }
+
+  /* ─── TOP BAR ─── */
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(7, 8, 13, 0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border-line);
+    padding: 0 32px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .page-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+
+  .page-breadcrumb span {
+    color: white;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
+  .cloud-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--teal-pale);
+    border: 1px solid rgba(45, 212, 191, 0.2);
+    color: var(--teal-light);
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .cloud-dot {
+    width: 5px;
+    height: 5px;
+    background: var(--teal-light);
+    border-radius: 50%;
+    box-shadow: 0 0 6px var(--teal-light);
+    animation: pulseGlow 2s infinite;
+  }
+
+  .topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .topbar-time {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-variant-numeric: tabular-nums;
+    margin-right: 8px;
+    font-weight: 500;
+  }
+
+  .btn-save {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--amber);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid var(--amber-light);
+    letter-spacing: 0.03em;
+    transition: all 0.2s;
+    box-shadow: 0 4px 15px rgba(212, 130, 10, 0.2);
+  }
+
+  .btn-save:hover { 
+    background: var(--amber-light); 
+    box-shadow: 0 0 20px rgba(245, 158, 11, 0.4); 
+    transform: translateY(-1px); 
+  }
+
+  .btn-outline {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--space-elevated);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid var(--border-line);
+    letter-spacing: 0.03em;
+    transition: all 0.2s;
+  }
+
+  .btn-outline:hover { 
+    background: var(--space-surface); 
+    border-color: var(--border-glow-amber); 
+    color: var(--amber-light); 
+  }
+
+  /* ─── CONTENT ─── */
+  .content {
+    padding: 32px;
+    flex: 1;
+  }
+
+  .page-header {
+    margin-bottom: 28px;
+  }
+
+  .page-header h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: white;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
+
+  .page-header p {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+
+  /* ─── STAT CARDS ─── */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 24px;
+  }
+
+  .stat-card {
+    background: var(--space-card);
+    border: 1px solid var(--border-line);
+    border-radius: 8px;
+    padding: 22px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .stat-card:hover {
+    box-shadow: var(--shadow-float);
+    transform: translateY(-4px);
+    border-color: var(--border-glow-amber);
+  }
+
+  .stat-card.primary { border-top: 2px solid var(--amber-light); }
+  .stat-card.success { border-top: 2px solid var(--teal-light); }
+  .stat-card.neutral { border-top: 2px solid var(--text-dim); }
+  .stat-card.gold { border-top: 2px solid #f59e0b; }
+
+  .stat-label {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 700;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .stat-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    border: 1px solid var(--border-line);
+    background: var(--space-elevated);
+  }
+
+  .stat-icon.amber { border-color: var(--border-glow-amber); color: var(--amber-light); background: var(--amber-pale); }
+  .stat-icon.teal { border-color: var(--border-glow-teal); color: var(--teal-light); background: var(--teal-pale); }
+  .stat-icon.warm { color: var(--text-muted); }
+  .stat-icon.gold { border-color: rgba(245, 158, 11, 0.3); color: #f59e0b; background: rgba(245, 158, 11, 0.08); }
+
+  .stat-value {
+    font-family: 'Fraunces', serif;
+    font-size: 38px;
+    font-weight: 700;
+    color: white;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+  }
+
+  .stat-card.gold .stat-value {
+    font-size: 24px;
+    letter-spacing: 0.02em;
+    font-weight: 700;
+    color: var(--amber-light);
+    padding-top: 6px;
+    padding-bottom: 2px;
+  }
+
+  .stat-sub {
+    font-size: 11px;
+    color: var(--text-dim);
+    font-weight: 500;
+  }
+
+  .stat-sub.up { color: var(--teal-light); font-weight: 600; }
+
+  /* ─── CHARTS ROW ─── */
+  .charts-row {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 20px;
+    margin-bottom: 24px;
+  }
+
+  .chart-card {
+    background: var(--space-card);
+    border: 1px solid var(--border-line);
+    border-radius: 8px;
+    padding: 24px;
+    position: relative;
+    transition: all 0.3s;
+  }
+
+  .chart-card:hover {
+    box-shadow: var(--shadow-float);
+    border-color: rgba(255, 255, 255, 0.12);
+  }
+
+  .chart-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 24px;
+  }
+
+  .chart-title {
+    font-family: 'Fraunces', serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: white;
+    letter-spacing: -0.01em;
+  }
+
+  .chart-subtitle {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+
+  .chart-legend {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: 600;
+  }
+
+  .legend-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+  }
+
+  /* Bar chart */
+  .bar-chart {
+    display: flex;
+    align-items: flex-end;
+    gap: 12px;
+    height: 150px;
+    padding-top: 10px;
+  }
+
+  .bar-group {
+    flex: 1;
+    display: flex;
+    align-items: flex-end;
+    gap: 4px;
+    flex-direction: column;
+    position: relative;
+    height: 100%;
+  }
+
+  .bar-wrap {
+    display: flex;
+    align-items: flex-end;
+    gap: 4px;
+    width: 100%;
+    height: 120px;
+  }
+
+  .bar {
+    flex: 1;
+    border-radius: 2px 2px 0 0;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    min-height: 4px;
+    position: relative;
+  }
+
+  .bar.dark { 
+    background: var(--space-elevated); 
+    border: 1px solid var(--border-line);
+    border-bottom: none;
+  }
+  
+  .bar.amber { 
+    background: linear-gradient(to top, var(--amber), var(--amber-light)); 
+    box-shadow: 0 0 12px rgba(245, 158, 11, 0.3);
+  }
+
+  .bar-group:hover .bar.dark { background: var(--text-dim); }
+  .bar-group:hover .bar.amber { box-shadow: 0 0 20px rgba(245, 158, 11, 0.6); filter: brightness(1.1); }
+
+  .bar-label {
+    font-size: 9px;
+    color: var(--text-muted);
+    text-align: center;
+    width: 100%;
+    margin-top: 8px;
+    font-weight: 600;
+  }
+
+  /* Capacity ring */
+  .capacity-ring {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 0 12px;
+  }
+
+  .ring-container {
+    position: relative;
+    width: 130px;
+    height: 130px;
+    margin-bottom: 16px;
+  }
+
+  .ring-svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+  }
+
+  .ring-bg { fill: none; stroke: var(--space-elevated); stroke-width: 8; }
+  .ring-fill { 
+    fill: none; 
+    stroke: var(--teal-light); 
+    stroke-width: 8; 
+    stroke-linecap: round;
+    stroke-dasharray: 283; 
+    stroke-dashoffset: 155;
+    transition: stroke-dashoffset 1.5s cubic-bezier(0.16, 1, 0.3, 1); 
+    filter: drop-shadow(0 0 8px rgba(45, 212, 191, 0.4));
+  }
+
+  .ring-text {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ring-percent {
+    font-family: 'Fraunces', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: white;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+
+  .ring-label-text {
+    font-size: 9px;
+    color: var(--teal-light);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+    margin-top: 4px;
+  }
+
+  .capacity-total {
+    font-size: 12px;
+    color: var(--text-muted);
+    text-align: center;
+    line-height: 1.4;
+  }
+
+  .capacity-total strong {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    font-weight: 700;
+    display: block;
+    color: white;
+    margin-bottom: 2px;
+  }
+
+  .btn-manage {
+    margin-top: 18px;
+    background: var(--space-elevated);
+    color: var(--teal-light);
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border: 1px solid rgba(45, 212, 191, 0.25);
+    width: 100%;
+    transition: all 0.2s;
+  }
+
+  .btn-manage:hover { 
+    background: var(--teal-light); 
+    color: var(--space-bg); 
+    box-shadow: 0 0 15px rgba(45, 212, 191, 0.3); 
+  }
+
+  /* ─── BOTTOM ROW ─── */
+  .bottom-row {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 20px;
+  }
+
+  /* Area chart */
+  .area-chart-wrap {
+    height: 120px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 6px;
+    margin-top: 8px;
+    border: 1px solid var(--border-soft);
+    background: var(--space-elevated);
+  }
+
+  .area-chart-wrap svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Calendar */
+  .mini-calendar {
+    background: var(--space-card);
+    border: 1px solid var(--border-line);
+    border-radius: 8px;
+    padding: 22px;
+    transition: all 0.3s;
+  }
+
+  .mini-calendar:hover {
+    box-shadow: var(--shadow-float);
+    border-color: rgba(255, 255, 255, 0.12);
+  }
+
+  .cal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+
+  .cal-month {
+    font-family: 'Fraunces', serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: white;
+    letter-spacing: -0.01em;
+  }
+
+  .cal-nav {
+    display: flex;
+    gap: 6px;
+  }
+
+  .cal-nav button {
+    width: 26px;
+    height: 26px;
+    border-radius: 4px;
+    border: 1px solid var(--border-line);
+    background: var(--space-elevated);
+    cursor: pointer;
+    color: var(--text-muted);
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+
+  .cal-nav button:hover { 
+    background: var(--amber); 
+    color: white; 
+    border-color: var(--amber-light); 
+  }
+
+  .cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+  }
+
+  .cal-day-name {
+    font-size: 9px;
+    text-align: center;
+    color: var(--text-dim);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 0 8px;
+  }
+
+  .cal-day {
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--text-muted);
+    margin: 0 auto;
+    border: 1px solid transparent;
+  }
+
+  .cal-day:hover { 
+    background: var(--space-elevated); 
+    color: white; 
+    border-color: var(--border-line); 
+  }
+  
+  .cal-day.today { 
+    background: var(--space-elevated); 
+    color: var(--teal-light); 
+    font-weight: 700; 
+    border-color: var(--border-glow-teal);
+    box-shadow: inset 0 0 10px rgba(45, 212, 191, 0.15);
+  }
+  
+  .cal-day.marked { 
+    background: var(--amber); 
+    color: white; 
+    font-weight: 700;
+    box-shadow: 0 0 10px rgba(245, 158, 11, 0.4); 
+  }
+  
+  .cal-day.empty { pointer-events: none; }
+
+  /* ─── MODULE SWITCHING ─── */
+  .page-section { display: none; }
+  .page-section.active { display: block; animation: driftUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+  @keyframes driftUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ─── DATA SELECTION TABLE ─── */
+  .table-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+
+  .select-filter {
+    padding: 8px 14px;
+    border: 1px solid var(--border-line);
+    border-radius: 6px;
+    font-size: 12px;
+    font-family: 'DM Sans', sans-serif;
+    color: white;
+    background: var(--space-elevated);
+    cursor: pointer;
+    outline: none;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+
+  .select-filter:hover { border-color: var(--border-glow-amber); }
+  .select-filter option { background: var(--space-card); color: white; }
+
+  .search-input {
+    padding: 8px 14px 8px 36px;
+    border: 1px solid var(--border-line);
+    border-radius: 6px;
+    font-size: 12px;
+    font-family: 'DM Sans', sans-serif;
+    color: white;
+    background: var(--space-elevated);
+    outline: none;
+    width: 240px;
+    transition: all 0.2s;
+  }
+
+  .search-input:focus {
+    border-color: var(--amber-light);
+    box-shadow: var(--shadow-glow-amber);
+    width: 280px;
+  }
+
+  .search-wrap {
+    position: relative;
+    margin-left: auto;
+  }
+
+  .search-wrap svg {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-dim);
+    pointer-events: none;
+  }
+
+  .btn-template {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    border: 1px solid var(--border-glow-amber);
+    color: var(--amber-light);
+    background: var(--amber-pale);
+    transition: all 0.2s;
+  }
+
+  .btn-template:hover { 
+    background: var(--amber); 
+    color: white; 
+    box-shadow: 0 0 15px rgba(245, 158, 11, 0.3); 
+  }
+
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+
+  .data-table th {
+    text-align: left;
+    padding: 14px 16px;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    font-weight: 700;
+    border-bottom: 1px solid var(--border-line);
+    background: var(--space-elevated);
+  }
+
+  .data-table th:first-child { border-radius: 6px 0 0 0; }
+  .data-table th:last-child { border-radius: 0 6px 0 0; }
+
+  .data-table td {
+    padding: 16px;
+    border-bottom: 1px solid var(--border-soft);
+    color: var(--text-muted);
+    vertical-align: middle;
+    transition: background 0.2s;
+  }
+
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table tr:hover td { background: rgba(255, 255, 255, 0.015); color: white; }
+
+  .reg-id {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    color: var(--teal-light);
+    font-weight: 600;
+    letter-spacing: 0.03em;
+  }
+
+  .student-name {
+    font-weight: 700;
+    color: white;
+    font-size: 14px;
+  }
+
+  .badge-passed {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--teal-pale);
+    border: 1px solid rgba(45, 212, 191, 0.2);
+    color: var(--teal-light);
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .badge-passed::before {
+    content: '';
+    width: 5px;
+    height: 5px;
+    background: var(--teal-light);
+    box-shadow: 0 0 6px var(--teal-light);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .drive-link {
+    font-size: 11px;
+    color: var(--amber-light);
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .drive-link:hover { text-decoration: underline; filter: brightness(1.2); }
+
+  .icon-del {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--space-elevated);
+    color: var(--text-dim);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    transition: all 0.2s;
+  }
+
+  .icon-del:hover { 
+    border-color: rgba(239, 68, 68, 0.4); 
+    background: var(--rose-pale); 
+    color: #ef4444; 
+    box-shadow: 0 0 12px rgba(239, 68, 68, 0.2);
+  }
+
+  /* ─── DATABASE CARDS GRID ─── */
+  .db-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+
+  .db-card {
+    background: var(--space-card);
+    border: 1px solid var(--border-line);
+    border-radius: 8px;
+    padding: 22px;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .db-card:hover {
+    box-shadow: var(--shadow-float);
+    transform: translateY(-4px);
+    border-color: var(--border-glow-amber);
+  }
+
+  .db-card-num {
+    width: 30px;
+    height: 30px;
+    background: var(--space-elevated);
+    border: 1px solid var(--border-line);
+    color: var(--amber-light);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+
+  .db-card-id {
+    font-size: 11px;
+    color: var(--teal-light);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    margin-bottom: 8px;
+  }
+
+  .db-card-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--teal-pale);
+    border: 1px solid rgba(45, 212, 191, 0.2);
+    color: var(--teal-light);
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    float: right;
+    margin-top: -26px;
+  }
+
+  .db-card-name {
+    font-family: 'Fraunces', serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: white;
+    letter-spacing: -0.01em;
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+
+  .db-card-school {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  .db-card-school svg { color: var(--text-dim); flex-shrink: 0; }
+
+  .db-card-year {
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border-soft);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .db-card-year-label {
+    font-size: 9px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+  }
+
+  .db-card-year-val {
+    font-family: 'Fraunces', serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: white;
+    margin-top: 2px;
+  }
+
+  .db-card-arrow {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    background: var(--space-elevated);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    font-size: 14px;
+    font-weight: 700;
+    border: 1px solid var(--border-line);
+    transition: all 0.2s;
+  }
+
+  .db-card:hover .db-card-arrow { 
+    background: white; 
+    color: var(--space-bg); 
+    border-color: white; 
+    transform: translateX(2px);
+  }
+
+  /* ─── STAFF PAGE ─── */
+  .staff-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+
+  .staff-card {
+    background: var(--space-card);
+    border: 1px solid var(--border-line);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .staff-card:hover { 
+    box-shadow: var(--shadow-float); 
+    transform: translateY(-4px); 
+    border-color: var(--border-glow-amber);
+  }
+
+  .staff-photo {
+    height: 200px;
+    background: var(--space-elevated);
+    border-bottom: 1px solid var(--border-line);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .staff-photo-placeholder {
+    font-family: 'Fraunces', serif;
+    font-size: 54px;
+    font-weight: 700;
+    color: var(--space-bg);
+    text-shadow: 0 2px 10px rgba(255,255,255,0.05);
+  }
+
+  .staff-photo-btn {
+    position: absolute;
+    inset: 0;
+    background: rgba(7, 8, 13, 0.8);
+    backdrop-filter: blur(4px);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border: none;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .staff-card:hover .staff-photo-btn { opacity: 1; }
+  .staff-photo-btn:hover { color: var(--amber-light); }
+
+  .staff-info {
+    padding: 20px;
+  }
+
+  .staff-name-input, .staff-role-input, .staff-detail-input {
+    width: 100%;
+    padding: 9px 12px;
+    border: 1px solid var(--border-line);
+    border-radius: 6px;
+    font-size: 12px;
+    font-family: 'DM Sans', sans-serif;
+    color: white;
+    background: var(--space-bg);
+    outline: none;
+    margin-bottom: 10px;
+    transition: all 0.2s;
+  }
+
+  .staff-name-input { font-weight: 700; font-size: 13px; color: var(--amber-light); }
+  .staff-name-input:focus, .staff-role-input:focus, .staff-detail-input:focus {
+    border-color: var(--amber-light);
+    box-shadow: var(--shadow-glow-amber);
+    background: var(--space-elevated);
+  }
+
+  .staff-detail-label {
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    font-weight: 700;
+    margin: 14px 0 8px;
+  }
+
+  .staff-delete-btn {
+    width: 100%;
+    margin-top: 14px;
+    padding: 9px;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    border-radius: 6px;
+    background: transparent;
+    color: #ef4444;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: all 0.2s;
+  }
+
+  .staff-delete-btn:hover { 
+    background: #ef4444; 
+    color: white; 
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.3); 
+  }
+
+  /* ─── EMPTY STATES ─── */
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 90px 20px;
+    text-align: center;
+  }
+
+  .empty-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 8px;
+    background: var(--space-elevated);
+    border: 1px solid var(--border-line);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    margin-bottom: 20px;
+    box-shadow: inset 0 0 15px rgba(255,255,255,0.02);
+  }
+
+  .empty-state h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 8px;
+  }
+
+  .empty-state p {
+    font-size: 13px;
+    color: var(--text-muted);
+    max-width: 300px;
+    line-height: 1.5;
+  }
+
+  /* ─── GALLERY ─── */
+  .gallery-card {
+    background: var(--space-card);
+    border: 1px solid var(--border-line);
+    border-radius: 8px;
+    overflow: hidden;
+    max-width: 720px;
+    box-shadow: var(--shadow-float);
+  }
+
+  .gallery-img-wrap {
+    height: 260px;
+    background: var(--space-elevated);
+    border-bottom: 1px solid var(--border-line);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+  }
+
+  .gallery-change-btn {
+    position: absolute;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--amber);
+    color: white;
+    padding: 8px 20px;
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    border: 1px solid var(--amber-light);
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(212, 130, 10, 0.3);
+    transition: all 0.2s;
+  }
+
+  .gallery-change-btn:hover {
+    background: var(--amber-light);
+    box-shadow: 0 0 20px rgba(245, 158, 11, 0.5);
+  }
+
+  .gallery-form {
+    padding: 24px;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  .form-input, .form-select, .form-textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--border-line);
+    border-radius: 6px;
+    font-size: 13px;
+    font-family: 'DM Sans', sans-serif;
+    color: white;
+    background: var(--space-bg);
+    outline: none;
+    transition: all 0.2s;
+  }
+
+  .form-input:focus, .form-select:focus, .form-textarea:focus {
+    border-color: var(--amber-light);
+    box-shadow: var(--shadow-glow-amber);
+    background: var(--space-elevated);
+  }
+
+  .form-select option { background: var(--space-card); color: white; }
+
+  .form-textarea {
+    resize: vertical;
+    min-height: 100px;
+    margin-bottom: 16px;
+  }
+
+  .form-label {
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-dim);
+    font-weight: 700;
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .delete-content-btn {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    border-radius: 6px;
+    background: transparent;
+    color: #ef4444;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s;
+  }
+
+  .delete-content-btn:hover { 
+    background: #ef4444; 
+    color: white; 
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.3); 
+  }
+
+  /* ─── MESSAGES ─── */
+  .messages-card {
+    background: var(--space-card);
+    border: 1px solid var(--border-line);
+    border-radius: 8px;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Custom Webkit scrollbar for premium dark space environment */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--space-bg); }
+  ::-webkit-scrollbar-thumb { background: var(--space-elevated); border: 1px solid var(--border-line); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--text-dim); }
+
+  /* ─── REGISTRATIONS EMPTY ─── */
+  .registrations-empty {
+    background: var(--space-card);
+    border: 1px solid var(--border-line);
+    border-radius: 8px;
+  }
+</style>
+</head>
+<body>
+
+<!-- ── SIDEBAR ── -->
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-logo">🏫</div>
+    <div class="brand-text">
+      <h1>Al Fakhir</h1>
+      <span>Admin Panel</span>
+    </div>
+  </div>
+
+  <div class="sidebar-user">
+    <div class="user-avatar">F</div>
+    <div class="user-info">
+      <strong>Feriman</strong>
+      <small>admin@alfakhir.sch.id</small>
+    </div>
+    <div class="online-dot"></div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <div class="nav-label">Main</div>
+    <a class="nav-item active" onclick="showPage('home')">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="currentColor"><path d="M2 6.5L8 2l6 4.5V14H10v-4H6v4H2z"/></svg>
+      Dashboard
+    </a>
+    <a class="nav-item" onclick="showPage('registrations')">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="2" width="10" height="12" rx="1.5"/><path d="M5 6h6M5 9h4"/></svg>
+      Registrasi
+    </a>
+    <a class="nav-item" onclick="showPage('selection')">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="5.5"/><path d="M5.5 8l2 2 3-3"/></svg>
+      Seleksi
+    </a>
+
+    <div class="nav-label">Data</div>
+    <a class="nav-item" onclick="showPage('database')">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><ellipse cx="8" cy="4.5" rx="5" ry="2"/><path d="M3 4.5v3c0 1.1 2.2 2 5 2s5-.9 5-2v-3"/><path d="M3 7.5v3c0 1.1 2.2 2 5 2s5-.9 5-2v-3"/></svg>
+      Database
+    </a>
+    <a class="nav-item" onclick="showPage('gallery')">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="12" height="10" rx="1.5"/><circle cx="5.5" cy="6.5" r="1.2"/><path d="M2 11l3.5-3.5L8 10l2.5-2.5L14 11"/></svg>
+      Galeri
+    </a>
+
+    <div class="nav-label">Team</div>
+    <a class="nav-item" onclick="showPage('staff')">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="5" r="2.5"/><path d="M2 13c0-2.2 1.8-4 4-4s4 1.8 4 4"/><circle cx="11" cy="6" r="1.8"/><path d="M13 13c0-1.7-1.3-3-3-3"/></svg>
+      Tim Pengajar
+    </a>
+    <a class="nav-item" onclick="showPage('messages')">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="12" height="9" rx="1.5"/><path d="M2 5l6 4.5L14 5"/></svg>
+      Pesan
+    </a>
+  </nav>
+
+  <div class="sidebar-footer">
+    <button class="logout-btn">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 8H3M3 8l2.5-2.5M3 8l2.5 2.5"/><path d="M7 4V3a1 1 0 011-1h4a1 1 0 011 1v10a1 1 0 01-1 1H8a1 1 0 01-1-1v-1"/></svg>
+      Keluar
+    </button>
+  </div>
+</aside>
+
+<!-- ── MAIN ── -->
+<div class="main">
+
+  <!-- Top Bar -->
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="page-breadcrumb">
+        SDI Al Fakhir &rsaquo; <span id="breadcrumb-title">Beranda</span>
+      </div>
+      <div class="cloud-badge">
+        <div class="cloud-dot"></div>
+        Cloud Aktif
+      </div>
+    </div>
+    <div class="topbar-right">
+      <span class="topbar-time" id="live-time"></span>
+      <button class="btn-outline">
+        <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3v10M3 8h10"/></svg>
+        Tambah Baru
+      </button>
+      <button class="btn-save">
+        <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 13h10M8 3v7M5 7l3 3 3-3"/></svg>
+        Simpan Semua
+      </button>
+    </div>
+  </div>
+
+  <!-- ── HOME PAGE ── -->
+  <div id="page-home" class="page-section active">
+    <div class="content">
+      <div class="page-header">
+        <h2>Selamat datang, Feriman.</h2>
+        <p>Ringkasan aktivitas dan statistik telemetri SDI Al Fakhir — Tahun Ajaran 2026/2027</p>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-grid">
+        <div class="stat-card primary">
+          <div class="stat-label">
+            Calon Pendaftar
+            <div class="stat-icon amber">📋</div>
+          </div>
+          <div class="stat-value">0</div>
+          <div class="stat-sub">Pendaftaran online</div>
+        </div>
+        <div class="stat-card success">
+          <div class="stat-label">
+            Siswa Aktif
+            <div class="stat-icon teal">👤</div>
+          </div>
+          <div class="stat-value">73</div>
+          <div class="stat-sub up">↑ Dari 68 tahun lalu</div>
+        </div>
+        <div class="stat-card neutral">
+          <div class="stat-label">
+            Pesan Masuk
+            <div class="stat-icon warm">✉️</div>
+          </div>
+          <div class="stat-value">0</div>
+          <div class="stat-sub">Tidak ada pesan baru</div>
+        </div>
+        <div class="stat-card gold">
+          <div class="stat-label">
+            Akreditasi
+            <div class="stat-icon gold">⭐</div>
+          </div>
+          <div class="stat-value">Unggul</div>
+          <div class="stat-sub">Status terkini</div>
+        </div>
+      </div>
+
+      <!-- Charts Row -->
+      <div class="charts-row">
+        <div class="chart-card">
+          <div class="chart-card-header">
+            <div>
+              <div class="chart-title">Statistik Pendaftaran</div>
+              <div class="chart-subtitle">Data telemetri bulanan tahun ajaran 2026/2027</div>
+            </div>
+            <div class="chart-legend">
+              <div class="legend-item">
+                <div class="legend-dot" style="background:var(--amber)"></div>
+                Tahun ini
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot" style="background:var(--space-elevated);border:1px solid var(--border-line)"></div>
+                Tahun lalu
+              </div>
+            </div>
+          </div>
+          <div class="bar-chart" id="bar-chart"></div>
+          <div style="display:flex;gap:12px;margin-top:4px" id="bar-chart-labels">
+            <!-- labels injected by JS -->
+          </div>
+        </div>
+
+        <div class="chart-card" style="display:flex;flex-direction:column;justify-content:space-between">
+          <div class="chart-card-header" style="margin-bottom:0">
+            <div>
+              <div class="chart-title">Kapasitas Gedung</div>
+              <div class="chart-subtitle">Total beban kuota tersedia</div>
+            </div>
+          </div>
+          <div class="capacity-ring">
+            <div class="ring-container">
+              <svg class="ring-svg" viewBox="0 0 100 100">
+                <circle class="ring-bg" cx="50" cy="50" r="42"/>
+                <circle class="ring-fill" cx="50" cy="50" r="42"/>
+              </svg>
+              <div class="ring-text">
+                <div class="ring-percent">45%</div>
+                <div class="ring-label-text">Terisi</div>
+              </div>
+            </div>
+            <div class="capacity-total">
+              <strong>320</strong>
+              Total Kuota Siswa
+            </div>
+          </div>
+          <button class="btn-manage">Kelola Kapasitas</button>
+        </div>
+      </div>
+
+      <!-- Bottom Row -->
+      <div class="bottom-row">
+        <div class="chart-card" style="display:flex;flex-direction:column;justify-content:space-between">
+          <div class="chart-card-header" style="margin-bottom:12px">
+            <div>
+              <div class="chart-title">Pertumbuhan Siswa Baru</div>
+              <div class="chart-subtitle">Tren kurva penerimaan per semester</div>
+            </div>
+          </div>
+          <div class="area-chart-wrap">
+            <svg viewBox="0 0 600 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="g1" x1="0" x2="0" y1="0" y2="1">
+                  <stop offset="0%" stop-color="#0d7c6e" stop-opacity="0.2"/>
+                  <stop offset="100%" stop-color="#0d7c6e" stop-opacity="0"/>
+                </linearGradient>
+                <linearGradient id="g2" x1="0" x2="0" y1="0" y2="1">
+                  <stop offset="0%" stop-color="#d4820a" stop-opacity="0.3"/>
+                  <stop offset="100%" stop-color="#d4820a" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <path d="M0,90 C60,80 120,60 180,65 C240,70 300,50 360,45 C420,40 480,55 600,30 L600,120 L0,120 Z" fill="url(#g1)"/>
+              <path d="M0,90 C60,80 120,60 180,65 C240,70 300,50 360,45 C420,40 480,55 600,30" fill="none" stroke="#2dd4bf" stroke-width="1.5" stroke-dasharray="4"/>
+              <path d="M0,100 C80,90 160,98 240,88 C320,78 400,70 480,75 C540,78 570,82 600,75 L600,120 L0,120 Z" fill="url(#g2)"/>
+              <path d="M0,100 C80,90 160,98 240,88 C320,78 400,70 480,75 C540,78 570,82 600,75" fill="none" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="mini-calendar">
+          <div class="cal-header">
+            <div class="cal-month">Mei 2026</div>
+            <div class="cal-nav">
+              <button>‹</button>
+              <button>›</button>
+            </div>
+          </div>
+          <div class="cal-grid" id="calendar"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── REGISTRATIONS PAGE ── -->
+  <div id="page-registrations" class="page-section">
+    <div class="content">
+      <div class="page-header">
+        <h2>Data Pendaftaran</h2>
+        <p>Formulir Online — Kelola transmisi penerimaan siswa baru secara real-time</p>
+      </div>
+      <div class="registrations-empty">
+        <div class="empty-state">
+          <div class="empty-icon">📋</div>
+          <h3>Belum ada pendaftaran online</h3>
+          <p>Data pendaftaran akan terinkorporasi di sini secara mandiri setelah calon siswa mengisi formulir daring.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SELECTION PAGE ── -->
+  <div id="page-selection" class="page-section">
+    <div class="content">
+      <div class="page-header">
+        <h2>Manajemen Seleksi & Observasi</h2>
+        <p>Pusat kendali status penerimaan dan pengarsipan dokumen digital calon siswa</p>
+      </div>
+      <div class="chart-card" style="padding:0;overflow:hidden">
+        <div class="table-toolbar" style="padding:20px;border-bottom:1px solid var(--border-line);margin-bottom:0">
+          <select class="select-filter"><option>Semua Tahun</option><option>2026/2027</option></select>
+          <select class="select-filter"><option>Semua Gelombang</option><option>Gelombang 1</option></select>
+          <button class="btn-template">⬇ Template</button>
+          <button class="btn-template" style="border-color:var(--teal-light);color:var(--teal-light);background:var(--teal-pale)">⬆ Import</button>
+          <div class="search-wrap">
+            <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5L14 14"/></svg>
+            <input class="search-input" placeholder="Cari nama / no. reg...">
+          </div>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th style="width:50px">No</th>
+              <th>ID / No. Reg</th>
+              <th>Nama Siswa</th>
+              <th>Asal Sekolah</th>
+              <th>Tahun</th>
+              <th>Gel.</th>
+              <th>Status</th>
+              <th>PDF Drive</th>
+              <th style="width:60px;text-align:center">Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="selection-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── DATABASE PAGE ── -->
+  <div id="page-database" class="page-section">
+    <div class="content">
+      <div class="page-header">
+        <h2>Database Siswa Diterima</h2>
+        <p>Buku besar pencatatan terpadu seluruh siswa aktif SDI Al Fakhir</p>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px">
+        <select class="select-filter"><option>Semua Tahun</option><option>2026/2027</option></select>
+        <div class="search-wrap">
+          <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5L14 14"/></svg>
+          <input class="search-input" placeholder="Cari siswa aktif...">
+        </div>
+      </div>
+      <div class="db-grid" id="db-grid"></div>
+    </div>
+  </div>
+
+  <!-- ── GALLERY PAGE ── -->
+  <div id="page-gallery" class="page-section">
+    <div class="content">
+      <div class="page-header">
+        <h2>Konten Multimedia</h2>
+        <p>Pusat transmisi galeri visual dan dokumentasi kegiatan sekolah</p>
+      </div>
+      <div class="gallery-card">
+        <div class="gallery-img-wrap">
+          📸
+          <button class="gallery-change-btn">GANTI GAMBAR ASET</button>
+        </div>
+        <div class="gallery-form">
+          <div class="form-row">
+            <div>
+              <label class="form-label">Judul Konten</label>
+              <input class="form-input" value="Observasi Calon Siswa" placeholder="Judul konten...">
+            </div>
+            <div>
+              <label class="form-label">Tipe Kategori</label>
+              <select class="form-select">
+                <option>Kegiatan Sekolah</option>
+                <option>Foto</option>
+                <option>Video</option>
+                <option>Fasilitas</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <label class="form-label">Tanggal Publikasi</label>
+            <input class="form-input" style="margin-bottom:16px" value="14 Februari 2026">
+          </div>
+          <label class="form-label">Deskripsi Rinci</label>
+          <textarea class="form-textarea">Kegiatan Observasi Calon Siswa merupakan bagian dari rangkaian Seleksi Penerimaan Murid Baru (SPMB) SD Islam Modern Al Fakhir Tahun Pelajaran 2026-2027. Kegiatan ini bertujuan mengukur kesiapan belajar anak secara terukur dan menyenangkan.</textarea>
+          <button class="delete-content-btn">🗑 Hapus Konten dari Cloud</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── STAFF PAGE ── -->
+  <div id="page-staff" class="page-section">
+    <div class="content">
+      <div class="page-header">
+        <h2>Tim Pengajar</h2>
+        <p>Kontrol pemetaan otoritas instruktur dan tenaga kependidikan SDI Al Fakhir</p>
+      </div>
+      <div class="staff-grid" id="staff-grid"></div>
+    </div>
+  </div>
+
+  <!-- ── MESSAGES PAGE ── -->
+  <div id="page-messages" class="page-section">
+    <div class="content">
+      <div class="page-header">
+        <h2>Pusat Pesan</h2>
+        <p>Jalur monitoring transmisi kontak dan tiket korespondensi eksternal</p>
+      </div>
+      <div class="messages-card">
+        <div class="empty-state" style="padding:0">
+          <div class="empty-icon" style="color:var(--teal-light);border-color:var(--border-glow-teal)">✉️</div>
+          <h3>Pusat Pesan Terkendali Penuh</h3>
+          <p>Seluruh transmisi dari orang tua atau calon siswa telah diproses. Kotak masuk saat ini dalam kondisi bersih.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end .main -->
+
+<script>
+// ── Live Clock Engine ──
+function updateTime() {
+  const now = new Date();
+  const timeElem = document.getElementById('live-time');
+  if (timeElem) {
+    timeElem.textContent = now.toLocaleString('id-ID', { 
+      weekday: 'long', day: '2-digit', month: 'long', year: 'numeric', 
+      hour: '2-digit', minute: '2-digit', second: '2-digit' 
+    });
+  }
+}
+setInterval(updateTime, 1000);
+updateTime();
+
+// ── Navigation Engine ──
+const pages = { 
+  home: 'Beranda Telemetri', 
+  registrations: 'Registrasi Daring', 
+  selection: 'Verifikasi Seleksi', 
+  database: 'Database Utama', 
+  gallery: 'Galeri Visual', 
+  staff: 'Tim Pengajar', 
+  messages: 'Pusat Pesan' 
+};
+
+function showPage(id) {
+  document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  
+  const targetPage = document.getElementById('page-' + id);
+  if (targetPage) {
+    targetPage.classList.add('active');
+  }
+  
+  if (event && event.currentTarget) {
+    event.currentTarget.classList.add('active');
+  } else {
+    // safe fallback lookup
+    const matchingBtn = Array.from(document.querySelectorAll('.nav-item')).find(el => el.getAttribute('onclick')?.includes(id));
+    if (matchingBtn) matchingBtn.classList.add('active');
+  }
+  
+  const titleLabel = document.getElementById('breadcrumb-title');
+  if (titleLabel && pages[id]) {
+    titleLabel.textContent = pages[id];
+  }
+}
+
+// ── Bar Chart Generation Loops ──
+const months = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agt','Sep'];
+const curr = [5,8,15,22,32,28,18,12,16];
+const prev = [8,12,18,26,20,24,22,16,14];
+const maxVal = Math.max(...curr, ...prev);
+const bc = document.getElementById('bar-chart');
+const bcl = document.getElementById('bar-chart-labels');
+
+if (bc && bcl) {
+  months.forEach((m, i) => {
+    // Generate bars group
+    const g = document.createElement('div');
+    g.className = 'bar-group';
+    
+    const bw = document.createElement('div');
+    bw.className = 'bar-wrap';
+    
+    const b1 = document.createElement('div');
+    b1.className = 'bar dark';
+    b1.style.height = (prev[i] / maxVal * 100) + '%';
+    b1.title = `Tahun lalu: ${prev[i]}`;
+    
+    const b2 = document.createElement('div');
+    b2.className = 'bar amber';
+    b2.style.height = (curr[i] / maxVal * 100) + '%';
+    b2.title = `Tahun ini: ${curr[i]}`;
+    
+    bw.appendChild(b1);
+    bw.appendChild(b2);
+    g.appendChild(bw);
+    bc.appendChild(g);
+    
+    // Generate symmetrical custom bottom label
+    const lbl = document.createElement('div');
+    lbl.className = 'bar-label';
+    lbl.style.flex = '1';
+    lbl.textContent = m;
+    bcl.appendChild(lbl);
+  });
+}
+
+// ── Calendar Injection ──
+const cal = document.getElementById('calendar');
+if (cal) {
+  ['M','S','S','R','K','J','S'].forEach(d => {
+    const el = document.createElement('div');
+    el.className = 'cal-day-name';
+    el.textContent = d;
+    cal.appendChild(el);
+  });
+  
+  // May 2026 starts on Friday (index 4 in Mon-Sun)
+  const startDay = 4;
+  for (let i = 0; i < startDay; i++) {
+    const el = document.createElement('div');
+    el.className = 'cal-day empty';
+    cal.appendChild(el);
+  }
+  for (let d = 1; d <= 31; d++) {
+    const el = document.createElement('div');
+    el.className = 'cal-day';
+    if (d === 14) el.classList.add('today');
+    if (d === 22) el.classList.add('marked');
+    el.textContent = d;
+    el.title = `Tanggal ${d} Mei 2026`;
+    cal.appendChild(el);
+  }
+}
+
+// ── Selection Data Populating ──
+const students = [
+  ['SPMB-SD-2627007','Rumaisha Safiya Hanani','—','2026/2027',1],
+  ['SPMB-SD-2627006','Azzura Anlea','—','2026/2027',1],
+  ['SPMB-SD-2627005','Abizar Zalyandra Wibowo','RA Arrahim Sawangan Perigi','2026/2027',1],
+  ['SPMB-SD-2627004','Adskhan Radhien Dhiaazzamy','Las Anakku Sayang','2026/2027',1],
+  ['SPMB-SD-2627003','Adzril Rafif Alfarizi','TK Boo','2026/2027',1],
+  ['SPMB-SD-2627002','Afsheena Jennamira','TK Tahfidz Mutiara Sunnah','2026/2027',1],
+  ['SPMB-SD-2627001','Ahmad Faisal Oktavian','Paud Al Jihadiyah','2026/2027',1],
+  ['SPMB-SD-2627001','Ainur Atlanta Widodo','TK Islam El Madani Halirtika','2026/2027',1],
+];
+
+const tbody = document.getElementById('selection-tbody');
+if (tbody) {
+  students.forEach((s, i) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td style="color:var(--text-dim);font-family:monospace;font-weight:600">${i+1}</td>
+      <td><span class="reg-id">${s[0]}</span></td>
+      <td><span class="student-name">${s[1]}</span></td>
+      <td style="color:var(--text-muted)">${s[2] === '—' ? '<em style="color:var(--text-dim)">Tanpa TK Asal</em>' : s[2]}</td>
+      <td style="color:var(--text-dim);font-family:monospace">${s[3]}</td>
+      <td style="color:var(--text-dim)">Gel. ${s[4]}</td>
+      <td><span class="badge-passed">Lulus Seleksi</span></td>
+      <td><a class="drive-link" href="#" target="_blank">Akses Folder ↗</a></td>
+      <td style="text-align:center"><button class="icon-del" title="Hapus Entri">🗑</button></td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+// ── Database Cards Rendering ──
+const dbGrid = document.getElementById('db-grid');
+const dbStudents = [
+  {num:1, id:'SPMB-SD-26270075', name:'Rumaisha Safiya Hanani', school:'—', year:'2026/2027'},
+  {num:2, id:'SPMB-SD-26270002', name:'Azzura Anlea', school:'—', year:'2026/2027'},
+  {num:3, id:'SPMB-SD-26270005', name:'Abizar Zalyandra Wibowo', school:'RA Arrahim Sawangan Perigi', year:'2026/2027'},
+  {num:4, id:'SPMB-SD-26270006', name:'Adskhan Radhien Dhiaazzamy', school:'Las Anakku Sayang', year:'2026/2027'},
+  {num:5, id:'SPMB-SD-26270007', name:'Adzril Rafif Alfarizi', school:'TK Boo', year:'2026/2027'},
+  {num:6, id:'SPMB-SD-26270008', name:'Afsheena Jennamira', school:'TK Tahfidz Mutiara Sunnah', year:'2026/2027'},
+  {num:7, id:'SPMB-SD-26270009', name:'Ahmad Faisal Oktavian', school:'Paud Al Jihadiyah', year:'2026/2027'},
+  {num:8, id:'SPMB-SD-26270010', name:'Ainur Atlanta Widodo', school:'TK Islam El Madani Halirtika', year:'2026/2027'},
+];
+
+if (dbGrid) {
+  dbStudents.forEach(s => {
+    const card = document.createElement('div');
+    card.className = 'db-card';
+    card.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px">
+        <div class="db-card-num">${s.num}</div>
+        <div class="db-card-badge">✓ LULUS</div>
+      </div>
+      <div class="db-card-id">${s.id}</div>
+      <div class="db-card-name">${s.name}</div>
+      <div class="db-card-school">
+        <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2L2 6v8h4v-4h4v4h4V6z"/></svg>
+        <span>${s.school === '—' ? '<em style="color:var(--text-dim)">Tanpa TK Asal</em>' : s.school}</span>
+      </div>
+      <div class="db-card-year">
+        <div>
+          <div class="db-card-year-label">Tahun Ajaran</div>
+          <div class="db-card-year-val">${s.year}</div>
+        </div>
+        <div class="db-card-arrow">›</div>
+      </div>
+    `;
+    dbGrid.appendChild(card);
+  });
+}
+
+// ── Staff Cards Rendering ──
+const staffData = [
+  {name:'Thio Pratama, S.Kom', role:'Staff IT & Kurikulum', edu:'S1 Sistem Informasi'},
+  {name:'Royan Dharuriat, S.Pd', role:'Tenaga Pendidik', edu:'S1 Pendidikan Agama Islam'},
+  {name:'Feriman, S.Kom', role:'Administrator Utama', edu:'S1 Teknik Komputer'},
+  {name:'Wulan Apriningtyas, S.Pd', role:'Tenaga Pendidik', edu:'S1 Pendidikan Biologi'},
+];
+const staffGrid = document.getElementById('staff-grid');
+const initials = name => name.split(' ').slice(0,2).map(n => n[0]).join('');
+
+if (staffGrid) {
+  staffData.forEach(s => {
+    const card = document.createElement('div');
+    card.className = 'staff-card';
+    card.innerHTML = `
+      <div class="staff-photo">
+        <div class="staff-photo-placeholder">${initials(s.name)}</div>
+        <button class="staff-photo-btn">📷 GANTI POTRET</button>
+      </div>
+      <div class="staff-info">
+        <input class="staff-name-input" value="${s.name}" title="Nama Instruktur">
+        <input class="staff-role-input" value="${s.role}" title="Jabatan Fungsional">
+        <div class="staff-detail-label">Kualifikasi & Latar Belakang</div>
+        <input class="staff-detail-input" value="${s.edu}">
+        <input class="staff-detail-input" placeholder="Email SSO resmi..." title="Kontak Sesi">
+        <button class="staff-delete-btn">🗑 Cabut Otoritas</button>
+      </div>
+    `;
+    staffGrid.appendChild(card);
+  });
+}
+</script>
+</body>
+</html>

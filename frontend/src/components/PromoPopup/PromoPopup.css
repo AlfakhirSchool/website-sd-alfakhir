@@ -1,0 +1,110 @@
+.promo-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  backdrop-filter: blur(4px);
+  padding: 20px;
+}
+
+.promo-modal {
+  background: transparent;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 450px;
+  max-height: 90vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+}
+
+.promo-close-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: rgba(255, 255, 255, 0.8);
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #333;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  backface-visibility: hidden;
+  will-change: transform;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .promo-close-btn:hover {
+    background: white;
+    transform: scale(1.1) translate3d(0,0,0);
+  }
+}
+
+.promo-image-container {
+  width: 100%;
+  background: transparent;
+  display: block;
+}
+
+.promo-image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.promo-content {
+  padding: 24px;
+  text-align: center;
+}
+
+.promo-content h3 {
+  margin: 0 0 12px 0;
+  color: #1e293b;
+  font-size: 1.5rem;
+  font-weight: 800;
+  font-family: 'Poppins', sans-serif;
+}
+
+.promo-content p {
+  color: #64748b;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 0 0 20px 0;
+}
+
+.promo-action-btn {
+  background: var(--primary, #f98c1d);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 100px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  width: 100%;
+  box-shadow: 0 4px 15px rgba(249, 140, 29, 0.3);
+  backface-visibility: hidden;
+  will-change: transform;
+  transform: translate3d(0,0,0);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .promo-action-btn:hover {
+    transform: translate3d(0, -2px, 0);
+    box-shadow: 0 6px 20px rgba(249, 140, 29, 0.4);
+  }
+}

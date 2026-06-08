@@ -1,0 +1,292 @@
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+
+:root {
+  --primary: #f98c1d; /* Original Logo Orange/Yellow */
+  --primary-dark: #cc6d10;
+  --accent: #0f172a; 
+  --accent-light: #1e293b;
+  --text-primary: #0f172a;
+  --text-muted: #64748b;
+  --text-white: #ffffff;
+  --bg-light: #ffffff;
+  --bg-soft: #f8fafc;
+  --transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  --glass: rgba(255, 255, 255, 0.8);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --shadow-premium: 0 40px 100px -12px rgba(15, 23, 42, 0.08);
+  --radius-premium: 40px;
+  
+  /* International Typographic Scale */
+  --font-display: "Instrument Serif", serif;
+  --font-ui: "Poppins", sans-serif;
+  
+  --fs-base: 1rem;
+  --fs-h1: clamp(3rem, 8vw, 5rem);
+  --fs-h2: clamp(2rem, 5vw, 3.2rem);
+  --fs-h3: clamp(1.5rem, 3vw, 2.2rem);
+  --section-spacing: 120px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  color: var(--text-primary);
+  background-color: var(--bg-light);
+  line-height: 1.6;
+  overflow-x: hidden;
+  font-size: var(--fs-base);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Poppins", sans-serif;
+  letter-spacing: -0.01em;
+  font-weight: 700;
+  color: var(--accent);
+  line-height: 1.2;
+}
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: var(--fs-xl);
+  }
+  h2 {
+    font-size: var(--fs-lg);
+  }
+  h3 {
+    font-size: var(--fs-md);
+  }
+  p {
+    font-size: var(--fs-sm);
+  }
+  .container {
+    padding: 0 1.25rem;
+  }
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* Premium Button */
+.btn-primary {
+  background: var(--primary);
+  color: white;
+  padding: 12px 32px;
+  border-radius: 99px;
+  font-weight: 800;
+  border: none;
+  cursor: pointer;
+  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 10px 20px rgba(249, 140, 29, 0.2);
+  backface-visibility: hidden; /* GPU Optimization */
+  transform: translate3d(0, 0, 0); /* GPU Optimization */
+}
+
+.btn-primary:hover {
+  transform: translate3d(0, -3px, 0); /* GPU Optimization */
+  box-shadow: 0 15px 30px rgba(249, 140, 29, 0.4);
+}
+
+/* Glassmorphism */
+.glass-card {
+  background: var(--glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-lg);
+}
+
+.glass-dark {
+  background: rgba(15, 23, 42, 0.85); /* Sophisticated Dark Glass */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  color: white;
+}
+
+/* Animations */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+/* Decorative Background Elements */
+.bg-pattern {
+  background-image: radial-gradient(var(--accent) 0.5px, transparent 0.5px);
+  background-size: 20px 20px;
+  opacity: 0.1;
+}
+
+.blob {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  background: var(--primary);
+  filter: blur(80px);
+  opacity: 0.1;
+  border-radius: 50%;
+  z-index: -1;
+}
+
+.blob-orange {
+  background: var(--accent);
+  opacity: 0.15;
+}
+.blob-yellow {
+  background: var(--accent-light);
+  opacity: 0.2;
+}
+
+section {
+  position: relative;
+  overflow: hidden;
+  padding: 1.5rem 0;
+}
+
+.section-padding {
+  padding: 40px 0;
+}
+
+/* Minimalist Highlights */
+.section-title {
+  text-align: center;
+  font-size: 1.8rem;
+  color: var(--accent);
+  margin-bottom: 1.5rem;
+  position: relative;
+  font-weight: 800;
+}
+
+.section-title::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 4px;
+  background: var(--accent);
+  border-radius: 2px;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   MOBILE UTILITIES & RESPONSIVENESS
+   ────────────────────────────────────────────────────────────────────────── */
+
+/* Text stays on one line - no automatic breaks */
+.keep-all {
+  word-break: keep-all;
+  white-space: nowrap;
+}
+
+/* Hide on mobile screens */
+@media (max-width: 768px) {
+  .hide-mobile {
+    display: none !important;
+  }
+}
+
+/* Hide on desktop screens */
+@media (min-width: 769px) {
+  .show-mobile-only {
+    display: none !important;
+  }
+}
+
+/* Smooth Scrolling context */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Selection color */
+/* Form Elements */
+label {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--accent);
+  font-size: 0.9rem;
+}
+
+input, select, textarea {
+  font-family: inherit;
+}
+
+::selection {
+  background: var(--primary);
+  color: white;
+}
+
+/* Utility for vertical spacing */
+.mt-4 {
+  margin-top: 1rem;
+}
+.mb-8 {
+  margin-bottom: 2rem;
+}
+.py-20 {
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   MOBILE & PERFORMANCE OPTIMIZATIONS (GPU ACCELERATION)
+   ────────────────────────────────────────────────────────────────────────── */
+.gpu-accel {
+  backface-visibility: hidden;
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+}
+
+@media (max-width: 768px) {
+  /* Disable heavy hover shadows and blurs on mobile devices to save battery & FPS */
+  * {
+    box-shadow: none !important;
+  }
+  
+  .glass-card, .glass-dark {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: var(--bg-white); /* Fallback */
+  }
+
+  .blob, .blob-orange, .blob-yellow {
+    display: none; /* Blurs are very expensive on mobile */
+  }
+}
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.shimmer {
+  background: linear-gradient(90deg, #f0f0f0 25%, #f7f7f7 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}

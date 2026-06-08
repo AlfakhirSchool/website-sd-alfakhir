@@ -1,0 +1,90 @@
+/* PPDB Video Documentation Styles */
+
+.video-doc-card {
+  background: white;
+  border-radius: 30px;
+  padding: 40px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.04);
+  border: 1px solid #f1f5f9;
+  text-align: center;
+}
+
+.video-doc-title {
+  font-weight: 900;
+  color: #1e1b4b;
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+}
+
+.video-doc-subtitle {
+  color: #64748b;
+  margin-bottom: 2rem;
+  font-weight: 600;
+}
+
+.video-placeholder {
+  padding: 60px 20px;
+  background: #f8fafc;
+  border-radius: 24px;
+  border: 2px dashed #e2e8f0;
+}
+
+.video-placeholder-icon {
+  background: #fef3c7;
+  padding: 15px;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  color: #d97706;
+}
+
+.video-iframe-wrapper {
+  aspect-ratio: 16/9;
+  background: #000;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.2);
+}
+
+.video-doc-footer {
+  margin-top: 2.5rem;
+}
+
+.youtube-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: #ef4444;
+  color: white;
+  padding: 14px 30px;
+  border-radius: 18px;
+  font-weight: 900;
+  text-decoration: none;
+  box-shadow: 0 10px 25px rgba(239,68,68,0.3);
+  transition: 0.3s;
+}
+
+.youtube-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 35px rgba(239,68,68,0.4);
+  background: #dc2626;
+}
+
+@media (max-width: 768px) {
+  .video-doc-card {
+    padding: 25px;
+  }
+  .video-doc-title {
+    font-size: 1.5rem;
+  }
+  .youtube-btn {
+    padding: 12px 20px;
+    font-size: 0.9rem;
+    width: 100%;
+    justify-content: center;
+  }
+}

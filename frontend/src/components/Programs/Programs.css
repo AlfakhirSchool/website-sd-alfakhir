@@ -1,0 +1,148 @@
+/* Programs/Quick Links Cards Section Styles */
+
+.programs-section {
+  background: #f5f6f8;
+  padding: 60px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.programs-watermark {
+  position: absolute;
+  object-fit: contain;
+  opacity: 0.03;
+  filter: grayscale(1);
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+}
+
+.programs-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 24px;
+  padding: 0 40px;
+  position: relative;
+  z-index: 1;
+}
+
+.programs-header-line {
+  flex: 1;
+  max-width: 120px;
+  height: 1px;
+  background: #c8ccd4;
+}
+
+.programs-header-text {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #666;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.programs-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.program-card-link {
+  text-decoration: none;
+}
+
+.program-card {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  aspect-ratio: 4/3;
+  cursor: pointer;
+}
+
+.program-card-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.program-card-tint {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.3);
+  z-index: 1;
+}
+
+.program-card-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 60%, transparent 100%);
+  z-index: 2;
+}
+
+.program-card-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 24px;
+  z-index: 10;
+}
+
+.program-card-title {
+  color: white;
+  font-size: 1.35rem;
+  font-weight: 950;
+  margin: 0 0 4px;
+  font-family: 'Poppins', sans-serif;
+  text-shadow: 0 4px 8px rgba(0,0,0,0.5);
+  letter-spacing: -0.3px;
+}
+
+.program-card-subtitle {
+  color: rgba(255,255,255,0.98);
+  font-size: 0.82rem;
+  font-weight: 600;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+}
+
+@media (max-width: 768px) {
+  .programs-section {
+    padding: 40px 0;
+  }
+  .programs-header {
+    padding: 0 20px;
+    margin-bottom: 20px;
+  }
+  .programs-header-line {
+    max-width: 40px;
+  }
+  .programs-header-text {
+    font-size: 0.65rem;
+  }
+  .programs-grid {
+    grid-template-columns: 1fr;
+    padding: 0 15px;
+  }
+  .program-card {
+    aspect-ratio: 16/10;
+  }
+  .program-card-title {
+    font-size: 1.15rem;
+  }
+  .program-card-subtitle {
+    font-size: 0.75rem;
+  }
+}

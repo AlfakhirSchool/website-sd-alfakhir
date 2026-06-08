@@ -1,0 +1,352 @@
+/* Navbar Styles for SD Islam Modern Al-Fakhir */
+
+.navbar-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2000;
+  padding: 12px 20px;
+  pointer-events: none;
+}
+
+.navbar-container {
+  max-width: 980px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 99px;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+  border: 1px solid rgba(15,23,42,0.05);
+  pointer-events: all;
+  position: relative;
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+}
+
+.navbar-reg-btn {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 99px;
+  font-weight: 900;
+  font-size: 0.78rem;
+  cursor: pointer;
+  letter-spacing: 0.8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 12px rgba(249,140,29,0.25);
+}
+
+.navbar-flags {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.navbar-flag-btn {
+  border-radius: 8px;
+  padding: 4px 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.navbar-flag-btn-desktop {
+  padding: 5px 7px;
+}
+
+.navbar-center-logo {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+
+.navbar-logo-text-container {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+
+.navbar-logo-title {
+  font-weight: 950;
+  font-size: 0.95rem;
+  color: #0f172a;
+  letter-spacing: -0.5px;
+}
+
+.navbar-logo-subtitle {
+  font-weight: 800;
+  font-size: 0.55rem;
+  color: var(--primary);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.navbar-right {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+}
+
+.navbar-menu-btn {
+  background: white;
+  border: 1.5px solid rgba(15,23,42,0.1);
+  border-radius: 99px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-weight: 900;
+  font-size: 0.78rem;
+  color: var(--accent);
+  letter-spacing: 0.5px;
+  transition: border-color 0.2s ease, color 0.2s ease;
+  white-space: nowrap;
+}
+
+/* Menu Dropdown Styles */
+.menu-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 2990;
+  background: rgba(15, 23, 42, 0.1);
+  cursor: pointer;
+}
+
+.menu-panel {
+  position: fixed;
+  z-index: 3000;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.menu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.menu-directory-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.menu-dot {
+  width: 7px;
+  height: 7px;
+  background: var(--primary);
+  border-radius: 50%;
+}
+
+.menu-directory-text {
+  font-size: 0.65rem;
+  font-weight: 900;
+  color: #94a3b8;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+}
+
+.menu-close-btn {
+  background: #f1f5f9;
+  border: none;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #64748b;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.menu-nav-list {
+  flex: 1;
+  overflow-y: auto;
+  display: grid;
+  margin-bottom: 28px;
+  padding-right: 4px;
+}
+
+.menu-link-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-radius: 16px;
+  text-decoration: none;
+  transition: background-color 0.25s ease, transform 0.25s ease;
+  background: transparent;
+  backface-visibility: hidden;
+  will-change: transform;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .menu-link-item:hover {
+    background: #f8fafc;
+    transform: translate3d(5px, 0, 0);
+  }
+}
+
+.menu-link-label {
+  font-size: 1rem;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.3px;
+  transition: color 0.2s ease;
+}
+
+.menu-link-sub {
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 1px;
+}
+
+.menu-chevron {
+  color: var(--primary);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  flex-shrink: 0;
+}
+
+.menu-separator {
+  height: 1px;
+  background: #f8fafc;
+  margin: 0 16px;
+}
+
+.menu-bottom-actions {
+  border-top: 1px solid #f1f5f9;
+  padding-top: 28px;
+  display: flex;
+  gap: 14px;
+}
+
+.menu-cta-primary {
+  width: 100%;
+  background: var(--primary);
+  color: white;
+  padding: 20px;
+  border-radius: 20px;
+  border: none;
+  font-weight: 900;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(249,140,29,0.28);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  letter-spacing: 0.5px;
+}
+
+.menu-cta-secondary {
+  width: 100%;
+  background: white;
+  color: #0f172a;
+  padding: 20px;
+  border-radius: 20px;
+  border: 2px solid #f1f5f9;
+  font-weight: 900;
+  font-size: 0.95rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+}
+
+.menu-watermark {
+  position: absolute;
+  bottom: -30px;
+  right: -15px;
+  width: 260px;
+  opacity: 0.035;
+  pointer-events: none;
+  z-index: 0;
+  user-select: none;
+}
+
+/* Mobile Responsiveness for Navbar */
+@media (max-width: 1024px) {
+  .navbar-nav {
+    padding: 8px 12px;
+  }
+  
+  .navbar-container {
+    max-width: 100%;
+    padding: 4px 10px;
+    height: 54px;
+  }
+
+  .navbar-center-logo {
+    gap: 0;
+  }
+
+  .navbar-logo-text-container {
+    display: none;
+  }
+
+  .navbar-reg-btn {
+    display: none;
+  }
+
+  .navbar-menu-btn span {
+    display: none;
+  }
+
+  .navbar-menu-btn {
+    padding: 8px 10px !important;
+  }
+
+  .navbar-left, .navbar-right {
+    flex: 1 1 0%;
+  }
+}
+
+@media (max-width: 380px) {
+  .navbar-flags {
+    gap: 2px;
+  }
+  .navbar-flag-btn {
+    padding: 2px 4px;
+  }
+}
+
+.hide-mobile {
+  display: flex;
+}
+
+@media (max-width: 1024px) {
+  .hide-mobile {
+    display: none !important;
+  }
+}

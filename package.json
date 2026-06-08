@@ -1,0 +1,12 @@
+{
+  "name": "sdialfakhir-root",
+  "private": true,
+  "scripts": {
+    "dev": "cd frontend && npm run dev",
+    "build": "cd frontend && npm install && npm run build",
+    "preview": "cd frontend && npm run preview",
+    "lint": "cd frontend && npm run lint",
+    "studio:dev": "cd backend && npm run dev",
+    "studio:build": "cd backend && npm run build"
+  }
+}

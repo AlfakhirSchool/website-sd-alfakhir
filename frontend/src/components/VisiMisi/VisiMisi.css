@@ -1,0 +1,192 @@
+/* Visi & Misi Section Styles for SD Islam Modern Al-Fakhir */
+
+.visimisi-section {
+  padding: 80px 0;
+  background: #ffffff;
+  position: relative;
+  overflow: hidden;
+}
+
+.visimisi-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.visimisi-header {
+  text-align: center;
+  margin-bottom: 3.5rem;
+}
+
+.visimisi-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(249, 140, 29, 0.08);
+  color: var(--primary);
+  padding: 8px 16px;
+  border-radius: 100px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.visimisi-title {
+  color: #0f172a;
+  font-weight: 900;
+  letter-spacing: -1.5px;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.visimisi-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+  padding: 0 20px;
+}
+
+/* Card Common Styles */
+.visimisi-card {
+  border-radius: 35px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  padding: 45px 35px;
+  color: white;
+  min-height: 480px;
+  backface-visibility: hidden;
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .visimisi-card:hover {
+    transform: translate3d(0, -12px, 0) scale(1.02);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.12);
+  }
+}
+
+.card-bg-icon {
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  opacity: 0.08;
+  color: white;
+  pointer-events: none;
+  transform: rotate(-15deg);
+}
+
+.card-icon-container {
+  width: 56px;
+  height: 56px;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 25px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.card-title {
+  font-weight: 950;
+  margin-bottom: 1.2rem;
+  letter-spacing: -0.5px;
+  font-size: 1.8rem;
+  color: white;
+  text-transform: uppercase;
+}
+
+.card-divider {
+  width: 45px;
+  height: 4px;
+  border-radius: 10px;
+  margin-bottom: 25px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* List Style */
+.list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.list-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.item-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: white;
+  margin-top: 8px;
+  flex-shrink: 0;
+  opacity: 0.8;
+}
+
+.list-item p {
+  margin: 0;
+  line-height: 1.5;
+  font-weight: 500;
+  opacity: 0.95;
+}
+
+/* Visi Card (Rose/Pink) - Matching user screenshot */
+.visi-card {
+  background: linear-gradient(135deg, #e11d48 0%, #be123c 100%);
+  box-shadow: 0 20px 40px rgba(225, 29, 72, 0.15);
+}
+
+.visi-text {
+  line-height: 1.7;
+  font-weight: 500;
+  font-size: 1.1rem;
+}
+
+/* Misi Card (Green/Emerald) */
+.misi-card {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  box-shadow: 0 20px 40px rgba(16, 185, 129, 0.15);
+}
+
+/* Goals Card (Orange/Coral) */
+.goals-card {
+  background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+  box-shadow: 0 20px 40px rgba(249, 115, 22, 0.15);
+}
+
+@media (max-width: 1024px) {
+  .visimisi-grid {
+    grid-template-columns: 1fr;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .visimisi-card {
+    min-height: auto;
+    padding: 40px 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .visimisi-section {
+    padding: 60px 0;
+  }
+  .visimisi-header {
+    margin-bottom: 2.5rem;
+  }
+  .visimisi-title {
+    font-size: 2.2rem;
+  }
+}

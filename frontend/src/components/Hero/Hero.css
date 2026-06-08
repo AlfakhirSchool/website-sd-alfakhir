@@ -1,0 +1,172 @@
+/* Hero Styles for SD Islam Modern Al-Fakhir */
+
+.hero-section {
+  position: relative;
+  width: 100%;
+  background: #000;
+  overflow: hidden;
+  min-height: 100vh;
+}
+
+.hero-bg-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  background: rgba(0,0,0,0.30);
+}
+
+.hero-watermark {
+  position: absolute;
+  object-fit: contain;
+  opacity: 0.1;
+  filter: brightness(0) invert(1);
+  pointer-events: none;
+  user-select: none;
+  z-index: 2;
+}
+
+.hero-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  text-align: center;
+  padding: 0 20px;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hero-logo-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-logo-img {
+  width: auto;
+  filter: brightness(0) invert(1);
+  opacity: 0.95;
+}
+
+.hero-text-container {
+  padding-left: 18px;
+  text-align: left;
+}
+
+.hero-school-name {
+  color: var(--primary);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.hero-school-type {
+  color: white;
+  letter-spacing: -2px;
+  line-height: 0.9;
+  font-family: var(--font-display);
+}
+
+.hero-tagline {
+  font-weight: 400;
+  color: rgba(255,255,255,0.95);
+  margin: 0;
+  letter-spacing: 0.5px;
+  max-width: 800px;
+}
+
+.hero-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  width: 100%;
+  margin-top: 15px;
+}
+
+.hero-btn-row {
+  display: flex;
+  gap: 15px;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-btn-primary {
+  padding: 18px 40px;
+  background: var(--primary);
+  border: none;
+  border-radius: 100px;
+  font-weight: 800;
+  font-size: 0.9rem;
+  color: white;
+  cursor: pointer;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  box-shadow: 0 20px 40px rgba(31, 134, 146, 0.3);
+  transition: all 0.3s ease;
+}
+
+.hero-btn-primary:hover {
+  background: var(--primary-dark);
+  transform: translateY(-5px);
+  box-shadow: 0 25px 50px rgba(31, 134, 146, 0.4);
+}
+
+.hero-btn-secondary {
+  padding: 18px 40px;
+  background: rgba(255,255,255,0.1);
+  color: white;
+  border: 1px solid rgba(255,255,255,0.3);
+  backdrop-filter: blur(10px);
+  border-radius: 100px;
+  font-weight: 800;
+  font-size: 0.9rem;
+  cursor: pointer;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+}
+
+.hero-btn-secondary:hover {
+  background: rgba(255,255,255,0.2);
+  transform: translateY(-5px);
+  border-color: white;
+}
+
+/* Mobile Overrides handles in JS for complex conditions, 
+   but base class overrides can go here */
+@media (max-width: 768px) {
+  .hero-logo-row {
+    flex-direction: column;
+    gap: 12px;
+  }
+  .hero-text-container {
+    border-left: none;
+    padding-left: 0;
+    text-align: center;
+  }
+  .hero-btn-row {
+    flex-direction: column;
+  }
+  .hero-btn-primary, .hero-btn-secondary {
+    width: 100%;
+  }
+}
