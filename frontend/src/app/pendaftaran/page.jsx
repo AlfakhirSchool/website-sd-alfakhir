@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { Send, CheckCircle2 } from 'lucide-react';
+import { Send, CheckCircle2, MessageCircle, Mail, ArrowUpRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import RegistrationForm from '@/components/Registration';
 import LoadingSpinner from '@/components/Loading/LoadingSpinner';
@@ -29,7 +29,7 @@ const RegistrationPage = () => {
         <div style={{ background: '#ffffff', minHeight: '100vh', overflowX: 'hidden', position: 'relative' }}>
             <Navbar theme="light" />
             
-            <main style={{ padding: '60px 0' }}>
+            <main style={{ padding: '140px 0 60px' }}>
                 <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px' }}>
                     {!registeredData ? (
                         <div className="registration-grid">
@@ -56,9 +56,28 @@ const RegistrationPage = () => {
                                     </div>
                                 </motion.div>
 
-                                <div style={{ padding: '30px', border: '1px solid #e2e8f0', borderRadius: '16px', textAlign: 'center', background: 'white' }}>
-                                    <p style={{ color: '#64748b', fontSize: '0.85rem', fontWeight: 600, marginBottom: '5px' }}>{t('reg', 'consultTitle')}</p>
-                                    <p style={{ color: '#0f172a', fontSize: '1rem', fontWeight: 800 }}>sdialfakhir@gmail.com</p>
+                                <div style={{ padding: '30px', border: '1px solid #e2e8f0', borderRadius: '16px', background: 'white', boxShadow: '0 4px 20px rgba(0,0,0,0.02)' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '10px' }}>
+                                        <div style={{ width: '38px', height: '38px', borderRadius: '10px', background: 'rgba(249,140,29,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                                            <MessageCircle size={18} color="var(--primary)" />
+                                        </div>
+                                        <p style={{ color: '#0f172a', fontSize: '0.95rem', fontWeight: 800, margin: 0 }}>{t('reg', 'consultTitle')}</p>
+                                    </div>
+                                    <p style={{ color: '#64748b', fontSize: '0.8rem', lineHeight: 1.5, margin: '0 0 20px' }}>
+                                        {t('reg', 'consultDesc')}
+                                    </p>
+                                    <a href="https://wa.me/628139526221" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+                                        <motion.div whileHover={{ y: -2 }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '13px 18px', borderRadius: '12px', background: 'var(--primary)', color: 'white', fontWeight: 800, fontSize: '0.85rem', marginBottom: '10px' }}>
+                                            <span style={{ display: 'flex', alignItems: 'center', gap: '10px' }}><MessageCircle size={16} /> +62 813-9526-221</span>
+                                            <ArrowUpRight size={16} />
+                                        </motion.div>
+                                    </a>
+                                    <a href="mailto:sdialfakhir@gmail.com" style={{ textDecoration: 'none' }}>
+                                        <motion.div whileHover={{ y: -2 }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '13px 18px', borderRadius: '12px', border: '1px solid #e2e8f0', color: '#0f172a', fontWeight: 800, fontSize: '0.85rem' }}>
+                                            <span style={{ display: 'flex', alignItems: 'center', gap: '10px' }}><Mail size={16} color="#64748b" /> sdialfakhir@gmail.com</span>
+                                            <ArrowUpRight size={16} color="#64748b" />
+                                        </motion.div>
+                                    </a>
                                 </div>
                             </div>
                         </div>

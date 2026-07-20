@@ -63,7 +63,7 @@ const SambutanPage = () => {
                 <SmartImage src="/logo_new.webp" alt="SD Islam Modern Al-Fakhir Watermark" style={{ width: '450px', height: 'auto', filter: 'grayscale(1)' }} />
             </div>
 
-            <div style={{ background: 'transparent', padding: '100px 0 40px', color: '#0f172a', textAlign: 'center', position: 'relative', zIndex: 1 }}>
+            <div style={{ background: 'transparent', padding: '140px 0 40px', color: '#0f172a', textAlign: 'center', position: 'relative', zIndex: 1 }}>
                 <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px' }}>
                     <div
                         style={{ display: 'inline-block', padding: '5px 12px', background: 'rgba(249, 140, 29, 0.08)', borderRadius: '100px', color: 'var(--primary)', fontSize: '0.6rem', fontWeight: 900, letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '1rem' }}
@@ -90,27 +90,30 @@ const SambutanPage = () => {
                         <div style={{ position: 'sticky', top: '120px' }}>
                             <div style={{ position: 'relative' }}>
                                 <motion.div animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.5, 0.3] }} transition={{ duration: 8, repeat: Infinity }} style={{ position: 'absolute', inset: '-40px', background: 'radial-gradient(circle, rgba(249, 140, 29, 0.1) 0%, transparent 70%)', filter: 'blur(50px)', borderRadius: '50%', zIndex: 0 }}></motion.div>
-                                <div style={{ 
+                                <div style={{
                                     maxWidth: '380px',
-                                    borderRadius: '45px', 
+                                    borderRadius: '45px',
                                     background: 'white',
-                                    boxShadow: '0 40px 100px rgba(15, 23, 42, 0.08)',
-                                    border: '1px solid rgba(255,255,255,0.8)',
+                                    boxShadow: '0 40px 100px rgba(15, 23, 42, 0.1), 0 0 0 1px rgba(249,140,29,0.06)',
+                                    border: '3px solid rgba(249,140,29,0.15)',
                                     overflow: 'hidden',
                                     position: 'relative',
                                     zIndex: 2
                                 }}>
                                     <div style={{ aspectRatio: '0.9', position: 'relative', overflow: 'hidden', background: '#f8fafc' }}>
-                                        <SmartImage 
-                                            src={welcomeData.imageUrl || "/arifah.webp"} 
+                                        <SmartImage
+                                            src={welcomeData.imageUrl || "/arifah.webp"}
                                             lqip={welcomeData.lqip}
-                                            alt="Principal" 
-                                            style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 15%' }} 
+                                            alt="Principal"
+                                            style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 15%' }}
                                         />
-                                        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '35%', background: 'linear-gradient(to top, rgba(15,23,42,0.6), transparent)' }}></div>
+                                        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '45%', background: 'linear-gradient(to top, rgba(15,23,42,0.92) 0%, rgba(15,23,42,0.55) 55%, transparent 100%)' }}></div>
+                                        <div style={{ position: 'absolute', top: '20px', right: '20px', background: 'rgba(249,140,29,0.95)', borderRadius: '100px', padding: '6px 14px', boxShadow: '0 8px 20px rgba(249,140,29,0.35)' }}>
+                                            <p style={{ margin: 0, fontSize: '0.6rem', fontWeight: 900, color: 'white', letterSpacing: '1px' }}>★ {t('sambutan', 'role')}</p>
+                                        </div>
                                         <div style={{ position: 'absolute', bottom: '25px', left: '30px', right: '30px' }}>
-                                            <p style={{ margin: 0, fontSize: '0.6rem', fontWeight: 900, color: 'white', opacity: 0.8, textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '6px' }}>{t('sambutan', 'role')}</p>
-                                            <h4 style={{ margin: 0, fontSize: '1.25rem', fontWeight: 950, color: 'white', letterSpacing: '-0.3px', lineHeight: 1 }}>{t('history', 'principalName')}</h4>
+                                            <div style={{ width: '32px', height: '3px', background: 'var(--primary)', borderRadius: '10px', marginBottom: '10px' }}></div>
+                                            <h4 style={{ margin: 0, fontSize: '1.35rem', fontWeight: 950, color: 'white', letterSpacing: '-0.3px', lineHeight: 1.15, textShadow: '0 2px 12px rgba(0,0,0,0.3)' }}>{t('history', 'principalName')}</h4>
                                         </div>
                                     </div>
                                     <div className="card-padding-mobile" style={{ padding: '30px', background: 'white' }}>

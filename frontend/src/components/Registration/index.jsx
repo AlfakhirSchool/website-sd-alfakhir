@@ -195,7 +195,17 @@ const RegistrationForm = ({ onSuccess }) => {
             };
 
             await mutationClient.create(doc);
-            localStorage.removeItem('alfakhir_registration_draft'); 
+
+            try {
+                const extForm = new FormData();
+                Object.entries(formData).forEach(([key, value]) => extForm.append(key, value ?? ''));
+                if (selectedFile) extForm.append('paymentProof', selectedFile);
+                await fetch('/api/register-external', { method: 'POST', body: extForm });
+            } catch (extErr) {
+                console.error('Sheets/Drive sync failed (non-blocking):', extErr);
+            }
+
+            localStorage.removeItem('alfakhir_registration_draft');
             onSuccess({ ...formData, id: studentId });
         } catch (err) {
             console.error(err);
@@ -392,10 +402,10 @@ const RegistrationForm = ({ onSuccess }) => {
                                             {t('reg', 'form.labelAccNo')}
                                         </div>
                                         <div className="acc-number">
-                                            BRI 1147-01-000490-56-5
+                                            BSI 7344437836
                                         </div>
                                         <div className="acc-name">
-                                            Yayasan Prestasi Belia Indonesia
+                                            Sdit Al Fakhir
                                         </div>
                                     </div>
                                 </div>

@@ -11,7 +11,7 @@ const FloatingChat = () => {
             icon: Phone, 
             label: 'WhatsApp', 
             color: '#25D366', 
-            link: 'https://wa.me/6285281752123',
+            link: 'https://wa.me/628139526221',
             delay: 0.1
         },
         { 

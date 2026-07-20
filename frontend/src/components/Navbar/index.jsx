@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { X, Menu, ChevronRight } from "lucide-react";
+import { X, Menu, ChevronRight, Home, MessageSquare, BookOpen, Target, Building2, Users, LayoutGrid, Image as ImageIcon, ClipboardCheck, UserPlus } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { useLanguage } from "../../context/LanguageContext";
@@ -64,7 +64,7 @@ const Navbar = () => {
                 whileTap={{ scale: 0.98 }}
                 className="navbar-reg-btn"
               >
-                <span>👤</span>
+                <UserPlus size={16} strokeWidth={2.5} />
                 <span>{t('nav', 'ppdbBtn')}</span>
               </motion.button>
             </Link>
@@ -204,15 +204,15 @@ const Navbar = () => {
                 }}
               >
                 {[
-                  { label: t('nav','menu.home'),       sub: t('nav','menu.home_sub'),       href: "/"          },
-                  { label: t('nav','menu.principal'),  sub: t('nav','menu.principal_sub'),  href: "/sambutan"  },
-                  { label: t('nav','menu.history'),    sub: t('nav','menu.history_sub'),    href: "/sejarah"   },
-                  { label: t('nav','menu.vision'),     sub: t('nav','menu.vision_sub'),     href: "/visimisi"  },
-                  { label: t('nav','menu.structure'),  sub: t('nav','menu.structure_sub'),  href: "/struktur"  },
-                  { label: t('nav','menu.faculty'),    sub: t('nav','menu.faculty_sub'),    href: "/staff"     },
-                  { label: t('nav','menu.facilities'), sub: t('nav','menu.facilities_sub'), href: "/fasilitas" },
-                  { label: t('nav','menu.gallery'),    sub: t('nav','menu.gallery_sub'),    href: "/galeri"    },
-                  { label: t('nav','menu.ppdb'),       sub: t('nav','menu.ppdb_sub'),       href: "/ppdb"      },
+                  { label: t('nav','menu.home'),       sub: t('nav','menu.home_sub'),       href: "/",          Icon: Home          },
+                  { label: t('nav','menu.principal'),  sub: t('nav','menu.principal_sub'),  href: "/sambutan",  Icon: MessageSquare },
+                  { label: t('nav','menu.history'),    sub: t('nav','menu.history_sub'),    href: "/sejarah",   Icon: BookOpen      },
+                  { label: t('nav','menu.vision'),     sub: t('nav','menu.vision_sub'),     href: "/visimisi",  Icon: Target        },
+                  { label: t('nav','menu.structure'),  sub: t('nav','menu.structure_sub'),  href: "/struktur",  Icon: Building2     },
+                  { label: t('nav','menu.faculty'),    sub: t('nav','menu.faculty_sub'),    href: "/staff",     Icon: Users         },
+                  { label: t('nav','menu.facilities'), sub: t('nav','menu.facilities_sub'), href: "/fasilitas", Icon: LayoutGrid    },
+                  { label: t('nav','menu.gallery'),    sub: t('nav','menu.gallery_sub'),    href: "/galeri",    Icon: ImageIcon     },
+                  { label: t('nav','menu.ppdb'),       sub: t('nav','menu.ppdb_sub'),       href: "/ppdb",      Icon: ClipboardCheck },
                 ].map((item, i) => (
                   <motion.div
                     key={i}
@@ -221,21 +221,32 @@ const Navbar = () => {
                     transition={{ delay: i * 0.04, ease: "easeOut" }}
                   >
                     <Link
-                      href={item.label === t('nav','menu.ppdb') ? "/ppdb" : item.href}
+                      href={item.href}
                       onClick={() => setIsMenuOpen(false)}
                       className="menu-link-item"
                       onMouseOver={(e) => {
-                        e.currentTarget.style.background = "rgba(249,140,29,0.05)";
-                        e.currentTarget.children[0].children[0].style.color = "var(--primary)";
-                        e.currentTarget.children[1].style.opacity = "1";
+                        e.currentTarget.style.background = "rgba(249,140,29,0.06)";
+                        e.currentTarget.style.borderColor = "rgba(249,140,29,0.25)";
+                        e.currentTarget.children[0].style.background = "var(--primary)";
+                        e.currentTarget.children[0].style.color = "white";
+                        e.currentTarget.children[1].children[0].style.color = "var(--primary)";
+                        e.currentTarget.children[2].style.opacity = "1";
+                        e.currentTarget.children[2].style.transform = "translateX(2px)";
                       }}
                       onMouseOut={(e) => {
                         e.currentTarget.style.background = "transparent";
-                        e.currentTarget.children[0].children[0].style.color = "#0f172a";
-                        e.currentTarget.children[1].style.opacity = "0";
+                        e.currentTarget.style.borderColor = "transparent";
+                        e.currentTarget.children[0].style.background = "rgba(249,140,29,0.08)";
+                        e.currentTarget.children[0].style.color = "var(--primary)";
+                        e.currentTarget.children[1].children[0].style.color = "#0f172a";
+                        e.currentTarget.children[2].style.opacity = "0";
+                        e.currentTarget.children[2].style.transform = "translateX(0)";
                       }}
                     >
-                      <div>
+                      <div className="menu-link-icon">
+                        <item.Icon size={18} strokeWidth={2.2} />
+                      </div>
+                      <div className="menu-link-text">
                         <div className="menu-link-label">{item.label}</div>
                         <div className="menu-link-sub">{item.sub}</div>
                       </div>

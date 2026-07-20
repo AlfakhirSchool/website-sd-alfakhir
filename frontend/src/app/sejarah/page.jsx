@@ -73,7 +73,7 @@ const HistoryPage = () => {
                 <SmartImage src="/logo_new.webp" alt="SD Islam Modern Al-Fakhir Watermark" style={{ width: '450px', height: 'auto', filter: 'grayscale(1)' }} />
             </div>
 
-            <div style={{ background: 'transparent', padding: '100px 0 40px', color: '#0f172a', textAlign: 'center', position: 'relative', zIndex: 1 }}>
+            <div style={{ background: 'transparent', padding: '140px 0 40px', color: '#0f172a', textAlign: 'center', position: 'relative', zIndex: 1 }}>
                 <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px' }}>
                     <div
                         style={{ display: 'inline-block', padding: '5px 12px', background: 'rgba(249, 140, 29, 0.08)', borderRadius: '100px', color: 'var(--primary)', fontSize: '0.6rem', fontWeight: 900, letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '1rem', opacity: 1 }}
@@ -174,9 +174,9 @@ const HistoryPage = () => {
                     left: -25px;
                     background: linear-gradient(135deg, var(--primary) 0%, #f97316 100%);
                     padding: 22px 40px;
-                    borderRadius: 25px;
+                    border-radius: 25px;
                     color: white;
-                    zIndex: 3;
+                    z-index: 3;
                     box-shadow: 0 20px 50px rgba(249, 140, 29, 0.3);
                     border: 1px solid rgba(255,255,255,0.2);
                 }

@@ -130,7 +130,9 @@
   position: fixed;
   inset: 0;
   z-index: 2990;
-  background: rgba(15, 23, 42, 0.1);
+  background: rgba(15, 23, 42, 0.25);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   cursor: pointer;
 }
 
@@ -138,6 +140,7 @@
   position: fixed;
   z-index: 3000;
   background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.06);
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -196,20 +199,38 @@
 .menu-link-item {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 14px;
   padding: 14px 16px;
-  border-radius: 16px;
+  border-radius: 18px;
   text-decoration: none;
-  transition: background-color 0.25s ease, transform 0.25s ease;
+  transition: background-color 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
   background: transparent;
+  border: 1px solid transparent;
   backface-visibility: hidden;
   will-change: transform;
 }
 
+.menu-link-icon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(249,140,29,0.08);
+  color: var(--primary);
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.menu-link-text {
+  flex: 1;
+  min-width: 0;
+}
+
 @media (hover: hover) and (pointer: fine) {
   .menu-link-item:hover {
-    background: #f8fafc;
-    transform: translate3d(5px, 0, 0);
+    transform: translate3d(4px, 0, 0);
   }
 }
 

@@ -81,7 +81,7 @@ const Contact = () => {
                             </div>
                             <div className="info-content">
                                 <h4>{t('contact', 'phoneTitle')}</h4>
-                                <p>+62 852-8175-2123</p>
+                                <p>+62 813-9526-221</p>
                             </div>
                         </div>
                         

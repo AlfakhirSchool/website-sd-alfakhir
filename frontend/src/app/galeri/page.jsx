@@ -25,7 +25,7 @@ const GalleryPage = () => {
                 style={{ position: 'absolute', bottom: '10%', left: '-5%', width: '400px', height: '400px', background: 'rgba(15, 23, 42, 0.01)', filter: 'blur(120px)', borderRadius: '50%', pointerEvents: 'none' }} 
             />
 
-            <div style={{ background: 'transparent', padding: '120px 0 30px', color: '#0f172a', textAlign: 'center', position: 'relative', zIndex: 1 }}>
+            <div style={{ background: 'transparent', padding: '140px 0 30px', color: '#0f172a', textAlign: 'center', position: 'relative', zIndex: 1 }}>
                 <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px' }}>
                     <div
                         style={{ display: 'inline-block', padding: '6px 16px', background: 'rgba(249, 140, 29, 0.08)', borderRadius: '100px', color: 'var(--primary)', fontSize: '0.65rem', fontWeight: 900, letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '1.5rem' }}

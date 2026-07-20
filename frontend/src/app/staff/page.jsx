@@ -110,7 +110,7 @@ const StaffPage = () => {
                         <motion.img 
                             whileHover={{ scale: 1.02 }}
                             transition={{ duration: 0.6 }}
-                            src="/teachers_group_new.webp" 
+                            src="/images/teachers_group_new.webp"
                             alt="Al Fakhir Teachers Group" 
                             className="group-photo"
                         />
@@ -306,23 +306,23 @@ const StaffPage = () => {
                     box-shadow: 0 15px 35px rgba(0,0,0,0.08);
                     background: #f8fafc;
                 }
-                .staff-name { margin: 0 0 8px 0; fontSize: 1.2rem; fontWeight: 950; color: #0f172a; letterSpacing: -0.3px; }
-                .staff-role { margin: 0; fontSize: 0.75rem; color: var(--primary); fontWeight: 1000; textTransform: uppercase; letterSpacing: 1.5px; opacity: 0.8; }
-                .view-profile-btn { marginTop: 15px; fontSize: 0.6rem; fontWeight: 900; color: #94a3b8; letterSpacing: 1px; text-transform: uppercase; }
+                .staff-name { margin: 0 0 8px 0; font-size: 1.2rem; font-weight: 950; color: #0f172a; letter-spacing: -0.3px; }
+                .staff-role { margin: 0; font-size: 0.75rem; color: var(--primary); font-weight: 1000; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.8; }
+                .view-profile-btn { margin-top: 15px; font-size: 0.6rem; font-weight: 900; color: #94a3b8; letter-spacing: 1px; text-transform: uppercase; }
                 .accent-line { width: 60px; height: 3px; background: var(--primary); border-radius: 2px; }
                 .accent-line.gray { background: #e2e8f0; }
 
-                .modal-backdrop { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(10px); zIndex: 2000; display: flex; alignItems: center; justifyContent: center; padding: 20px; }
-                .modal-content { background: white; maxWidth: 500px; width: 100%; border-radius: 45px; overflow: hidden; boxShadow: 0 50px 100px rgba(0,0,0,0.2); position: relative; }
-                .modal-header { height: 240px; background: radial-gradient(circle at center, #f8fafc 0%, #f1f5f9 100%); display: flex; alignItems: center; justifyContent: center; position: relative; }
-                .modal-avatar { width: 180px; height: 180px; borderRadius: 50%; overflow: hidden; border: 6px solid white; boxShadow: 0 20px 40px rgba(0,0,0,0.1); }
-                .close-btn { position: absolute; top: 25px; right: 25px; background: white; border: none; width: 40px; height: 40px; borderRadius: 50%; display: flex; alignItems: center; justifyContent: center; cursor: pointer; boxShadow: 0 10px 20px rgba(0,0,0,0.05); }
-                .modal-name { fontSize: 1.8rem; fontWeight: 950; color: #0f172a; margin: 0 0 5px 0; }
-                .modal-role { fontSize: 0.9rem; color: var(--primary); fontWeight: 1000; textTransform: uppercase; letterSpacing: 2px; marginBottom: 30px; }
-                .meta-label { fontSize: 0.75rem; fontWeight: 900; color: #94a3b8; letterSpacing: 1.5px; marginBottom: 12px; textTransform: uppercase; }
-                .vision-text { fontSize: 1.1rem; color: #0f172a; fontWeight: 600; fontStyle: italic; lineHeight: 1.6; }
-                .meta-grid { display: grid; gridTemplateColumns: 1fr 1fr; gap: 20px; }
-                .meta-value { fontSize: 0.95rem; color: #0f172a; fontWeight: 800; }
+                .modal-backdrop { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(10px); z-index: 2000; display: flex; align-items: center; justify-content: center; padding: 20px; }
+                .modal-content { background: white; max-width: 500px; width: 100%; border-radius: 45px; overflow: hidden; box-shadow: 0 50px 100px rgba(0,0,0,0.2); position: relative; }
+                .modal-header { height: 240px; background: radial-gradient(circle at center, #f8fafc 0%, #f1f5f9 100%); display: flex; align-items: center; justify-content: center; position: relative; }
+                .modal-avatar { width: 180px; height: 180px; border-radius: 50%; overflow: hidden; border: 6px solid white; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+                .close-btn { position: absolute; top: 25px; right: 25px; background: white; border: none; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+                .modal-name { font-size: 1.8rem; font-weight: 950; color: #0f172a; margin: 0 0 5px 0; }
+                .modal-role { font-size: 0.9rem; color: var(--primary); font-weight: 1000; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 30px; }
+                .meta-label { font-size: 0.75rem; font-weight: 900; color: #94a3b8; letter-spacing: 1.5px; margin-bottom: 12px; text-transform: uppercase; }
+                .vision-text { font-size: 1.1rem; color: #0f172a; font-weight: 600; font-style: italic; line-height: 1.6; }
+                .meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+                .meta-value { font-size: 0.95rem; color: #0f172a; font-weight: 800; }
 
                 @media (max-width: 768px) {
                     .group-photo-container { aspect-ratio: 4/3; }

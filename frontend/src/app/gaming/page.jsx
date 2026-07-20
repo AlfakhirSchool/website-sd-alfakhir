@@ -610,75 +610,77 @@ export default function AdminPage() {
     return (
         <div style={{ minHeight: '100vh', background: '#f5f0e8', display: 'flex', fontFamily: '"DM Sans", sans-serif', color: '#1a1612' }}>
             {/* --- Sidebar Redesign: Executive Brutalism --- */}
-            <div style={{ width: '280px', background: '#fffdf9', color: '#1a1612', position: 'fixed', top: 0, bottom: 0, display: 'flex', flexDirection: 'column', padding: '40px 0', zIndex: 100, borderRight: '1px solid #1a1612' }}>
+            <div style={{ width: '280px', background: '#fffdf9', color: '#1a1612', position: 'fixed', top: 0, bottom: 0, display: 'flex', flexDirection: 'column', padding: '40px 0', zIndex: 100, borderRight: '1px solid #ece4d8', boxShadow: '4px 0 30px rgba(26,22,18,0.03)' }}>
                 {/* Profile Section at Top */}
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '15px', marginBottom: '3rem', padding: '0 30px' }}>
-                    <motion.div 
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px', marginBottom: '2rem', padding: '0 30px 28px', borderBottom: '1px solid #f1ece2' }}>
+                    <motion.div
                         initial={{ scale: 0.8, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
-                        style={{ 
-                            background: '#faf7f2', 
-                            width: '80px', 
-                            height: '80px', 
-                            borderRadius: '0px', 
-                            display: 'flex', 
-                            alignItems: 'center', 
-                            justifyContent: 'center', 
-                            overflow: 'hidden', 
+                        style={{
+                            background: '#faf7f2',
+                            width: '76px',
+                            height: '76px',
+                            borderRadius: '22px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            overflow: 'hidden',
                             border: '1px solid #d4820a',
+                            boxShadow: '0 12px 30px rgba(212,130,10,0.15)',
                             position: 'relative'
                         }}
                     >
-                        <img src="/logo_new.webp" alt="Admin Profile Avatar" style={{ width: '75%', height: '75%', objectFit: 'contain' }} />
-                        <div style={{ position: 'absolute', bottom: '4px', right: '4px', width: '8px', height: '8px', background: '#0d7c6e', border: '1px solid #fffdf9' }} />
+                        <img src="/logo_new.webp" alt="Admin Profile Avatar" style={{ width: '72%', height: '72%', objectFit: 'contain' }} />
+                        <div style={{ position: 'absolute', bottom: '4px', right: '4px', width: '10px', height: '10px', borderRadius: '50%', background: '#0d7c6e', border: '2px solid #fffdf9' }} />
                     </motion.div>
                     <div style={{ textAlign: 'center' }}>
-                        <h1 style={{ fontSize: '1.1rem', fontWeight: 900, margin: 0, color: '#1a1612', letterSpacing: '2px', textTransform: 'uppercase' }}>Feriman</h1>
-                        <p style={{ fontSize: '0.65rem', fontWeight: 700, margin: '4px 0 0', color: '#4a3f35', letterSpacing: '1px' }}>admin@alfakhir.sch.id</p>
+                        <h1 style={{ fontSize: '1rem', fontWeight: 900, margin: 0, color: '#1a1612', letterSpacing: '1.5px', textTransform: 'uppercase' }}>Feriman</h1>
+                        <p style={{ fontSize: '0.65rem', fontWeight: 700, margin: '5px 0 0', color: '#9a8c82', letterSpacing: '0.5px' }}>admin@alfakhir.sch.id</p>
                     </div>
                 </div>
 
                 {/* Nav Menu */}
-                <div style={{ display: 'flex', flexDirection: 'column', flex: 1, overflowY: 'auto' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', flex: 1, overflowY: 'auto', padding: '4px 16px' }}>
                     {[
-                        { tab: 'overview', label: 'HOME', icon: LayoutDashboard },
-                        { tab: 'registrations', label: 'REGISTRATIONS', icon: BookOpen },
-                        { tab: 'students', label: 'SELECTION', icon: Search },
-                        { tab: 'active-students', label: 'DATABASE', icon: UserCheck },
-                        { tab: 'gallery', label: 'GALLERY', icon: ImageIcon },
-                        { tab: 'staff', label: 'STAFF', icon: Users },
-                        { tab: 'messages', label: 'MESSAGES', icon: Mail, badge: messages.filter(m => m.status === 'unread').length }
+                        { tab: 'overview', label: 'Home', icon: LayoutDashboard },
+                        { tab: 'registrations', label: 'Registrations', icon: BookOpen },
+                        { tab: 'students', label: 'Selection', icon: Search },
+                        { tab: 'active-students', label: 'Database', icon: UserCheck },
+                        { tab: 'gallery', label: 'Gallery', icon: ImageIcon },
+                        { tab: 'staff', label: 'Staff', icon: Users },
+                        { tab: 'messages', label: 'Messages', icon: Mail, badge: messages.filter(m => m.status === 'unread').length }
                     ].map((item) => (
-                        <motion.button 
+                        <motion.button
                             key={item.tab}
-                            whileHover={{ background: '#faf7f2' }}
-                            onClick={() => setActiveTab(item.tab)} 
-                            style={{ 
-                                padding: '16px 40px', border: 'none', 
-                                background: activeTab === item.tab ? '#faf7f2' : 'transparent', 
-                                color: activeTab === item.tab ? '#1a1612' : '#9a8c82',
-                                display: 'flex', alignItems: 'center', gap: '15px', fontWeight: 800, cursor: 'pointer', transition: '0.2s',
-                                textAlign: 'left', position: 'relative', fontSize: '0.75rem', letterSpacing: '1.5px'
+                            whileHover={{ x: activeTab === item.tab ? 0 : 3 }}
+                            onClick={() => setActiveTab(item.tab)}
+                            style={{
+                                padding: '13px 16px', border: 'none', borderRadius: '14px',
+                                background: activeTab === item.tab ? '#1a1612' : 'transparent',
+                                color: activeTab === item.tab ? '#fffdf9' : '#6b5f53',
+                                display: 'flex', alignItems: 'center', gap: '13px', fontWeight: 700, cursor: 'pointer', transition: 'background-color 0.2s ease, color 0.2s ease',
+                                textAlign: 'left', position: 'relative', fontSize: '0.82rem', letterSpacing: '0.2px'
                             }}
                         >
-                            <item.icon size={18} style={{ color: activeTab === item.tab ? '#d4820a' : '#9a8c82' }} /> 
-                            <span>{item.label}</span>
-                            {item.badge > 0 && <span style={{ marginLeft: 'auto', background: '#c0392b', color: '#fffdf9', fontSize: '0.6rem', padding: '2px 6px', borderRadius: '0px', fontWeight: 900 }}>{item.badge}</span>}
-                            {activeTab === item.tab && <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: '3px', background: '#d4820a' }} />}
+                            <item.icon size={17} style={{ color: activeTab === item.tab ? '#d4820a' : '#9a8c82', flexShrink: 0 }} />
+                            <span style={{ flex: 1 }}>{item.label}</span>
+                            {item.badge > 0 && <span style={{ background: '#c0392b', color: '#fffdf9', fontSize: '0.6rem', padding: '2px 7px', borderRadius: '100px', fontWeight: 900 }}>{item.badge}</span>}
                         </motion.button>
                     ))}
                 </div>
 
-                <div style={{ padding: '0 30px', marginTop: 'auto' }}>
-                    <button 
-                        onClick={handleLogout} 
-                        style={{ 
-                            width: '100%', padding: '14px', borderRadius: '0px', border: '1px solid #c0392b', 
-                            background: '#fffdf9', color: '#c0392b', fontWeight: 900, cursor: 'pointer',
-                            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', transition: '0.2s', fontSize: '0.75rem', letterSpacing: '1px'
+                <div style={{ padding: '16px 30px 0', marginTop: 'auto' }}>
+                    <button
+                        onClick={handleLogout}
+                        style={{
+                            width: '100%', padding: '13px', borderRadius: '14px', border: '1px solid rgba(192,57,43,0.25)',
+                            background: 'rgba(192,57,43,0.04)', color: '#c0392b', fontWeight: 800, cursor: 'pointer',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', transition: 'background-color 0.2s ease', fontSize: '0.78rem', letterSpacing: '0.5px'
                         }}
+                        onMouseOver={(e) => e.currentTarget.style.background = 'rgba(192,57,43,0.1)'}
+                        onMouseOut={(e) => e.currentTarget.style.background = 'rgba(192,57,43,0.04)'}
                     >
-                        <AlertCircle size={16} /> <span>LOGOUT</span>
+                        <AlertCircle size={16} /> <span>Logout</span>
                     </button>
                 </div>
             </div>
@@ -804,7 +806,7 @@ export default function AdminPage() {
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '30px', padding: '30px', background: '#fffdf9' }}>
                                 {/* Asymmetric Executive Hero Showcase */}
                                 <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '20px' }}>
-                                    <div style={{ background: '#faf7f2', color: '#1a1612', padding: '40px', borderRadius: '0px', position: 'relative', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', borderLeft: '4px solid #d4820a', border: '1px solid #1a1612' }}>
+                                    <div style={{ background: '#faf7f2', color: '#1a1612', padding: '40px', borderRadius: '20px', position: 'relative', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', borderLeft: '4px solid #d4820a', border: '1px solid #1a1612', boxShadow: '0 20px 50px rgba(26,22,18,0.06)' }}>
                                         <div>
                                             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '20px' }}>
                                                 <div style={{ padding: '4px 8px', background: '#fef3dc', color: '#d4820a', fontSize: '0.65rem', fontWeight: 950, letterSpacing: '2px', border: '1px solid #d4820a' }}>SYSTEM OPERATIONAL</div>
@@ -828,7 +830,7 @@ export default function AdminPage() {
                                     </div>
 
                                     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                                        <div style={{ background: '#faf7f2', padding: '30px', borderRadius: '0px', border: '1px solid #1a1612', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                                        <div style={{ background: '#faf7f2', padding: '30px', borderRadius: '18px', border: '1px solid #1a1612', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', boxShadow: '0 15px 35px rgba(26,22,18,0.05)', transition: 'transform 0.25s ease' }}>
                                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
                                                 <span style={{ fontSize: '0.7rem', fontWeight: 950, color: '#9a8c82', letterSpacing: '2px' }}>CANDIDATE REGISTRATIONS</span>
                                                 <BookOpen size={18} style={{ color: '#d4820a' }} />
@@ -839,7 +841,7 @@ export default function AdminPage() {
                                             <div style={{ fontSize: '0.7rem', color: '#9a8c82', fontWeight: 600, marginTop: '5px' }}>Awaiting initial review phase</div>
                                         </div>
 
-                                        <div style={{ background: '#faf7f2', padding: '30px', borderRadius: '0px', border: '1px solid #1a1612', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                                        <div style={{ background: '#faf7f2', padding: '30px', borderRadius: '18px', border: '1px solid #1a1612', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', boxShadow: '0 15px 35px rgba(26,22,18,0.05)', transition: 'transform 0.25s ease' }}>
                                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
                                                 <span style={{ fontSize: '0.7rem', fontWeight: 950, color: '#9a8c82', letterSpacing: '2px' }}>PENDING COMMUNICATIONS</span>
                                                 <Mail size={18} style={{ color: '#d4820a' }} />
@@ -855,7 +857,7 @@ export default function AdminPage() {
                                 {/* Analytics Array & Live Database Intelligence */}
                                 <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '20px' }}>
                                     {/* Monthly Registration Flow */}
-                                    <div style={{ background: '#faf7f2', padding: '30px', borderRadius: '0px', border: '1px solid #1a1612' }}>
+                                    <div style={{ background: '#faf7f2', padding: '30px', borderRadius: '18px', border: '1px solid #1a1612', boxShadow: '0 15px 35px rgba(26,22,18,0.05)' }}>
                                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '35px' }}>
                                             <div>
                                                 <h3 style={{ margin: 0, fontSize: '1.05rem', fontWeight: 950, color: '#1a1612', letterSpacing: '1px' }}>Registration Distribution</h3>
@@ -909,7 +911,7 @@ export default function AdminPage() {
                                         const pct = Math.min(100, Math.round((activeCount / 320) * 100));
                                         const fraction = pct / 100;
                                         return (
-                                            <div style={{ background: '#faf7f2', padding: '30px', borderRadius: '0px', border: '1px solid #1a1612', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                                            <div style={{ background: '#faf7f2', padding: '30px', borderRadius: '18px', border: '1px solid #1a1612', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', boxShadow: '0 15px 35px rgba(26,22,18,0.05)' }}>
                                                 <div>
                                                     <h3 style={{ margin: '0 0 5px 0', fontSize: '1.05rem', fontWeight: 950, color: '#1a1612', letterSpacing: '1px' }}>Capacity Quota</h3>
                                                     <div style={{ fontSize: '0.7rem', color: '#9a8c82', fontWeight: 600, marginBottom: '25px' }}>Target intake threshold</div>
@@ -946,7 +948,7 @@ export default function AdminPage() {
                                 </div>
 
                                 {/* Continuous Intelligence Stream (Live Operational Logs) */}
-                                <div style={{ background: '#faf7f2', padding: '30px', borderRadius: '0px', border: '1px solid #1a1612' }}>
+                                <div style={{ background: '#faf7f2', padding: '30px', borderRadius: '18px', border: '1px solid #1a1612', boxShadow: '0 15px 35px rgba(26,22,18,0.05)' }}>
                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
                                         <div>
                                             <h3 style={{ margin: '0 0 4px 0', fontSize: '1.05rem', fontWeight: 950, color: '#1a1612', letterSpacing: '1px' }}>Live Intelligence Stream</h3>

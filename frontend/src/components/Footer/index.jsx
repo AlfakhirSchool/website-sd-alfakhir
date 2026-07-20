@@ -206,8 +206,8 @@ const Footer = () => {
                         </div>
                         <div>
                             <p className="footer-contact-title">{t('footer', 'waTitle')}</p>
-                            <a href="https://wa.me/6285281752123" className="footer-contact-link">
-                                +62 852-8175-2123
+                            <a href="https://wa.me/628139526221" className="footer-contact-link">
+                                +62 813-9526-221
                             </a>
                         </div>
                     </div>
