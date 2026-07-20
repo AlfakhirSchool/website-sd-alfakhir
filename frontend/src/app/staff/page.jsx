@@ -41,12 +41,12 @@ const StaffPage = () => {
                 lqip={member.lqip}
                 alt={member.name} 
                 fallback="/images/placeholder-user.png"
-                style={{ 
-                    width: '100%', 
-                    height: '100%', 
+                style={{
+                    width: '100%',
+                    height: '100%',
                     objectFit: 'cover',
                     objectPosition: 'center top'
-                }} 
+                }}
             />
         );
     };
@@ -107,12 +107,12 @@ const StaffPage = () => {
                 <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px' }}>
                     <div className="group-photo-container">
                         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 60%, rgba(15, 23, 42, 0.15))', zIndex: 1 }} />
-                        <motion.img 
+                        <motion.img
                             whileHover={{ scale: 1.02 }}
                             transition={{ duration: 0.6 }}
                             src="/images/teachers_group_new.webp"
-                            alt="Al Fakhir Teachers Group" 
-                            className="group-photo"
+                            alt="Al Fakhir Teachers Group"
+                            style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 30%' }}
                         />
                     </div>
 
@@ -207,7 +207,7 @@ const StaffPage = () => {
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.9, y: 20 }}
                             onClick={(e) => e.stopPropagation()}
-                            className="modal-content"
+                            style={{ background: 'white', maxWidth: '500px', width: '100%', borderRadius: '45px', overflow: 'hidden', boxShadow: '0 50px 100px rgba(0,0,0,0.2)', position: 'relative' }}
                         >
                             <div className="modal-header">
                                 <div className="modal-avatar">
@@ -256,12 +256,6 @@ const StaffPage = () => {
                     overflow: hidden;
                     box-shadow: 0 40px 100px rgba(15, 23, 42, 0.12);
                     position: relative;
-                }
-                .group-photo {
-                    width: 100%;
-                    height: 100%;
-                    object-fit: cover;
-                    object-position: center 82%;
                 }
                 .banner-grid {
                     display: grid;
@@ -313,7 +307,6 @@ const StaffPage = () => {
                 .accent-line.gray { background: #e2e8f0; }
 
                 .modal-backdrop { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(10px); z-index: 2000; display: flex; align-items: center; justify-content: center; padding: 20px; }
-                .modal-content { background: white; max-width: 500px; width: 100%; border-radius: 45px; overflow: hidden; box-shadow: 0 50px 100px rgba(0,0,0,0.2); position: relative; }
                 .modal-header { height: 240px; background: radial-gradient(circle at center, #f8fafc 0%, #f1f5f9 100%); display: flex; align-items: center; justify-content: center; position: relative; }
                 .modal-avatar { width: 180px; height: 180px; border-radius: 50%; overflow: hidden; border: 6px solid white; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
                 .close-btn { position: absolute; top: 25px; right: 25px; background: white; border: none; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
