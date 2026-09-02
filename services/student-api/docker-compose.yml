@@ -1,0 +1,10 @@
+services:
+  student-api:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "4001:4001"
+    environment:
+      STUDENT_API_KEY: ${STUDENT_API_KEY}
+    volumes:
+      - ./data:/app/data

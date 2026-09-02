@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { appendRow, uploadFileToDrive } from '@/lib/googleService';
+import { studentApi } from '@/lib/studentApi';
 
 export const runtime = 'nodejs';
 
@@ -75,7 +76,35 @@ export async function POST(req) {
         ];
         await appendRow(SPREADSHEET_ID, SHEET_RANGE, row);
 
-        return NextResponse.json({ success: true, driveLink });
+        const studentId = `REG-${Date.now().toString().slice(-6)}`;
+        // PII lives only here — the school's own self-hosted store, never Sanity.
+        await studentApi.create({
+            id: studentId,
+            name: studentName,
+            gender: formData.get('gender') || '',
+            birthPlace: formData.get('birthPlace') || '',
+            birthDate: formData.get('birthDate') || '',
+            nik: formData.get('nik') || '',
+            nisn: formData.get('nisn') || '',
+            school: formData.get('schoolName') || '',
+            address: formData.get('address') || '',
+            city: formData.get('city') || '',
+            province: formData.get('province') || '',
+            parentName,
+            whatsapp: formData.get('whatsapp') || '',
+            parentJob: formData.get('parentJob') || '',
+            nikAyah: formData.get('nikAyah') || '',
+            nikIbu: formData.get('nikIbu') || '',
+            year: formData.get('year') || '',
+            wave: formData.get('wave') || '',
+            status: 'Lolos',
+            score: 'B',
+            paymentProof: driveLink,
+            externalImage: driveLink,
+            registrationDate: new Date().toISOString(),
+        });
+
+        return NextResponse.json({ success: true, driveLink, studentId });
     } catch (err) {
         console.error('register-external error:', err);
         return NextResponse.json({ success: false, error: 'Gagal menyimpan data ke Sheets/Drive.' }, { status: 500 });

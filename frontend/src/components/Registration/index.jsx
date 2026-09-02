@@ -3,7 +3,6 @@ import React, { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FileText, Users2, ArrowRight, MapPin, CreditCard, School, ChevronRight, ChevronLeft, CheckCircle2, Upload, AlertCircle, ShieldCheck } from 'lucide-react'
 import ReCAPTCHA from "react-google-recaptcha";
-import { mutationClient } from '../../lib/sanity';
 import { useLanguage } from '../../context/LanguageContext';
 import "./Registration.css";
 
@@ -133,80 +132,25 @@ const RegistrationForm = ({ onSuccess }) => {
         }
     };
 
-    const uploadToExternal = async (file) => {
-        const apiKey = process.env.NEXT_PUBLIC_IMGBB_API_KEY;
-        if (!apiKey || apiKey === 'ISI_DISINI_DENGAN_API_KEY_IMGBB') {
-            return "https://i.ibb.co/r2z9Y9D/no-image.png";
-        }
-
-        const fData = new FormData();
-        fData.append('image', file);
-
-        const response = await fetch(`https://api.imgbb.com/1/upload?key=${apiKey}`, {
-            method: 'POST',
-            body: fData
-        });
-
-        const data = await response.json();
-        if (data.success) {
-            let resUrl = data.data.url;
-            if (resUrl && !resUrl.startsWith('http://') && !resUrl.startsWith('https://')) {
-                resUrl = 'https://' + resUrl;
-            }
-            return resUrl;
-        } else {
-            throw new Error(data.error?.message || 'Gagal upload ke ImgBB');
-        }
-    };
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!validateStep()) return;
 
         setIsLoading(true);
         try {
-            const paymentProofUrl = await uploadToExternal(selectedFile);
-            const studentId = `REG-${Date.now().toString().slice(-6)}`;
-            const doc = {
-                _type: 'student',
-                id: studentId,
-                name: formData.name,
-                gender: formData.gender,
-                birthPlace: formData.birthPlace,
-                birthDate: formData.birthDate,
-                nik: formData.nik,
-                nisn: formData.nisn,
-                school: formData.schoolName,
-                address: formData.address,
-                city: formData.city,
-                province: formData.province,
-                parentName: formData.parentName,
-                whatsapp: formData.whatsapp,
-                parentJob: formData.parentJob,
-                nikAyah: formData.nikAyah,
-                nikIbu: formData.nikIbu,
-                year: formData.year,
-                wave: formData.wave,
-                status: 'Lolos',
-                score: 'B',
-                paymentProof: paymentProofUrl,
-                externalImage: paymentProofUrl,
-                registrationDate: new Date().toISOString()
-            };
+            // Registration record (Sanity), payment proof (Drive), and the
+            // selection spreadsheet row are all created server-side in one
+            // call — the browser never touches a Sanity write token.
+            const extForm = new FormData();
+            Object.entries(formData).forEach(([key, value]) => extForm.append(key, value ?? ''));
+            if (selectedFile) extForm.append('paymentProof', selectedFile);
 
-            await mutationClient.create(doc);
-
-            try {
-                const extForm = new FormData();
-                Object.entries(formData).forEach(([key, value]) => extForm.append(key, value ?? ''));
-                if (selectedFile) extForm.append('paymentProof', selectedFile);
-                await fetch('/api/register-external', { method: 'POST', body: extForm });
-            } catch (extErr) {
-                console.error('Sheets/Drive sync failed (non-blocking):', extErr);
-            }
+            const res = await fetch('/api/register-external', { method: 'POST', body: extForm });
+            const data = await res.json();
+            if (!data.success) throw new Error(data.error || 'Gagal mengirim pendaftaran.');
 
             localStorage.removeItem('alfakhir_registration_draft');
-            onSuccess({ ...formData, id: studentId });
+            onSuccess({ ...formData, id: data.studentId });
         } catch (err) {
             console.error(err);
             alert('Error: ' + err.message);

@@ -4,16 +4,35 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Plus, Trash2, UserCheck, User, AlertCircle, Image as ImageIcon, LayoutDashboard, Download, Upload, Search, Settings, X, ChevronRight, Save, Eye, EyeOff, Users, BookOpen, RefreshCw, Mail, Phone, ShieldCheck, Clock } from 'lucide-react'; // Core icons
 import { motion, AnimatePresence } from 'framer-motion';
 import * as XLSX from 'xlsx';
-import { client, mutationClient } from '@/lib/sanity';
 import { templateData } from './templateData';
+
+// All writes go through these — the browser never holds a Sanity write
+// token. Both routes check the admin session cookie server-side.
+async function adminUploadImage(file) {
+    const form = new FormData();
+    form.append('file', file);
+    const res = await fetch('/api/admin/upload', { method: 'POST', body: form });
+    const data = await res.json();
+    if (!data.success) throw new Error(data.error || 'Gagal upload gambar.');
+    return data.asset; // { _id, url }
+}
+
+async function adminMutate({ deletes = [], creates = [], patches = [] }) {
+    const res = await fetch('/api/admin/mutate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ deletes, creates, patches }),
+    });
+    const data = await res.json();
+    if (!data.success) throw new Error(data.error || 'Gagal menyimpan perubahan.');
+    return data.result;
+}
 
 export default function AdminPage() {
     // --- Refs & State ---
     const fileInputRef = useRef(null);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [activeTab, setActiveTab] = useState('overview');
-    const [loginData, setLoginData] = useState({ username: '', password: '' });
-    const [showPassword, setShowPassword] = useState(false);
     const [students, setStudents] = useState([]);
     const [gallery, setGallery] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -21,8 +40,6 @@ export default function AdminPage() {
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     const [searchQuery, setSearchQuery] = useState('');
-    const [failedAttempts, setFailedAttempts] = useState(0);
-    const [isLocked, setIsLocked] = useState(false);
     const [deletedStudents, setDeletedStudents] = useState([]);
     const [deletedGallery, setDeletedGallery] = useState([]);
     const [deletedStaff, setDeletedStaff] = useState([]);
@@ -67,12 +84,19 @@ export default function AdminPage() {
     }, [students, gallery, staff]);
 
     // --- Authentication Persistence ---
+    // Server holds the real session (signed httpOnly cookie); this just asks
+    // it whether we're still logged in, instead of trusting a client-side flag.
     useEffect(() => {
-        const token = sessionStorage.getItem('as-secure-auth-node-v1');
-        if (token) {
-            setIsLoggedIn(true);
-            fetchAllData();
-        }
+        (async () => {
+            try {
+                const res = await fetch('/api/admin/session');
+                const data = await res.json();
+                if (data.loggedIn) {
+                    setIsLoggedIn(true);
+                    fetchAllData();
+                }
+            } catch { /* stay logged out */ }
+        })();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -80,20 +104,14 @@ export default function AdminPage() {
         setIsLoading(true);
         setError('');
         try {
-            // SINGLE BATCH QUERY - Reduced 8 requests to 1
-            const megaQuery = `{
-            "students": *[_type == "student"] | order(_createdAt desc) {
-                ...,
-                "imageUrl": select(defined(image.asset) => image.asset->url + "?fm=webp&q=90", externalImage)
-            },
-            "gallery": *[_type == "gallery"] | order(date desc) {"_id": _id, title, category, "imageUrl": select(defined(image.asset) => image.asset->url + "?fm=webp&q=90", externalImage), externalImage, image, date, agenda},
-            "staff": *[_type == "teacher"] | order(order asc) {"_id": _id, name, role, vision, education, email, "imageUrl": select(defined(image.asset) => image.asset->url + "?fm=webp&q=90", externalImage), externalImage, image},
-            "messages": *[_type == "contactMessage"] | order(receivedAt desc),
-            "yearConfigs": *[_type == "yearConfig"]
-        }`;
-            
-            const data = await client.fetch(megaQuery);
-            
+            const res = await fetch('/api/admin/data');
+            if (res.status === 401) {
+                setIsLoggedIn(false);
+                throw new Error('Sesi berakhir, silakan login ulang.');
+            }
+            const data = await res.json();
+            if (data.error) throw new Error(data.error);
+
             // YEAR SYNC: Update list based on existing state and what's in the DB
             const combinedYears = Array.from(new Set([
                 ...availableYears,
@@ -129,80 +147,40 @@ export default function AdminPage() {
         }
     };
 
-    const handleLogin = async (e) => {
-        e.preventDefault();
-        
-        // Safely extract credentials in Next.js/Vite environment seamlessly
-        let adminUser = "admin";
-        let adminPass = "alfakhir2025";
-        
-        try {
-            if (typeof process !== 'undefined' && process.env) {
-                adminUser = process.env.NEXT_PUBLIC_ADMIN_USERNAME || process.env.VITE_ADMIN_USERNAME || "admin";
-                adminPass = process.env.NEXT_PUBLIC_ADMIN_PASSWORD || process.env.VITE_ADMIN_PASSWORD || "alfakhir2025";
-            }
-            // Add safe fallback check if import.meta exists
-            if (typeof import.meta !== 'undefined' && import.meta.env) {
-                if (import.meta.env.VITE_ADMIN_USERNAME) adminUser = import.meta.env.VITE_ADMIN_USERNAME;
-                if (import.meta.env.VITE_ADMIN_PASSWORD) adminPass = import.meta.env.VITE_ADMIN_PASSWORD;
-            }
-        } catch(err) {
-            // Keep safe standard literals
-        }
-
-        // Accept user password flexibilities to guarantee zero lockouts for the school admin
-        const isUserValid = loginData.username === adminUser || loginData.username === 'admin';
-        const isPassValid = loginData.password === adminPass || loginData.password === 'alfakhir2025' || loginData.password === 'admin';
-
-        if (isUserValid && isPassValid) {
-            sessionStorage.setItem('as-secure-auth-node-v1', 'verified-sanity-session');
-            setIsLoggedIn(true);
-            setFailedAttempts(0);
-            fetchAllData();
-        } else {
-            const newAttempts = failedAttempts + 1;
-            setFailedAttempts(newAttempts);
-            setError(`Login Gagal. Silakan cek Username & Password. (${newAttempts}/5)`);
-            if (newAttempts >= 5) setIsLocked(true);
-        }
-    };
-
-    const handleLogout = () => {
-        sessionStorage.removeItem('as-secure-auth-node-v1');
+    const handleLogout = async () => {
+        try { await fetch('/api/admin/session', { method: 'DELETE' }); } catch {}
         setIsLoggedIn(false);
-        setLoginData({ username: '', password: '' });
         if (typeof window !== 'undefined' && window.google && window.google.accounts) {
             window.google.accounts.id.disableAutoselect();
         }
     };
 
     // --- Google Sign-In Integration ---
-    const handleGoogleAdminLogin = (response) => {
+    // The ID token is verified against Google's own endpoint server-side
+    // (src/app/api/admin/session), which sets a signed httpOnly session
+    // cookie. This client only reacts to that result — it never itself
+    // decides who's an admin (that used to be a client-decoded, unverified
+    // JWT anyone could forge, plus a hardcoded username/password fallback).
+    const handleGoogleAdminLogin = async (response) => {
         try {
-            const jwt = response.credential;
-            const base64Url = jwt.split('.')[1];
-            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-            const jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
-                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-            }).join(''));
-            
-            const decoded = JSON.parse(jsonPayload);
-            console.log("Google Sign-In Attempt Admin:", decoded?.email);
-            
-            if (decoded?.email === 'sdialfakhir@gmail.com') {
-                sessionStorage.setItem('as-secure-auth-node-v1', 'verified-sanity-session');
+            const res = await fetch('/api/admin/session', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ credential: response.credential }),
+            });
+            const data = await res.json();
+            if (data.success) {
                 setIsLoggedIn(true);
-                setFailedAttempts(0);
                 setError('');
                 fetchAllData();
             } else {
-                setError(`Akses Ditolak: Dasbor ini hanya diperuntukkan bagi Administrator SD Islam Al-Fakhir (akun ${decoded?.email || 'tidak dikenal'} tidak diizinkan).`);
+                setError(data.error || 'Akses ditolak.');
                 if (window.google) {
                     window.google.accounts.id.disableAutoselect();
                 }
             }
         } catch (err) {
-            console.error("JWT Decode Error:", err);
+            console.error("Admin login error:", err);
             setError("Gagal memproses otentikasi Google Cloud.");
         }
     };
@@ -346,7 +324,7 @@ export default function AdminPage() {
         if (!file) return;
         try {
             setIsLoading(true);
-            const asset = await mutationClient.assets.upload('image', file);
+            const asset = await adminUploadImage(file);
             const n = [...staff];
             if (n[index]) {
                 n[index].image = {
@@ -373,7 +351,7 @@ export default function AdminPage() {
         if (!file) return;
         try {
             setIsLoading(true);
-            const asset = await mutationClient.assets.upload('image', file);
+            const asset = await adminUploadImage(file);
             const n = [...gallery];
             if (n[index]) {
                 n[index].image = {
@@ -402,87 +380,66 @@ export default function AdminPage() {
         setSuccess('');
         setError('');
         try {
-            // Start a new transaction
-            let transaction = mutationClient.transaction();
-
-            // Handle Deletions
-            deletedStudents.forEach(id => { transaction.delete(id); });
-            deletedGallery.forEach(id => { transaction.delete(id); });
-            deletedStaff.forEach(id => { transaction.delete(id); });
+            const deletes = [
+                ...deletedStudents.map(id => ({ type: 'student', id })),
+                ...deletedGallery.map(id => ({ type: 'gallery', id })),
+                ...deletedStaff.map(id => ({ type: 'teacher', id })),
+            ];
+            const creates = [];
+            const patches = [];
+            const upsert = (doc, existing) => {
+                if (existing?._id && !existing.isNew) {
+                    patches.push({ id: existing._id, set: doc });
+                } else {
+                    creates.push(doc);
+                }
+            };
 
             // 1. Students
-            students.forEach(std => {
-                const doc = {
-                    _type: 'student',
-                    id: std.id || `REG-${Date.now()}`,
-                    name: std.name || 'No Name',
-                    school: std.school || std.schoolName || '', 
-                    score: std.score || '-',
-                    status: std.status || 'Passed Selection',
-                    year: std.year || availableYears[0] || '2026/2027',
-                    wave: String(std.wave || '1'),
-                    pdfLink: std.pdfLink || ''
-                };
-                if (std._id && !std.isNew) {
-                    transaction.patch(std._id, { set: doc });
-                } else {
-                    transaction.create(doc);
-                }
-            });
+            students.forEach(std => upsert({
+                _type: 'student',
+                id: std.id || `REG-${Date.now()}`,
+                name: std.name || 'No Name',
+                school: std.school || std.schoolName || '',
+                score: std.score || '-',
+                status: std.status || 'Passed Selection',
+                year: std.year || availableYears[0] || '2026/2027',
+                wave: String(std.wave || '1'),
+                pdfLink: std.pdfLink || ''
+            }, std));
 
             // 2. Gallery
-            gallery.forEach(item => {
-                const doc = {
-                    _type: 'gallery',
-                    title: item.title || 'Untitled',
-                    category: item.category || 'acara',
-                    date: item.date || new Date().toLocaleDateString('en-GB'),
-                    agenda: item.agenda || '',
-                    ...(item.image ? { image: item.image } : {}),
-                    ...(item.externalImage ? { externalImage: item.externalImage } : {})
-                };
-                if (item._id && !item.isNew) {
-                    transaction.patch(item._id, { set: doc });
-                } else {
-                    transaction.create(doc);
-                }
-            });
+            gallery.forEach(item => upsert({
+                _type: 'gallery',
+                title: item.title || 'Untitled',
+                category: item.category || 'acara',
+                date: item.date || new Date().toLocaleDateString('en-GB'),
+                agenda: item.agenda || '',
+                ...(item.image ? { image: item.image } : {}),
+                ...(item.externalImage ? { externalImage: item.externalImage } : {})
+            }, item));
 
             // 3. Staff
-            staff.forEach(stf => {
-                const doc = {
-                    _type: 'teacher',
-                    name: stf.name || 'Staff Member',
-                    role: stf.role || 'Guru',
-                    vision: stf.vision || '',
-                    education: stf.education || '',
-                    email: stf.email || '',
-                    ...(stf.image ? { image: stf.image } : {}),
-                    ...(stf.externalImage ? { externalImage: stf.externalImage } : {})
-                };
-                if (stf._id && !stf.isNew) {
-                    transaction.patch(stf._id, { set: doc });
-                } else {
-                    transaction.create(doc);
-                }
-            });
+            staff.forEach(stf => upsert({
+                _type: 'teacher',
+                name: stf.name || 'Staff Member',
+                role: stf.role || 'Guru',
+                vision: stf.vision || '',
+                education: stf.education || '',
+                email: stf.email || '',
+                ...(stf.image ? { image: stf.image } : {}),
+                ...(stf.externalImage ? { externalImage: stf.externalImage } : {})
+            }, stf));
 
             // 4. Year Configs (Video URLs)
-            yearConfigs.forEach(conf => {
-                const doc = {
-                    _type: 'yearConfig',
-                    year: conf.year,
-                    videoUrl: conf.videoUrl || ''
-                };
-                if (conf._id && !conf.isNew) {
-                    transaction.patch(conf._id, { set: doc });
-                } else {
-                    transaction.create(doc);
-                }
-            });
+            yearConfigs.forEach(conf => upsert({
+                _type: 'yearConfig',
+                year: conf.year,
+                videoUrl: conf.videoUrl || ''
+            }, conf));
 
             // Commit all at once (1 request)
-            await transaction.commit();
+            await adminMutate({ deletes, creates, patches });
 
             setDeletedStudents([]);
             setDeletedGallery([]);
@@ -1424,7 +1381,7 @@ export default function AdminPage() {
                                                         if (window.confirm('Delete this registration record?')) { 
                                                             try {
                                                                 setIsLoading(true);
-                                                                await mutationClient.delete(reg._id); 
+                                                                await adminMutate({ deletes: [{ type: 'student', id: reg._id }] });
                                                                 setSuccess('Data registrasi berhasil dihapus dari Cloud!');
                                                                 setTimeout(() => setSuccess(''), 3000);
                                                                 fetchAllData(); 
@@ -1568,7 +1525,7 @@ export default function AdminPage() {
                                                     <button 
                                                         onClick={async () => {
                                                             if (window.confirm('Delete message?')) {
-                                                                await mutationClient.delete(msg._id);
+                                                                await adminMutate({ deletes: [{ type: 'contactMessage', id: msg._id }] });
                                                                 fetchAllData();
                                                             }
                                                         }} 
@@ -1589,7 +1546,7 @@ export default function AdminPage() {
                                                     {msg.status === 'unread' && (
                                                         <button 
                                                             onClick={async () => {
-                                                                await mutationClient.patch(msg._id).set({ status: 'read' }).commit();
+                                                                await adminMutate({ patches: [{ id: msg._id, set: { status: 'read' } }] });
                                                                 fetchAllData();
                                                             }}
                                                             style={{ fontSize: '0.7rem', fontWeight: 900, color: '#fffdf9', background: '#0d7c6e', border: 'none', padding: '6px 14px', borderRadius: '0px', cursor: 'pointer' }}

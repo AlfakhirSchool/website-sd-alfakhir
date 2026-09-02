@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Mail, Phone, MapPin, Send, ShieldCheck } from 'lucide-react';
 import ReCAPTCHA from "react-google-recaptcha";
 import { useLanguage } from '../../context/LanguageContext';
-import { mutationClient } from '../../lib/sanity';
 import "./Contact.css";
 
 const Contact = () => {
@@ -23,15 +22,13 @@ const Contact = () => {
         const message = formData.get('message');
 
         try {
-            await mutationClient.create({
-                _type: 'contactMessage',
-                name,
-                email,
-                subject,
-                message,
-                receivedAt: new Date().toISOString(),
-                status: 'unread'
+            const res = await fetch('/api/contact', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, email, subject, message }),
             });
+            const data = await res.json();
+            if (!data.success) throw new Error(data.error || 'Gagal mengirim pesan.');
 
             await fetch('https://formspree.io/f/sdialfakhir@gmail.com', {
                 method: 'POST',

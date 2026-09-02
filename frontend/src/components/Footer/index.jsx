@@ -120,7 +120,7 @@ const Footer = () => {
                             transition={{ duration: 0.5, delay: 0.1 }}
                             className="footer-cta-grid"
                         >
-                            <Link href="/news" style={{ textDecoration: 'none' }}>
+                            <Link href="/galeri" style={{ textDecoration: 'none' }}>
                                 <motion.button 
                                     whileHover={{ background: '#cbd5e1', scale: 1.02 }}
                                     className="footer-cta-btn footer-cta-secondary"

@@ -1,0 +1,14 @@
+{
+  "name": "alfakhir-student-api",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Self-hosted student registration store (PII) for SD Islam Modern Al-Fakhir — runs on the school's own server, never on Sanity/Vercel.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.3.0",
+    "express": "^4.19.2"
+  }
+}

@@ -10,6 +10,28 @@ import { apiFetch, urlFor } from '@/lib/api';
 import SmartImage from '@/components/SmartImage';
 import { useLanguage } from '@/context/LanguageContext';
 
+const StaffImage = ({ member, size = 160 }) => {
+    const imageUrl = member.imageUrl;
+    const image = member.image;
+    const resolvedSrc = urlFor(image || imageUrl).width(size * 2).height(size * 2).auto('format').url();
+
+    return (
+        <SmartImage
+            src={resolvedSrc}
+            lqip={member.lqip}
+            alt={member.name}
+            fallback="/images/placeholder-user.png"
+            loading="eager"
+            style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                objectPosition: 'center top'
+            }}
+        />
+    );
+};
+
 const StaffPage = () => {
     const { t } = useLanguage();
     const [staff, setStaff] = useState([]);
@@ -29,27 +51,6 @@ const StaffPage = () => {
         };
         fetchStaff();
     }, []);
-
-    const StaffImage = ({ member, size = 160 }) => {
-        const imageUrl = member.imageUrl;
-        const image = member.image;
-        const resolvedSrc = urlFor(image || imageUrl).width(size * 2).height(size * 2).auto('format').url();
-
-        return (
-            <SmartImage 
-                src={resolvedSrc} 
-                lqip={member.lqip}
-                alt={member.name} 
-                fallback="/images/placeholder-user.png"
-                style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                    objectPosition: 'center top'
-                }}
-            />
-        );
-    };
 
     if (loading) return <LoadingSpinner />;
 
