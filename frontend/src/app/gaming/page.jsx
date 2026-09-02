@@ -32,6 +32,7 @@ export default function AdminPage() {
     // --- Refs & State ---
     const fileInputRef = useRef(null);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [adminEmail, setAdminEmail] = useState('');
     const [activeTab, setActiveTab] = useState('overview');
     const [students, setStudents] = useState([]);
     const [gallery, setGallery] = useState([]);
@@ -93,6 +94,7 @@ export default function AdminPage() {
                 const data = await res.json();
                 if (data.loggedIn) {
                     setIsLoggedIn(true);
+                    setAdminEmail(data.email || '');
                     fetchAllData();
                 }
             } catch { /* stay logged out */ }
@@ -150,6 +152,7 @@ export default function AdminPage() {
     const handleLogout = async () => {
         try { await fetch('/api/admin/session', { method: 'DELETE' }); } catch {}
         setIsLoggedIn(false);
+        setAdminEmail('');
         if (typeof window !== 'undefined' && window.google && window.google.accounts) {
             window.google.accounts.id.disableAutoselect();
         }
@@ -171,6 +174,7 @@ export default function AdminPage() {
             const data = await res.json();
             if (data.success) {
                 setIsLoggedIn(true);
+                setAdminEmail(data.email || '');
                 setError('');
                 fetchAllData();
             } else {
@@ -524,13 +528,13 @@ export default function AdminPage() {
                 <motion.div 
                     initial={{ opacity: 0, scale: 0.95, y: 10 }} 
                     animate={{ opacity: 1, scale: 1, y: 0 }} 
-                    style={{ background: '#fffdf9', padding: '4rem', borderRadius: '0px', boxShadow: '0 20px 80px rgba(26,22,18,0.08)', width: '100%', maxWidth: '480px', position: 'relative', zIndex: 1, border: '1px solid #1a1612', textAlign: 'center' }}
+                    style={{ background: '#fffdf9', padding: '4rem', borderRadius: '14px', boxShadow: '0 20px 80px rgba(26,22,18,0.08)', width: '100%', maxWidth: '480px', position: 'relative', zIndex: 1, border: '1px solid #1a1612', textAlign: 'center' }}
                 >
                     <div style={{ marginBottom: '3rem' }}>
                         <motion.div 
                             initial={{ scale: 0 }} 
                             animate={{ scale: 1 }} 
-                            style={{ width: '100px', height: '100px', background: '#faf7f2', borderRadius: '0px', margin: '0 auto 2rem', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid #d4820a' }}
+                            style={{ width: '100px', height: '100px', background: '#faf7f2', borderRadius: '14px', margin: '0 auto 2rem', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid #d4820a' }}
                         >
                             <img src="/logo_new.webp" alt="SD Islam Modern Al-Fakhir Official Logo" style={{ width: '80%', height: '80%', objectFit: 'contain' }} />
                         </motion.div>
@@ -543,21 +547,21 @@ export default function AdminPage() {
                         <motion.div 
                             initial={{ opacity: 0, height: 0 }} 
                             animate={{ opacity: 1, height: 'auto' }} 
-                            style={{ background: 'rgba(192, 57, 43, 0.05)', color: '#c0392b', padding: '16px', borderRadius: '0px', marginBottom: '2rem', display: 'flex', alignItems: 'center', gap: '12px', fontSize: '0.85rem', fontWeight: 800, border: '1px solid #c0392b' }}
+                            style={{ background: 'rgba(192, 57, 43, 0.05)', color: '#c0392b', padding: '16px', borderRadius: '14px', marginBottom: '2rem', display: 'flex', alignItems: 'center', gap: '12px', fontSize: '0.85rem', fontWeight: 800, border: '1px solid #c0392b' }}
                         >
                             <AlertCircle size={20} style={{ flexShrink: 0 }} /> <span style={{ textAlign: 'left' }}>{error}</span>
                         </motion.div>
                     )}
 
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', alignItems: 'center' }}>
-                        <div style={{ background: '#faf7f2', border: '1px solid #1a1612', borderRadius: '0px', padding: '30px 20px', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '15px' }}>
+                        <div style={{ background: '#faf7f2', border: '1px solid #1a1612', borderRadius: '14px', padding: '30px 20px', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '15px' }}>
                             <p style={{ fontSize: '0.75rem', fontWeight: 800, color: '#4a3f35', textTransform: 'uppercase', letterSpacing: '1px', margin: 0 }}>GOOGLE CLOUD IDENTITY</p>
                             <div id="google-signIn-btn-container" style={{ minHeight: '44px', display: 'flex', justifyContent: 'center', width: '100%' }}></div>
                         </div>
                     </div>
                     
                     <div style={{ textAlign: 'center', marginTop: '3rem', fontSize: '0.75rem', color: '#9a8c82', fontWeight: 700, letterSpacing: '1px' }}>
-                        <p style={{ margin: 0 }}>© 2026 ANTIGRAVITY BRUTALISM v2.5</p>
+                        <p style={{ margin: 0 }}>© 2026 SD Islam Modern Al-Fakhir</p>
                     </div>
                 </motion.div>
             </div>
@@ -591,8 +595,8 @@ export default function AdminPage() {
                         <div style={{ position: 'absolute', bottom: '4px', right: '4px', width: '10px', height: '10px', borderRadius: '50%', background: '#0d7c6e', border: '2px solid #fffdf9' }} />
                     </motion.div>
                     <div style={{ textAlign: 'center' }}>
-                        <h1 style={{ fontSize: '1rem', fontWeight: 900, margin: 0, color: '#1a1612', letterSpacing: '1.5px', textTransform: 'uppercase' }}>Feriman</h1>
-                        <p style={{ fontSize: '0.65rem', fontWeight: 700, margin: '5px 0 0', color: '#9a8c82', letterSpacing: '0.5px' }}>admin@alfakhir.sch.id</p>
+                        <h1 style={{ fontSize: '1rem', fontWeight: 900, margin: 0, color: '#1a1612', letterSpacing: '1.5px', textTransform: 'uppercase' }}>Administrator</h1>
+                        <p style={{ fontSize: '0.65rem', fontWeight: 700, margin: '5px 0 0', color: '#9a8c82', letterSpacing: '0.5px' }}>{adminEmail || 'sdialfakhir@gmail.com'}</p>
                     </div>
                 </div>
 
@@ -677,7 +681,7 @@ export default function AdminPage() {
                                 disabled={isSaving} 
                                 style={{ 
                                     background: '#d4820a', color: '#fffdf9', border: '1px solid #1a1612', padding: '14px 28px', 
-                                    borderRadius: '0px', fontWeight: 950, cursor: isSaving ? 'not-allowed' : 'pointer', display: 'flex', 
+                                    borderRadius: '14px', fontWeight: 950, cursor: isSaving ? 'not-allowed' : 'pointer', display: 'flex', 
                                     alignItems: 'center', gap: '12px', transition: '0.2s',
                                     fontSize: '0.85rem', letterSpacing: '1px'
                                 }}
@@ -702,7 +706,7 @@ export default function AdminPage() {
                                     }} 
                                     style={{ 
                                         background: '#fffdf9', border: '1px solid #0d7c6e', color: '#0d7c6e', 
-                                        padding: '14px 24px', borderRadius: '0px', fontWeight: 950, cursor: 'pointer',
+                                        padding: '14px 24px', borderRadius: '14px', fontWeight: 950, cursor: 'pointer',
                                         display: 'flex', alignItems: 'center', gap: '10px',
                                         fontSize: '0.85rem', letterSpacing: '1px'
                                     }}
@@ -718,7 +722,7 @@ export default function AdminPage() {
                             <motion.div 
                                 initial={{ opacity: 0, y: -10 }} 
                                 animate={{ opacity: 1, y: 0 }} 
-                                style={{ background: 'rgba(212, 130, 10, 0.05)', border: '1px solid #d4820a', padding: '15px 25px', borderRadius: '0px', marginBottom: '2rem', display: 'flex', alignItems: 'center', gap: '15px', color: '#d4820a' }}
+                                style={{ background: 'rgba(212, 130, 10, 0.05)', border: '1px solid #d4820a', padding: '15px 25px', borderRadius: '14px', marginBottom: '2rem', display: 'flex', alignItems: 'center', gap: '15px', color: '#d4820a' }}
                             >
                                 <AlertCircle size={20} style={{ flexShrink: 0 }} />
                                 <div style={{ fontSize: '0.8rem', fontWeight: 800, letterSpacing: '1px' }}>
@@ -726,7 +730,7 @@ export default function AdminPage() {
                                 </div>
                                 <button 
                                     onClick={() => setError(validationErrors.filter(e => e.tab === activeTab).map(e => e.msg).join('\n'))}
-                                    style={{ marginLeft: 'auto', background: '#d4820a', color: '#fffdf9', border: 'none', padding: '6px 14px', borderRadius: '0px', fontSize: '0.7rem', fontWeight: 950, cursor: 'pointer', letterSpacing: '1px' }}
+                                    style={{ marginLeft: 'auto', background: '#d4820a', color: '#fffdf9', border: 'none', padding: '6px 14px', borderRadius: '14px', fontSize: '0.7rem', fontWeight: 950, cursor: 'pointer', letterSpacing: '1px' }}
                                 >
                                     LIHAT DETAIL
                                 </button>
@@ -734,13 +738,13 @@ export default function AdminPage() {
                         )}
 
                         {success && (
-                            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} style={{ background: 'rgba(13, 124, 110, 0.08)', color: '#0d7c6e', padding: '16px 25px', borderRadius: '0px', marginBottom: '2rem', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '15px', border: '1px solid #0d7c6e', fontSize: '0.85rem' }}>
+                            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} style={{ background: 'rgba(13, 124, 110, 0.08)', color: '#0d7c6e', padding: '16px 25px', borderRadius: '14px', marginBottom: '2rem', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '15px', border: '1px solid #0d7c6e', fontSize: '0.85rem' }}>
                                 <div style={{ border: '1px solid #0d7c6e', padding: '4px', background: '#fffdf9' }}><UserCheck size={18} color="#0d7c6e" /></div>
                                 <span>{success}</span>
                             </motion.div>
                         )}
                         {error && (
-                            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} style={{ background: 'rgba(192, 57, 43, 0.05)', color: '#c0392b', padding: '16px 20px', borderRadius: '0px', marginBottom: '2rem', textAlign: 'left', fontWeight: 800, border: '1px solid #c0392b', display: 'flex', alignItems: 'center', gap: '12px', fontSize: '0.85rem' }}>
+                            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} style={{ background: 'rgba(192, 57, 43, 0.05)', color: '#c0392b', padding: '16px 20px', borderRadius: '14px', marginBottom: '2rem', textAlign: 'left', fontWeight: 800, border: '1px solid #c0392b', display: 'flex', alignItems: 'center', gap: '12px', fontSize: '0.85rem' }}>
                                 <AlertCircle size={18} style={{ flexShrink: 0 }} /> 
                                 <div style={{ flex: 1, lineHeight: 1.5 }}>{error}</div>
                                 <button onClick={() => setError('')} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#c0392b', display: 'flex', padding: '4px' }}>
@@ -750,7 +754,7 @@ export default function AdminPage() {
                         )}
                     </AnimatePresence>
 
-                    <div style={{ background: '#fffdf9', borderRadius: '0px', overflow: 'hidden', border: '1px solid #1a1612', minHeight: '600px', position: 'relative' }}>
+                    <div style={{ background: '#fffdf9', borderRadius: '14px', overflow: 'hidden', border: '1px solid #1a1612', minHeight: '600px', position: 'relative' }}>
                         {isLoading && (
                             <div style={{ position: 'absolute', inset: 0, background: 'rgba(255, 253, 249, 0.85)', backdropFilter: 'blur(4px)', zIndex: 1000, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '20px' }}>
                                 <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1, ease: 'linear' }}>
@@ -912,7 +916,7 @@ export default function AdminPage() {
                                             <div style={{ fontSize: '0.7rem', color: '#9a8c82', fontWeight: 600 }}>Recent automated sync logs & applicant operations</div>
                                         </div>
                                         <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.65rem', fontWeight: 950, color: '#0d7c6e', background: '#fffdf9', padding: '4px 10px', border: '1px solid #0d7c6e', letterSpacing: '1px' }}>
-                                            <span style={{ width: '6px', height: '6px', borderRadius: '0px', background: '#0d7c6e', display: 'inline-block' }} /> LIVE ACTIVE
+                                            <span style={{ width: '6px', height: '6px', borderRadius: '14px', background: '#0d7c6e', display: 'inline-block' }} /> LIVE ACTIVE
                                         </div>
                                     </div>
 
@@ -989,14 +993,14 @@ export default function AdminPage() {
                                 {/* Executive Brutalism Configuration Row */}
                                 <div style={{ background: '#fffdf9', padding: '15px 30px', borderBottom: '1px solid #1a1612', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                     <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-                                        <div style={{ padding: '6px 12px', background: '#d4820a', color: '#fffdf9', borderRadius: '0px', fontSize: '0.65rem', fontWeight: 1000, letterSpacing: '1px' }}>TELEMETRY SETTINGS:</div>
+                                        <div style={{ padding: '6px 12px', background: '#d4820a', color: '#fffdf9', borderRadius: '14px', fontSize: '0.65rem', fontWeight: 1000, letterSpacing: '1px' }}>TELEMETRY SETTINGS:</div>
                                         
                                         <div style={{ position: 'relative' }}>
                                             <motion.button 
                                                 onClick={() => setShowConfig(!showConfig)}
                                                 whileHover={{ background: '#f0a830', color: '#1a1612' }}
                                                 whileTap={{ scale: 0.98 }}
-                                                style={{ background: '#faf7f2', border: '1px solid #1a1612', padding: '10px 20px', borderRadius: '0px', fontSize: '0.85rem', fontWeight: 800, color: '#1a1612', display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', transition: '0.2s' }}
+                                                style={{ background: '#faf7f2', border: '1px solid #1a1612', padding: '10px 20px', borderRadius: '14px', fontSize: '0.85rem', fontWeight: 800, color: '#1a1612', display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', transition: '0.2s' }}
                                             >
                                                 <Settings size={16} /> <span>Form Settings</span>
                                             </motion.button>
@@ -1007,21 +1011,21 @@ export default function AdminPage() {
                                                         initial={{ opacity: 0, y: 10, scale: 0.95 }}
                                                         animate={{ opacity: 1, y: 0, scale: 1 }}
                                                         exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                                                        style={{ position: 'absolute', top: 'calc(100% + 15px)', left: 0, width: '320px', background: '#fffdf9', borderRadius: '0px', border: '1px solid #1a1612', padding: '25px', zIndex: 1000 }}
+                                                        style={{ position: 'absolute', top: 'calc(100% + 15px)', left: 0, width: '320px', background: '#fffdf9', borderRadius: '14px', border: '1px solid #1a1612', padding: '25px', zIndex: 1000 }}
                                                     >
                                                         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
                                                             {/* Compact Year Manage */}
                                                             <div>
                                                                 <h5 style={{ margin: '0 0 12px 0', fontSize: '0.75rem', fontWeight: 1000, color: '#d4820a', letterSpacing: '1px' }}>ACADEMIC YEAR SETTINGS</h5>
                                                                 <div style={{ display: 'flex', gap: '6px', marginBottom: '12px' }}>
-                                                                    <input placeholder="20xx..." style={{ flex: 1, padding: '8px 12px', background: '#faf7f2', border: '1px solid #1a1612', borderRadius: '0px', fontSize: '0.8rem', fontWeight: 700, color: '#1a1612', outline: 'none' }} value={newYearInput} onChange={e => setNewYearInput(e.target.value)} />
-                                                                    <button onClick={handleAddYear} style={{ background: '#d4820a', color: '#fffdf9', border: 'none', padding: '8px', borderRadius: '0px', cursor: 'pointer', fontWeight: 900 }}><Plus size={16} /></button>
+                                                                    <input placeholder="20xx..." style={{ flex: 1, padding: '8px 12px', background: '#faf7f2', border: '1px solid #1a1612', borderRadius: '14px', fontSize: '0.8rem', fontWeight: 700, color: '#1a1612', outline: 'none' }} value={newYearInput} onChange={e => setNewYearInput(e.target.value)} />
+                                                                    <button onClick={handleAddYear} style={{ background: '#d4820a', color: '#fffdf9', border: 'none', padding: '8px', borderRadius: '14px', cursor: 'pointer', fontWeight: 900 }}><Plus size={16} /></button>
                                                                 </div>
                                                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', maxHeight: '300px', overflowY: 'auto' }}>
                                                                     {availableYears.map(y => {
                                                                         const config = yearConfigs.find(c => c.year === y) || { videoUrl: '' };
                                                                         return (
-                                                                            <div key={y} style={{ background: '#faf7f2', borderRadius: '0px', padding: '15px', border: '1px solid #1a1612' }}>
+                                                                            <div key={y} style={{ background: '#faf7f2', borderRadius: '14px', padding: '15px', border: '1px solid #1a1612' }}>
                                                                                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', alignItems: 'center' }}>
                                                                                     <span style={{ fontWeight: 900, color: '#1a1612' }}>{y}</span>
                                                                                     <X size={14} style={{ cursor: 'pointer', color: '#c0392b' }} onClick={() => handleDeleteYear(y)} />
@@ -1030,7 +1034,7 @@ export default function AdminPage() {
                                                                                     <label style={{ fontSize: '0.6rem', fontWeight: 800, color: '#9a8c82' }}>YOUTUBE DOCUMENTATION LINK</label>
                                                                                     <input 
                                                                                         placeholder="https://youtube.com/watch?v=..." 
-                                                                                        style={{ width: '100%', padding: '8px 12px', background: '#fffdf9', border: '1px solid #1a1612', borderRadius: '0px', fontSize: '0.75rem', fontWeight: 600, color: '#1a1612', outline: 'none' }}
+                                                                                        style={{ width: '100%', padding: '8px 12px', background: '#fffdf9', border: '1px solid #1a1612', borderRadius: '14px', fontSize: '0.75rem', fontWeight: 600, color: '#1a1612', outline: 'none' }}
                                                                                         value={config.videoUrl} 
                                                                                         onChange={e => handleUpdateYearConfig(y, 'videoUrl', e.target.value)}
                                                                                     />
@@ -1050,11 +1054,11 @@ export default function AdminPage() {
 
                                 <div style={{ padding: '20px 30px', borderBottom: '1px solid #1a1612', display: 'flex', justifyContent: 'space-between', background: '#faf7f2', alignItems: 'center', flexWrap: 'wrap', gap: '15px' }}>
                                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                                        <div style={{ display: 'flex', background: '#fffdf9', padding: '6px', borderRadius: '0px', gap: '8px', border: '1px solid #1a1612' }}>
+                                        <div style={{ display: 'flex', background: '#fffdf9', padding: '6px', borderRadius: '14px', gap: '8px', border: '1px solid #1a1612' }}>
                                             <select 
                                                 value={filterYear}
                                                 onChange={(e) => setFilterYear(e.target.value)}
-                                                style={{ padding: '8px 15px', borderRadius: '0px', border: '1px solid #1a1612', background: '#fffdf9', fontSize: '0.85rem', fontWeight: 700, outline: 'none', color: '#1a1612' }}
+                                                style={{ padding: '8px 15px', borderRadius: '14px', border: '1px solid #1a1612', background: '#fffdf9', fontSize: '0.85rem', fontWeight: 700, outline: 'none', color: '#1a1612' }}
                                             >
                                                 <option value="Semua">All Years</option>
                                                 {availableYears.map(y => <option key={`f-${y}`} value={y}>{y}</option>)}
@@ -1062,7 +1066,7 @@ export default function AdminPage() {
                                             <select 
                                                 value={filterWave}
                                                 onChange={(e) => setFilterWave(e.target.value)}
-                                                style={{ padding: '8px 15px', borderRadius: '0px', border: '1px solid #1a1612', background: '#fffdf9', fontSize: '0.85rem', fontWeight: 700, outline: 'none', color: '#1a1612' }}
+                                                style={{ padding: '8px 15px', borderRadius: '14px', border: '1px solid #1a1612', background: '#fffdf9', fontSize: '0.85rem', fontWeight: 700, outline: 'none', color: '#1a1612' }}
                                             >
                                                 <option value="Semua">All Waves</option>
                                                 <option value="1">Gelombang 1</option>
@@ -1070,8 +1074,8 @@ export default function AdminPage() {
                                                 <option value="3">Gelombang 3</option>
                                             </select>
                                         </div>
-                                        <button onClick={handleDownloadTemplate} style={{ background: '#fffdf9', border: '1px solid #1a1612', color: '#1a1612', padding: '10px 18px', borderRadius: '0px', fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', transition: '0.2s' }} onMouseOver={e => { e.currentTarget.style.background = '#1a1612'; e.currentTarget.style.color = '#fffdf9'; }} onMouseOut={e => { e.currentTarget.style.background = '#fffdf9'; e.currentTarget.style.color = '#1a1612'; }}><Download size={16} /> <span>TEMPLATE</span></button>
-                                        <button onClick={() => fileInputRef.current?.click()} style={{ background: '#1a1612', border: '1px solid #1a1612', color: '#fffdf9', padding: '10px 18px', borderRadius: '0px', fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', transition: '0.2s' }} onMouseOver={e => { e.currentTarget.style.background = '#d4820a'; }} onMouseOut={e => { e.currentTarget.style.background = '#1a1612'; }}><Upload size={16} /> <span>IMPORT</span></button>
+                                        <button onClick={handleDownloadTemplate} style={{ background: '#fffdf9', border: '1px solid #1a1612', color: '#1a1612', padding: '10px 18px', borderRadius: '14px', fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', transition: '0.2s' }} onMouseOver={e => { e.currentTarget.style.background = '#1a1612'; e.currentTarget.style.color = '#fffdf9'; }} onMouseOut={e => { e.currentTarget.style.background = '#fffdf9'; e.currentTarget.style.color = '#1a1612'; }}><Download size={16} /> <span>TEMPLATE</span></button>
+                                        <button onClick={() => fileInputRef.current?.click()} style={{ background: '#1a1612', border: '1px solid #1a1612', color: '#fffdf9', padding: '10px 18px', borderRadius: '14px', fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', transition: '0.2s' }} onMouseOver={e => { e.currentTarget.style.background = '#d4820a'; }} onMouseOut={e => { e.currentTarget.style.background = '#1a1612'; }}><Upload size={16} /> <span>IMPORT</span></button>
                                     </div>
                                     <div style={{ position: 'relative', width: '100%', maxWidth: '350px' }}>
                                         <Search size={18} style={{ position: 'absolute', left: '15px', top: '50%', transform: 'translateY(-50%)', color: '#d4820a' }} />
@@ -1080,7 +1084,7 @@ export default function AdminPage() {
                                             placeholder="Search Name / Reg No..." 
                                             value={searchQuery}
                                             onChange={(e) => setSearchQuery(e.target.value)}
-                                            style={{ width: '100%', padding: '12px 20px 12px 45px', borderRadius: '0px', border: '1px solid #1a1612', background: '#fffdf9', fontSize: '0.9rem', fontWeight: 600, outline: 'none', transition: '0.3s', color: '#1a1612' }} 
+                                            style={{ width: '100%', padding: '12px 20px 12px 45px', borderRadius: '14px', border: '1px solid #1a1612', background: '#fffdf9', fontSize: '0.9rem', fontWeight: 600, outline: 'none', transition: '0.3s', color: '#1a1612' }} 
                                             onFocus={e => e.target.style.border = '1px solid #d4820a'}
                                             onBlur={e => e.target.style.border = '1px solid #1a1612'}
                                         />
@@ -1127,7 +1131,7 @@ export default function AdminPage() {
                                                                     padding: '6px 12px', 
                                                                     background: '#fffdf9', 
                                                                     color: '#1a1612', 
-                                                                    borderRadius: '0px', 
+                                                                    borderRadius: '14px', 
                                                                     fontSize: '0.75rem', 
                                                                     fontWeight: 900, 
                                                                     border: '1px solid #1a1612',
@@ -1178,7 +1182,7 @@ export default function AdminPage() {
                                                         <td style={{ padding: '14px 10px', textAlign: 'center' }}>
                                                             <button 
                                                                 onClick={() => handleDeleteStudent(originalIndex)} 
-                                                                style={{ background: '#c0392b', border: 'none', padding: '8px', borderRadius: '0px', cursor: 'pointer', color: '#fff', transition: '0.2s' }}
+                                                                style={{ background: '#c0392b', border: 'none', padding: '8px', borderRadius: '14px', cursor: 'pointer', color: '#fff', transition: '0.2s' }}
                                                             >
                                                                 <Trash2 size={16} />
                                                             </button>
@@ -1193,11 +1197,11 @@ export default function AdminPage() {
                         ) : activeTab === 'active-students' ? (
                             <>
                                 <div style={{ padding: '30px 40px', borderBottom: '1px solid #1a1612', display: 'flex', justifyContent: 'space-between', background: '#faf7f2', alignItems: 'center' }}>
-                                    <div style={{ display: 'flex', background: '#fffdf9', padding: '6px', borderRadius: '0px', gap: '8px', border: '1px solid #1a1612' }}>
+                                    <div style={{ display: 'flex', background: '#fffdf9', padding: '6px', borderRadius: '14px', gap: '8px', border: '1px solid #1a1612' }}>
                                         <select 
                                             value={filterYear}
                                             onChange={(e) => setFilterYear(e.target.value)}
-                                            style={{ padding: '8px 15px', borderRadius: '0px', border: '1px solid #1a1612', background: '#fffdf9', fontSize: '0.85rem', fontWeight: 700, outline: 'none', color: '#1a1612' }}
+                                            style={{ padding: '8px 15px', borderRadius: '14px', border: '1px solid #1a1612', background: '#fffdf9', fontSize: '0.85rem', fontWeight: 700, outline: 'none', color: '#1a1612' }}
                                         >
                                             <option value="Semua">All Years</option>
                                             {availableYears.map(y => <option key={`af-${y}`} value={y}>{y}</option>)}
@@ -1211,7 +1215,7 @@ export default function AdminPage() {
                                             placeholder="Search Active Students..." 
                                             value={searchQuery}
                                             onChange={(e) => setSearchQuery(e.target.value)}
-                                            style={{ width: '100%', padding: '12px 15px 12px 45px', borderRadius: '0px', border: '1px solid #1a1612', background: '#fffdf9', fontSize: '0.9rem', fontWeight: 600, color: '#1a1612', outline: 'none' }}
+                                            style={{ width: '100%', padding: '12px 15px 12px 45px', borderRadius: '14px', border: '1px solid #1a1612', background: '#fffdf9', fontSize: '0.9rem', fontWeight: 600, color: '#1a1612', outline: 'none' }}
                                             onFocus={e => e.target.style.border = '1px solid #d4820a'}
                                             onBlur={e => e.target.style.border = '1px solid #1a1612'}
                                         />
@@ -1233,7 +1237,7 @@ export default function AdminPage() {
                                                     style={{ 
                                                         background: '#faf7f2', 
                                                         padding: '35px', 
-                                                        borderRadius: '0px', 
+                                                        borderRadius: '14px', 
                                                         border: '1px solid #1a1612', 
                                                         display: 'flex', 
                                                         flexDirection: 'column', 
@@ -1245,7 +1249,7 @@ export default function AdminPage() {
                                                 >
                                                     {/* Decorative Background Accent */}
                                                     <div style={{ position: 'absolute', top: 0, right: 0, width: '120px', height: '120px', background: 'linear-gradient(135deg, transparent 50%, #d4820a08 100%)', zIndex: 0 }} />
-                                                    <div style={{ position: 'absolute', top: '20px', left: '25px', width: '38px', height: '38px', background: '#d4820a', color: '#fffdf9', borderRadius: '0px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.9rem', fontWeight: 1000, zIndex: 1 }}>{idx + 1}</div>
+                                                    <div style={{ position: 'absolute', top: '20px', left: '25px', width: '38px', height: '38px', background: '#d4820a', color: '#fffdf9', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.9rem', fontWeight: 1000, zIndex: 1 }}>{idx + 1}</div>
 
                                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', position: 'relative', zIndex: 2, marginLeft: '50px' }}>
                                                         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -1254,7 +1258,7 @@ export default function AdminPage() {
                                                                     padding: '6px 16px', 
                                                                     background: '#fffdf9', 
                                                                     color: '#1a1612', 
-                                                                    borderRadius: '0px', 
+                                                                    borderRadius: '14px', 
                                                                     fontSize: '0.75rem', 
                                                                     fontWeight: 950, 
                                                                     letterSpacing: '0.5px', 
@@ -1273,11 +1277,11 @@ export default function AdminPage() {
                                                         <div style={{ 
                                                             display: 'inline-flex', alignItems: 'center', gap: '8px', 
                                                             background: '#0d7c6e15', color: '#0d7c6e', padding: '8px 18px', 
-                                                            borderRadius: '0px', fontSize: '0.7rem', fontWeight: 1000,
+                                                            borderRadius: '14px', fontSize: '0.7rem', fontWeight: 1000,
                                                             border: '1px solid #0d7c6e30',
                                                             letterSpacing: '0.5px'
                                                         }}>
-                                                            <div style={{ width: '6px', height: '6px', borderRadius: '0px', background: '#0d7c6e' }} />
+                                                            <div style={{ width: '6px', height: '6px', borderRadius: '14px', background: '#0d7c6e' }} />
                                                             <span>{s.status?.toUpperCase() || 'ACCEPTED'}</span>
                                                         </div>
                                                     </div>
@@ -1285,21 +1289,21 @@ export default function AdminPage() {
                                                     <div style={{ position: 'relative', zIndex: 2 }}>
                                                         <h4 style={{ margin: '0 0 12px 0', fontSize: '1.5rem', fontWeight: 950, color: '#1a1612', letterSpacing: '-0.8px', lineHeight: 1.2 }}>{s.name}</h4>
                                                         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#4a3f35', fontSize: '0.85rem', fontWeight: 700 }}>
-                                                            <div style={{ width: '30px', height: '30px', borderRadius: '0px', background: '#fffdf9', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid #1a1612' }}>
+                                                            <div style={{ width: '30px', height: '30px', borderRadius: '14px', background: '#fffdf9', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid #1a1612' }}>
                                                                 <Users size={16} color="#d4820a" />
                                                             </div>
                                                             <span>{s.school || s.schoolName || 'Previous School Not Set'}</span>
                                                         </div>
                                                     </div>
 
-                                                    <div style={{ background: '#fffdf9', padding: '20px 25px', borderRadius: '0px', border: '1px solid #1a1612', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'relative', zIndex: 2 }}>
+                                                    <div style={{ background: '#fffdf9', padding: '20px 25px', borderRadius: '14px', border: '1px solid #1a1612', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'relative', zIndex: 2 }}>
                                                         <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                                                             <span style={{ fontSize: '0.6rem', fontWeight: 950, color: '#9a8c82', textTransform: 'uppercase', letterSpacing: '1px' }}>ACADEMIC YEAR</span>
                                                             <span style={{ fontSize: '1.05rem', fontWeight: 950, color: '#d4820a' }}>{s.year}</span>
                                                         </div>
                                                         <motion.div 
                                                             whileHover={{ scale: 1.1, x: 5, background: '#d4820a', color: '#fffdf9' }}
-                                                            style={{ width: '48px', height: '48px', borderRadius: '0px', background: '#faf7f2', border: '1px solid #d4820a', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#d4820a', cursor: 'pointer', transition: '0.2s' }}
+                                                            style={{ width: '48px', height: '48px', borderRadius: '14px', background: '#faf7f2', border: '1px solid #d4820a', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#d4820a', cursor: 'pointer', transition: '0.2s' }}
                                                         >
                                                             <ChevronRight size={22} />
                                                         </motion.div>
@@ -1317,13 +1321,13 @@ export default function AdminPage() {
                                         <motion.div 
                                             key={reg._id || idx}
                                             whileHover={{ y: -5, borderColor: '#d4820a' }}
-                                            style={{ background: '#faf7f2', padding: '35px', borderRadius: '0px', border: '1px solid #1a1612', display: 'flex', flexDirection: 'column', gap: '25px', position: 'relative', overflow: 'hidden', transition: '0.2s' }}
+                                            style={{ background: '#faf7f2', padding: '35px', borderRadius: '14px', border: '1px solid #1a1612', display: 'flex', flexDirection: 'column', gap: '25px', position: 'relative', overflow: 'hidden', transition: '0.2s' }}
                                         >
-                                            <div style={{ position: 'absolute', top: '20px', left: '20px', width: '40px', height: '40px', background: '#d4820a', color: '#fffdf9', borderRadius: '0px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1rem', fontWeight: 950, zIndex: 10 }}>{idx + 1}</div>
+                                            <div style={{ position: 'absolute', top: '20px', left: '20px', width: '40px', height: '40px', background: '#d4820a', color: '#fffdf9', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1rem', fontWeight: 950, zIndex: 10 }}>{idx + 1}</div>
                                             <div style={{ position: 'absolute', top: 0, right: 0, width: '150px', height: '150px', background: 'linear-gradient(135deg, transparent 50%, #d4820a08 100%)', zIndex: 0 }} />
                                             
                                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', position: 'relative', zIndex: 1 }}>
-                                                <div style={{ width: '64px', height: '64px', borderRadius: '0px', background: '#fffdf9', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#d4820a', border: '1px solid #1a1612', marginLeft: '35px' }}>
+                                                <div style={{ width: '64px', height: '64px', borderRadius: '14px', background: '#fffdf9', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#d4820a', border: '1px solid #1a1612', marginLeft: '35px' }}>
                                                     <BookOpen size={30} />
                                                 </div>
                                                 <div style={{ textAlign: 'right' }}>
@@ -1335,12 +1339,12 @@ export default function AdminPage() {
                                             <div style={{ position: 'relative', zIndex: 1 }}>
                                                 <h4 style={{ margin: '0 0 10px 0', fontSize: '1.6rem', fontWeight: 950, color: '#1a1612', letterSpacing: '-1px', lineHeight: 1.2 }}>{reg.name}</h4>
                                                 <div style={{ display: 'flex', gap: '12px' }}>
-                                                    <span style={{ padding: '6px 14px', background: '#fffdf9', color: '#1a1612', borderRadius: '0px', border: '1px solid #1a1612', fontSize: '0.75rem', fontWeight: 900, textTransform: 'uppercase' }}>{reg.gender === 'L' ? 'Male' : 'Female'}</span>
-                                                    <span style={{ padding: '6px 14px', background: '#d4820a10', color: '#d4820a', borderRadius: '0px', border: '1px solid #d4820a30', fontSize: '0.75rem', fontWeight: 900 }}>YEAR {reg.year || '-'}</span>
+                                                    <span style={{ padding: '6px 14px', background: '#fffdf9', color: '#1a1612', borderRadius: '14px', border: '1px solid #1a1612', fontSize: '0.75rem', fontWeight: 900, textTransform: 'uppercase' }}>{reg.gender === 'L' ? 'Male' : 'Female'}</span>
+                                                    <span style={{ padding: '6px 14px', background: '#d4820a10', color: '#d4820a', borderRadius: '14px', border: '1px solid #d4820a30', fontSize: '0.75rem', fontWeight: 900 }}>YEAR {reg.year || '-'}</span>
                                                 </div>
                                             </div>
 
-                                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', background: '#fffdf9', padding: '25px', borderRadius: '0px', border: '1px solid #1a1612', position: 'relative', zIndex: 1 }}>
+                                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', background: '#fffdf9', padding: '25px', borderRadius: '14px', border: '1px solid #1a1612', position: 'relative', zIndex: 1 }}>
                                                 <div>
                                                     <div style={{ fontSize: '0.65rem', fontWeight: 900, color: '#9a8c82', textTransform: 'uppercase', marginBottom: '8px', letterSpacing: '1px' }}>PARENT NAME</div>
                                                     <div style={{ fontSize: '1rem', fontWeight: 900, color: '#1a1612' }}>{reg.parentName || '-'}</div>
@@ -1368,12 +1372,12 @@ export default function AdminPage() {
                                                             }
                                                             window.open(pUrl, '_blank');
                                                         }} 
-                                                        style={{ flex: 1, padding: '16px', background: '#d4820a', color: '#fffdf9', border: 'none', borderRadius: '0px', fontWeight: 900, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}
+                                                        style={{ flex: 1, padding: '16px', background: '#d4820a', color: '#fffdf9', border: 'none', borderRadius: '14px', fontWeight: 900, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}
                                                     >
                                                         <Eye size={20} /> <span>VIEW PAYMENT PROOF</span>
                                                     </motion.button>
                                                 ) : (
-                                                    <div style={{ flex: 1, padding: '16px', background: '#c0392b15', color: '#c0392b', borderRadius: '0px', fontSize: '0.85rem', fontWeight: 900, textAlign: 'center', border: '1px solid #c0392b30' }}>PAYMENT PROOF MISSING</div>
+                                                    <div style={{ flex: 1, padding: '16px', background: '#c0392b15', color: '#c0392b', borderRadius: '14px', fontSize: '0.85rem', fontWeight: 900, textAlign: 'center', border: '1px solid #c0392b30' }}>PAYMENT PROOF MISSING</div>
                                                 )}
                                                 <motion.button 
                                                     whileHover={{ scale: 1.05, background: '#c0392b', color: '#fff' }}
@@ -1393,7 +1397,7 @@ export default function AdminPage() {
                                                             }
                                                         } 
                                                     }} 
-                                                    style={{ padding: '16px', background: '#fffdf9', border: '1px solid #1a1612', color: '#c0392b', borderRadius: '0px', cursor: 'pointer', transition: '0.2s' }}
+                                                    style={{ padding: '16px', background: '#fffdf9', border: '1px solid #1a1612', color: '#c0392b', borderRadius: '14px', cursor: 'pointer', transition: '0.2s' }}
                                                 >
                                                     <Trash2 size={22} />
                                                 </motion.button>
@@ -1412,10 +1416,10 @@ export default function AdminPage() {
                             <div style={{ padding: '40px', background: '#fffdf9' }}>
                                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))', gap: '2rem' }}>
                                     {gallery.map((item, index) => (
-                                        <motion.div key={item._id || index} initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} style={{ background: '#faf7f2', padding: '1.5rem', borderRadius: '0px', border: '1px solid #1a1612' }}>
-                                            <div style={{ aspectRatio: '16 / 10', background: '#fffdf9', borderRadius: '0px', marginBottom: '1.5rem', overflow: 'hidden', position: 'relative', border: item.imageUrl ? '1px solid #1a1612' : '1px solid #c0392b' }}>
+                                        <motion.div key={item._id || index} initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} style={{ background: '#faf7f2', padding: '1.5rem', borderRadius: '14px', border: '1px solid #1a1612' }}>
+                                            <div style={{ aspectRatio: '16 / 10', background: '#fffdf9', borderRadius: '14px', marginBottom: '1.5rem', overflow: 'hidden', position: 'relative', border: item.imageUrl ? '1px solid #1a1612' : '1px solid #c0392b' }}>
                                                 {item.imageUrl ? <img src={item.imageUrl} alt={item.title || "Gallery Item"} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <div style={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: '#c0392b', gap: '10px' }}><ImageIcon size={48} /><span style={{ fontSize: '0.7rem', fontWeight: 800 }}>IMAGE MISSING</span></div>}
-                                                <label style={{ position: 'absolute', bottom: '15px', right: '15px', background: item.imageUrl ? '#d4820a' : '#c0392b', color: '#fffdf9', padding: '10px 20px', borderRadius: '0px', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 950 }}>
+                                                <label style={{ position: 'absolute', bottom: '15px', right: '15px', background: item.imageUrl ? '#d4820a' : '#c0392b', color: '#fffdf9', padding: '10px 20px', borderRadius: '14px', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 950 }}>
                                                     <span style={{ color: '#fffdf9' }}>{item.imageUrl ? 'CHANGE IMAGE' : 'UPLOAD NOW'}</span>
                                                     <input type="file" style={{ display: 'none' }} accept="image/*" onChange={e => handleImageUpload(index, e.target.files[0])} />
                                                 </label>
@@ -1424,11 +1428,11 @@ export default function AdminPage() {
                                                 <div style={{ display: 'flex', gap: '10px' }}>
                                                     <div style={{ flex: 2 }}>
                                                         <label htmlFor={`gallery-title-${index}`} style={{ display: 'block', fontSize: '0.65rem', fontWeight: 900, color: '#9a8c82', marginBottom: '5px' }}>CONTENT TITLE</label>
-                                                        <input id={`gallery-title-${index}`} placeholder="Event Title" style={{ width: '100%', padding: '12px 15px', border: item.title ? '1px solid #1a1612' : '1px solid #c0392b', borderRadius: '0px', fontWeight: 800, fontSize: '0.9rem', background: '#fffdf9', color: '#1a1612', outline: 'none' }} onFocus={e => e.target.style.border = '1px solid #d4820a'} onBlur={e => e.target.style.border = item.title ? '1px solid #1a1612' : '1px solid #c0392b'} value={item.title || ''} onChange={e => handleGalleryChange(index, 'title', e.target.value)} />
+                                                        <input id={`gallery-title-${index}`} placeholder="Event Title" style={{ width: '100%', padding: '12px 15px', border: item.title ? '1px solid #1a1612' : '1px solid #c0392b', borderRadius: '14px', fontWeight: 800, fontSize: '0.9rem', background: '#fffdf9', color: '#1a1612', outline: 'none' }} onFocus={e => e.target.style.border = '1px solid #d4820a'} onBlur={e => e.target.style.border = item.title ? '1px solid #1a1612' : '1px solid #c0392b'} value={item.title || ''} onChange={e => handleGalleryChange(index, 'title', e.target.value)} />
                                                     </div>
                                                     <div style={{ flex: 1 }}>
                                                         <label htmlFor={`gallery-cat-${index}`} style={{ display: 'block', fontSize: '0.65rem', fontWeight: 900, color: '#9a8c82', marginBottom: '5px' }}>TYPE</label>
-                                                        <select id={`gallery-cat-${index}`} style={{ width: '100%', padding: '12px', border: '1px solid #1a1612', borderRadius: '0px', background: '#fffdf9', fontWeight: 700, fontSize: '0.8rem', color: '#1a1612', outline: 'none' }} value={item.category || 'acara'} onChange={e => handleGalleryChange(index, 'category', e.target.value)}>
+                                                        <select id={`gallery-cat-${index}`} style={{ width: '100%', padding: '12px', border: '1px solid #1a1612', borderRadius: '14px', background: '#fffdf9', fontWeight: 700, fontSize: '0.8rem', color: '#1a1612', outline: 'none' }} value={item.category || 'acara'} onChange={e => handleGalleryChange(index, 'category', e.target.value)}>
                                                             <option value="acara">Event</option>
                                                             <option value="berita">News</option>
                                                             <option value="penghargaan">Award</option>
@@ -1437,15 +1441,15 @@ export default function AdminPage() {
                                                     </div>
                                                 </div>
                                                 <div style={{ display: 'flex', gap: '10px' }}>
-                                                    <input placeholder="Date (e.g. 12 Mar 2026)" aria-label="Event Date" style={{ flex: 1, padding: '12px 15px', border: '1px solid #1a1612', borderRadius: '0px', background: '#fffdf9', color: '#1a1612', fontWeight: 700, fontSize: '0.85rem', outline: 'none' }} onFocus={e => e.target.style.border = '1px solid #d4820a'} onBlur={e => e.target.style.border = '1px solid #1a1612'} value={item.date || ''} onChange={e => handleGalleryChange(index, 'date', e.target.value)} />
-                                                    <input type="date" aria-label="Pick Date" style={{ width: '45px', padding: '10px', border: '1px solid #1a1612', borderRadius: '0px', background: '#d4820a', color: '#fffdf9', cursor: 'pointer', outline: 'none' }} onChange={e => {
+                                                    <input placeholder="Date (e.g. 12 Mar 2026)" aria-label="Event Date" style={{ flex: 1, padding: '12px 15px', border: '1px solid #1a1612', borderRadius: '14px', background: '#fffdf9', color: '#1a1612', fontWeight: 700, fontSize: '0.85rem', outline: 'none' }} onFocus={e => e.target.style.border = '1px solid #d4820a'} onBlur={e => e.target.style.border = '1px solid #1a1612'} value={item.date || ''} onChange={e => handleGalleryChange(index, 'date', e.target.value)} />
+                                                    <input type="date" aria-label="Pick Date" style={{ width: '45px', padding: '10px', border: '1px solid #1a1612', borderRadius: '14px', background: '#d4820a', color: '#fffdf9', cursor: 'pointer', outline: 'none' }} onChange={e => {
                                                         const d = new Date(e.target.value);
                                                         const formatted = d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
                                                         handleGalleryChange(index, 'date', formatted);
                                                     }} />
                                                 </div>
-                                                <textarea placeholder="Full agenda description..." style={{ width: '100%', padding: '15px', border: '1px solid #1a1612', borderRadius: '0px', background: '#fffdf9', height: '100px', resize: 'none', fontSize: '0.85rem', color: '#1a1612', outline: 'none' }} onFocus={e => e.target.style.border = '1px solid #d4820a'} onBlur={e => e.target.style.border = '1px solid #1a1612'} value={item.agenda || ''} onChange={e => handleGalleryChange(index, 'agenda', e.target.value)} />
-                                                <button onClick={() => handleDeleteGallery(index)} style={{ width: '100%', padding: '12px', border: '1px solid #1a1612', color: '#c0392b', background: '#fffdf9', borderRadius: '0px', fontWeight: 800, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', transition: '0.2s' }} onMouseOver={e => { e.currentTarget.style.background = '#c0392b'; e.currentTarget.style.color = '#fff'; }} onMouseOut={e => { e.currentTarget.style.background = '#fffdf9'; e.currentTarget.style.color = '#c0392b'; }}><Trash2 size={18} /> <span>DELETE CONTENT</span></button>
+                                                <textarea placeholder="Full agenda description..." style={{ width: '100%', padding: '15px', border: '1px solid #1a1612', borderRadius: '14px', background: '#fffdf9', height: '100px', resize: 'none', fontSize: '0.85rem', color: '#1a1612', outline: 'none' }} onFocus={e => e.target.style.border = '1px solid #d4820a'} onBlur={e => e.target.style.border = '1px solid #1a1612'} value={item.agenda || ''} onChange={e => handleGalleryChange(index, 'agenda', e.target.value)} />
+                                                <button onClick={() => handleDeleteGallery(index)} style={{ width: '100%', padding: '12px', border: '1px solid #1a1612', color: '#c0392b', background: '#fffdf9', borderRadius: '14px', fontWeight: 800, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', transition: '0.2s' }} onMouseOver={e => { e.currentTarget.style.background = '#c0392b'; e.currentTarget.style.color = '#fff'; }} onMouseOut={e => { e.currentTarget.style.background = '#fffdf9'; e.currentTarget.style.color = '#c0392b'; }}><Trash2 size={18} /> <span>DELETE CONTENT</span></button>
                                             </div>
                                         </motion.div>
                                     ))}
@@ -1455,8 +1459,8 @@ export default function AdminPage() {
                             <div style={{ padding: '40px', background: '#fffdf9' }}>
                                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '2rem' }}>
                                     {staff.map((member, index) => (
-                                        <motion.div key={member._id || index} initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} style={{ background: '#faf7f2', padding: '1.5rem', borderRadius: '0px', border: '1px solid #1a1612' }}>
-                                            <div style={{ aspectRatio: '1/1', background: '#fffdf9', borderRadius: '0px', marginBottom: '1.5rem', overflow: 'hidden', position: 'relative', border: member.imageUrl ? '1px solid #1a1612' : '1px solid #c0392b' }}>
+                                        <motion.div key={member._id || index} initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} style={{ background: '#faf7f2', padding: '1.5rem', borderRadius: '14px', border: '1px solid #1a1612' }}>
+                                            <div style={{ aspectRatio: '1/1', background: '#fffdf9', borderRadius: '14px', marginBottom: '1.5rem', overflow: 'hidden', position: 'relative', border: member.imageUrl ? '1px solid #1a1612' : '1px solid #c0392b' }}>
                                                 {member.imageUrl ? (
                                                     <img 
                                                         src={member.imageUrl} 
@@ -1476,23 +1480,23 @@ export default function AdminPage() {
                                                         <span style={{ fontSize: '0.6rem', fontWeight: 800 }}>NO PHOTO</span>
                                                     </div>
                                                 )}
-                                                <label style={{ position: 'absolute', bottom: '15px', right: '15px', background: member.imageUrl ? '#d4820a' : '#c0392b', color: '#fffdf9', padding: '10px 20px', borderRadius: '0px', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 950 }}>
+                                                <label style={{ position: 'absolute', bottom: '15px', right: '15px', background: member.imageUrl ? '#d4820a' : '#c0392b', color: '#fffdf9', padding: '10px 20px', borderRadius: '14px', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 950 }}>
                                                     <span style={{ color: '#fffdf9' }}>{member.imageUrl ? 'REPLACE' : 'ADD PHOTO'}</span>
                                                     <input type="file" style={{ display: 'none' }} accept="image/*" onChange={e => handleStaffImageUpload(index, e.target.files[0])} />
                                                 </label>
                                             </div>
                                             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                                                <input placeholder="Full Name & Titles" aria-label="Staff Full Name" style={{ width: '100%', padding: '12px 15px', border: member.name ? '1px solid #1a1612' : '1px solid #c0392b', borderRadius: '0px', fontWeight: 800, fontSize: '0.9rem', background: '#fffdf9', color: '#1a1612', outline: 'none' }} onFocus={e => e.target.style.border = '1px solid #d4820a'} onBlur={e => e.target.style.border = member.name ? '1px solid #1a1612' : '1px solid #c0392b'} value={member.name || ''} onChange={e => handleStaffChange(index, 'name', e.target.value)} />
-                                                <input placeholder="Role / Position" aria-label="Staff Role" style={{ width: '100%', padding: '12px 15px', border: '1px solid #1a1612', borderRadius: '0px', fontWeight: 700, fontSize: '0.85rem', background: '#fffdf9', color: '#d4820a', outline: 'none' }} onFocus={e => e.target.style.border = '1px solid #d4820a'} onBlur={e => e.target.style.border = '1px solid #1a1612'} value={member.role || ''} onChange={e => handleStaffChange(index, 'role', e.target.value)} />
+                                                <input placeholder="Full Name & Titles" aria-label="Staff Full Name" style={{ width: '100%', padding: '12px 15px', border: member.name ? '1px solid #1a1612' : '1px solid #c0392b', borderRadius: '14px', fontWeight: 800, fontSize: '0.9rem', background: '#fffdf9', color: '#1a1612', outline: 'none' }} onFocus={e => e.target.style.border = '1px solid #d4820a'} onBlur={e => e.target.style.border = member.name ? '1px solid #1a1612' : '1px solid #c0392b'} value={member.name || ''} onChange={e => handleStaffChange(index, 'name', e.target.value)} />
+                                                <input placeholder="Role / Position" aria-label="Staff Role" style={{ width: '100%', padding: '12px 15px', border: '1px solid #1a1612', borderRadius: '14px', fontWeight: 700, fontSize: '0.85rem', background: '#fffdf9', color: '#d4820a', outline: 'none' }} onFocus={e => e.target.style.border = '1px solid #d4820a'} onBlur={e => e.target.style.border = '1px solid #1a1612'} value={member.role || ''} onChange={e => handleStaffChange(index, 'role', e.target.value)} />
                                                 
-                                                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', background: '#fffdf9', padding: '15px', borderRadius: '0px', border: '1px solid #1a1612' }}>
+                                                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', background: '#fffdf9', padding: '15px', borderRadius: '14px', border: '1px solid #1a1612' }}>
                                                     <label style={{ fontSize: '0.65rem', fontWeight: 900, color: '#9a8c82' }}>PROFESSIONAL DETAILS</label>
-                                                    <input placeholder="Short Vision (One sentence)" style={{ width: '100%', padding: '10px 12px', border: '1px solid #1a1612', borderRadius: '0px', background: '#faf7f2', fontSize: '0.75rem', fontWeight: 600, color: '#1a1612', outline: 'none' }} onFocus={e => e.target.style.border = '1px solid #d4820a'} onBlur={e => e.target.style.border = '1px solid #1a1612'} value={member.vision || ''} onChange={e => handleStaffChange(index, 'vision', e.target.value)} />
-                                                    <input placeholder="Latest Education (e.g. S1 IT)" style={{ width: '100%', padding: '10px 12px', border: '1px solid #1a1612', borderRadius: '0px', background: '#faf7f2', fontSize: '0.75rem', fontWeight: 600, color: '#1a1612', outline: 'none' }} onFocus={e => e.target.style.border = '1px solid #d4820a'} onBlur={e => e.target.style.border = '1px solid #1a1612'} value={member.education || ''} onChange={e => handleStaffChange(index, 'education', e.target.value)} />
-                                                    <input placeholder="Official Email" style={{ width: '100%', padding: '10px 12px', border: '1px solid #1a1612', borderRadius: '0px', background: '#faf7f2', fontSize: '0.75rem', fontWeight: 600, color: '#1a1612', outline: 'none' }} onFocus={e => e.target.style.border = '1px solid #d4820a'} onBlur={e => e.target.style.border = '1px solid #1a1612'} value={member.email || ''} onChange={e => handleStaffChange(index, 'email', e.target.value)} />
+                                                    <input placeholder="Short Vision (One sentence)" style={{ width: '100%', padding: '10px 12px', border: '1px solid #1a1612', borderRadius: '14px', background: '#faf7f2', fontSize: '0.75rem', fontWeight: 600, color: '#1a1612', outline: 'none' }} onFocus={e => e.target.style.border = '1px solid #d4820a'} onBlur={e => e.target.style.border = '1px solid #1a1612'} value={member.vision || ''} onChange={e => handleStaffChange(index, 'vision', e.target.value)} />
+                                                    <input placeholder="Latest Education (e.g. S1 IT)" style={{ width: '100%', padding: '10px 12px', border: '1px solid #1a1612', borderRadius: '14px', background: '#faf7f2', fontSize: '0.75rem', fontWeight: 600, color: '#1a1612', outline: 'none' }} onFocus={e => e.target.style.border = '1px solid #d4820a'} onBlur={e => e.target.style.border = '1px solid #1a1612'} value={member.education || ''} onChange={e => handleStaffChange(index, 'education', e.target.value)} />
+                                                    <input placeholder="Official Email" style={{ width: '100%', padding: '10px 12px', border: '1px solid #1a1612', borderRadius: '14px', background: '#faf7f2', fontSize: '0.75rem', fontWeight: 600, color: '#1a1612', outline: 'none' }} onFocus={e => e.target.style.border = '1px solid #d4820a'} onBlur={e => e.target.style.border = '1px solid #1a1612'} value={member.email || ''} onChange={e => handleStaffChange(index, 'email', e.target.value)} />
                                                 </div>
 
-                                                <button onClick={() => handleDeleteStaff(index)} style={{ width: '100%', padding: '12px', border: '1px solid #1a1612', color: '#c0392b', background: '#fffdf9', borderRadius: '0px', fontWeight: 800, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', transition: '0.2s' }} onMouseOver={e => { e.currentTarget.style.background = '#c0392b'; e.currentTarget.style.color = '#fff'; }} onMouseOut={e => { e.currentTarget.style.background = '#fffdf9'; e.currentTarget.style.color = '#c0392b'; }}><Trash2 size={18} /> <span>DELETE</span></button>
+                                                <button onClick={() => handleDeleteStaff(index)} style={{ width: '100%', padding: '12px', border: '1px solid #1a1612', color: '#c0392b', background: '#fffdf9', borderRadius: '14px', fontWeight: 800, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', transition: '0.2s' }} onMouseOver={e => { e.currentTarget.style.background = '#c0392b'; e.currentTarget.style.color = '#fff'; }} onMouseOut={e => { e.currentTarget.style.background = '#fffdf9'; e.currentTarget.style.color = '#c0392b'; }}><Trash2 size={18} /> <span>DELETE</span></button>
                                             </div>
                                         </motion.div>
                                     ))}
@@ -1506,11 +1510,11 @@ export default function AdminPage() {
                                             key={msg._id || idx} 
                                             initial={{ opacity: 0, x: -10 }} 
                                             animate={{ opacity: 1, x: 0 }}
-                                            style={{ background: '#faf7f2', padding: '25px', borderRadius: '0px', border: '1px solid #1a1612', position: 'relative' }}
+                                            style={{ background: '#faf7f2', padding: '25px', borderRadius: '14px', border: '1px solid #1a1612', position: 'relative' }}
                                         >
                                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '15px' }}>
                                                 <div style={{ display: 'flex', gap: '15px', alignItems: 'center' }}>
-                                                    <div style={{ width: '45px', height: '45px', borderRadius: '0px', background: '#fffdf9', color: '#d4820a', border: '1px solid #1a1612', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                                    <div style={{ width: '45px', height: '45px', borderRadius: '14px', background: '#fffdf9', color: '#d4820a', border: '1px solid #1a1612', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                                                         <Mail size={20} />
                                                     </div>
                                                     <div>
@@ -1529,7 +1533,7 @@ export default function AdminPage() {
                                                                 fetchAllData();
                                                             }
                                                         }} 
-                                                        style={{ padding: '8px', background: '#fffdf9', color: '#c0392b', border: '1px solid #1a1612', borderRadius: '0px', cursor: 'pointer' }}
+                                                        style={{ padding: '8px', background: '#fffdf9', color: '#c0392b', border: '1px solid #1a1612', borderRadius: '14px', cursor: 'pointer' }}
                                                         onMouseOver={e => { e.currentTarget.style.background = '#c0392b'; e.currentTarget.style.color = '#fff'; }}
                                                         onMouseOut={e => { e.currentTarget.style.background = '#fffdf9'; e.currentTarget.style.color = '#c0392b'; }}
                                                     >
@@ -1537,7 +1541,7 @@ export default function AdminPage() {
                                                     </button>
                                                 </div>
                                             </div>
-                                            <div style={{ background: '#fffdf9', padding: '20px', borderRadius: '0px', border: '1px solid #1a1612' }}>
+                                            <div style={{ background: '#fffdf9', padding: '20px', borderRadius: '14px', border: '1px solid #1a1612' }}>
                                                 <div style={{ fontWeight: 900, fontSize: '0.8rem', color: '#d4820a', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>Subject: {msg.subject || 'No Subject'}</div>
                                                 <p style={{ margin: 0, fontSize: '0.95rem', color: '#1a1612', lineHeight: 1.6, whiteSpace: 'pre-wrap' }}>{msg.message}</p>
                                             </div>
@@ -1549,7 +1553,7 @@ export default function AdminPage() {
                                                                 await adminMutate({ patches: [{ id: msg._id, set: { status: 'read' } }] });
                                                                 fetchAllData();
                                                             }}
-                                                            style={{ fontSize: '0.7rem', fontWeight: 900, color: '#fffdf9', background: '#0d7c6e', border: 'none', padding: '6px 14px', borderRadius: '0px', cursor: 'pointer' }}
+                                                            style={{ fontSize: '0.7rem', fontWeight: 900, color: '#fffdf9', background: '#0d7c6e', border: 'none', padding: '6px 14px', borderRadius: '14px', cursor: 'pointer' }}
                                                         >
                                                             MARK AS READ
                                                         </button>
