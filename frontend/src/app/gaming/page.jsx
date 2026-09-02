@@ -175,9 +175,9 @@ export default function AdminPage() {
                 fetchAllData();
             } else {
                 setError(data.error || 'Akses ditolak.');
-                if (window.google) {
-                    window.google.accounts.id.disableAutoselect();
-                }
+                // Best-effort — some GSI library states don't expose this
+                // method; never let a UI cleanup call mask the real error.
+                try { window.google?.accounts?.id?.disableAutoselect?.(); } catch {}
             }
         } catch (err) {
             console.error("Admin login error:", err);
