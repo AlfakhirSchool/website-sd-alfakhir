@@ -111,12 +111,6 @@ const RegistrationPage = () => {
                                         <h1 style={{ fontSize: '2rem', fontWeight: 950, color: '#0f172a', margin: 0, letterSpacing: '-1px' }}>SD ISLAM MODERN AL-FAKHIR</h1>
                                         <p style={{ fontSize: '0.85rem', color: 'var(--primary)', margin: '5px 0 0', textTransform: 'uppercase', letterSpacing: '4px', fontWeight: 800 }}>{t('reg', 'success.labelRegistry')}</p>
                                     </div>
-                                    <div style={{ marginLeft: 'auto', textAlign: 'right' }}>
-                                        <div style={{ background: '#f8fafc', padding: '15px 25px', borderRadius: '20px', border: '1px solid #e2e8f0' }}>
-                                            <p style={{ fontSize: '0.7rem', color: '#94a3b8', margin: '0 0 5px 0', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 900 }}>Registration No.</p>
-                                            <p style={{ fontSize: '1.5rem', fontWeight: 950, color: '#0f172a', margin: 0 }}>{registeredData?.id}</p>
-                                        </div>
-                                    </div>
                                 </div>
                                 
                                 <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '60px' }}>
