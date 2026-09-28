@@ -40,7 +40,7 @@ const PPDBVideoDocumentation = ({ selectedYear, videoUrl }) => {
                     <div className="video-placeholder-icon">
                         <Video size={30} />
                     </div>
-                    <p style={{ fontWeight: 800, color: '#475569' }}>Belum ada video dokumentasi untuk tahun {selectedYear}.</p>
+                    <p style={{ fontWeight: 600, color: '#475569' }}>Belum ada video dokumentasi untuk tahun {selectedYear}.</p>
                     <p style={{ fontSize: '0.8rem', color: '#94a3b8', marginTop: '5px' }}>Administrator akan segera memperbarui konten ini.</p>
                 </div>
             ) : (

@@ -53,11 +53,11 @@ const VisiMisiPage = () => {
             <header style={{ padding: '180px 20px 80px', textAlign: 'center', background: '#ffffff' }}>
                 <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
                     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} style={{ marginBottom: '20px' }}>
-                        <span style={{ fontSize: '0.8rem', fontWeight: 900, color: orangePrimary, letterSpacing: '5px', textTransform: 'uppercase' }}>
+                        <span style={{ fontSize: '0.8rem', fontWeight: 700, color: orangePrimary, letterSpacing: '5px', textTransform: 'uppercase' }}>
                             SD Islam Modern Al-Fakhir
                         </span>
                     </motion.div>
-                    <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} style={{ fontSize: '3rem', fontWeight: 950, color: deepSlate, marginBottom: '25px', letterSpacing: '-2px' }}>
+                    <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} style={{ fontSize: '3rem', fontWeight: 800, color: deepSlate, marginBottom: '25px', letterSpacing: '-2px' }}>
                         Visi & Misi <span style={{ color: orangePrimary }}>Sekolah</span>
                     </motion.h1>
                     <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} style={{ fontSize: '1.2rem', color: '#64748b', fontWeight: 500, maxWidth: '700px', margin: '0 auto', fontStyle: 'italic' }}>
@@ -75,7 +75,7 @@ const VisiMisiPage = () => {
                         <div style={{ width: '50px', height: '50px', background: 'rgba(255,255,255,0.2)', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '40px' }}>
                             <Target size={26} />
                         </div>
-                        <h2 style={{ fontSize: '1.8rem', fontWeight: 900, textTransform: 'uppercase', marginBottom: '30px', letterSpacing: '1px' }}>School Vision</h2>
+                        <h2 style={{ fontSize: '1.8rem', fontWeight: 700, textTransform: 'uppercase', marginBottom: '30px', letterSpacing: '1px' }}>School Vision</h2>
                         <div style={{ width: '40px', height: '2px', background: 'rgba(255,255,255,0.4)', marginBottom: '30px' }} />
                         <p style={{ fontSize: '1.25rem', fontWeight: 600, lineHeight: 1.5, opacity: 0.95 }}>
                             "{t('about', 'visiText')}"
@@ -89,7 +89,7 @@ const VisiMisiPage = () => {
                         <div style={{ width: '50px', height: '50px', background: 'rgba(255,255,255,0.2)', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '40px' }}>
                             <Sparkles size={26} />
                         </div>
-                        <h2 style={{ fontSize: '1.8rem', fontWeight: 900, textTransform: 'uppercase', marginBottom: '30px', letterSpacing: '1px' }}>School Mission</h2>
+                        <h2 style={{ fontSize: '1.8rem', fontWeight: 700, textTransform: 'uppercase', marginBottom: '30px', letterSpacing: '1px' }}>School Mission</h2>
                         <div style={{ width: '40px', height: '2px', background: 'rgba(255,255,255,0.4)', marginBottom: '30px' }} />
                         <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '15px' }}>
                             {missionList.map((item, i) => (
@@ -108,7 +108,7 @@ const VisiMisiPage = () => {
                         <div style={{ width: '50px', height: '50px', background: 'rgba(255,255,255,0.2)', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '40px' }}>
                             <Star size={26} />
                         </div>
-                        <h2 style={{ fontSize: '1.8rem', fontWeight: 900, textTransform: 'uppercase', marginBottom: '30px', letterSpacing: '1px' }}>School Goals</h2>
+                        <h2 style={{ fontSize: '1.8rem', fontWeight: 700, textTransform: 'uppercase', marginBottom: '30px', letterSpacing: '1px' }}>School Goals</h2>
                         <div style={{ width: '40px', height: '2px', background: 'rgba(255,255,255,0.4)', marginBottom: '30px' }} />
                         <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '15px' }}>
                             {fallbackGoals.map((item, i) => (
@@ -128,7 +128,7 @@ const VisiMisiPage = () => {
                          <Camera size={80} strokeWidth={1} color={orangePrimary} opacity={0.2} />
                     </div>
                     <div>
-                        <h3 style={{ fontSize: '2.5rem', fontWeight: 950, color: deepSlate, marginBottom: '35px', letterSpacing: '-1.5px' }}>
+                        <h3 style={{ fontSize: '2.5rem', fontWeight: 800, color: deepSlate, marginBottom: '35px', letterSpacing: '-1.5px' }}>
                             Modern <span style={{ color: orangePrimary }}>Curriculum</span>
                         </h3>
                         <div style={{ display: 'grid', gap: '15px' }}>
@@ -145,14 +145,14 @@ const VisiMisiPage = () => {
 
             <section style={{ padding: '100px 20px' }}>
                 <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
-                    <h3 style={{ fontSize: '2.2rem', fontWeight: 950, color: deepSlate, textAlign: 'center', marginBottom: '60px', letterSpacing: '-1.5px' }}>Academic Implementation</h3>
+                    <h3 style={{ fontSize: '2.2rem', fontWeight: 800, color: deepSlate, textAlign: 'center', marginBottom: '60px', letterSpacing: '-1.5px' }}>Academic Implementation</h3>
                     <div className="implement-grid">
                         {['Bilingual Class', 'Digital Basis', 'Active & Fun Learning'].map((title, idx) => (
                             <div key={idx} style={{ padding: '40px', background: 'white', borderRadius: '24px', border: '1px solid #f1f5f9', textAlign: 'center' }}>
                                 <div style={{ height: '120px', marginBottom: '25px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f8fafc', borderRadius: '20px' }}>
                                     <Camera size={40} opacity={0.1} />
                                 </div>
-                                <h4 style={{ fontSize: '1.4rem', fontWeight: 900, color: deepSlate }}>{title}</h4>
+                                <h4 style={{ fontSize: '1.4rem', fontWeight: 700, color: deepSlate }}>{title}</h4>
                             </div>
                         ))}
                     </div>
@@ -164,7 +164,7 @@ const VisiMisiPage = () => {
                     <div style={{ background: 'white', padding: '50px', borderRadius: '32px', boxShadow: '0 10px 30px rgba(0,0,0,0.03)' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '15px', marginBottom: '35px' }}>
                             <BookOpen size={28} color={orangePrimary} />
-                            <h3 style={{ fontSize: '1.6rem', fontWeight: 900, color: deepSlate }}>Islamic Values</h3>
+                            <h3 style={{ fontSize: '1.6rem', fontWeight: 700, color: deepSlate }}>Islamic Values</h3>
                         </div>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                             {[
@@ -182,11 +182,11 @@ const VisiMisiPage = () => {
                     <div style={{ background: 'white', padding: '50px', borderRadius: '32px', boxShadow: '0 10px 30px rgba(0,0,0,0.03)' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '15px', marginBottom: '35px' }}>
                             <Globe size={28} color={orangePrimary} />
-                            <h3 style={{ fontSize: '1.6rem', fontWeight: 900, color: deepSlate }}>Foreign Languages</h3>
+                            <h3 style={{ fontSize: '1.6rem', fontWeight: 700, color: deepSlate }}>Foreign Languages</h3>
                         </div>
                         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
                             {['English', 'Arabic', 'Korean', 'Japanese'].map((item, i) => (
-                                <div key={i} style={{ padding: '20px', background: '#f8fafc', borderRadius: '15px', fontWeight: 900, color: deepSlate, textAlign: 'center' }}>{item}</div>
+                                <div key={i} style={{ padding: '20px', background: '#f8fafc', borderRadius: '15px', fontWeight: 700, color: deepSlate, textAlign: 'center' }}>{item}</div>
                             ))}
                         </div>
                     </div>
@@ -195,7 +195,7 @@ const VisiMisiPage = () => {
 
             <section style={{ padding: '100px 20px' }}>
                 <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
-                    <h3 style={{ fontSize: '2.2rem', fontWeight: 950, color: deepSlate, textAlign: 'center', marginBottom: '60px', letterSpacing: '-1.5px' }}>Non-Academic Excellence</h3>
+                    <h3 style={{ fontSize: '2.2rem', fontWeight: 800, color: deepSlate, textAlign: 'center', marginBottom: '60px', letterSpacing: '-1.5px' }}>Non-Academic Excellence</h3>
                     <div className="implement-grid">
                         {[
                             { type: 'Sport', list: ['Futsal', 'Taekwondo', 'Archery', 'Swimming'], icon: <Target size={24} />, color: '#ef4444' },
@@ -204,7 +204,7 @@ const VisiMisiPage = () => {
                         ].map((item, i) => (
                             <div key={i} style={{ padding: '40px', background: 'white', borderRadius: '24px', border: '1px solid #f1f5f9' }}>
                                 <div style={{ color: item.color, marginBottom: '20px' }}>{item.icon}</div>
-                                <h4 style={{ fontSize: '1.5rem', fontWeight: 900, color: deepSlate, marginBottom: '25px' }}>{item.type}</h4>
+                                <h4 style={{ fontSize: '1.5rem', fontWeight: 700, color: deepSlate, marginBottom: '25px' }}>{item.type}</h4>
                                 <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '12px' }}>
                                     {item.list.map((li, j) => (
                                         <li key={j} style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#64748b', fontWeight: 700 }}>
@@ -221,7 +221,7 @@ const VisiMisiPage = () => {
             <section style={{ padding: '100px 20px', background: deepSlate, color: 'white' }}>
                 <div className="curriculum-grid">
                     <div>
-                        <h3 style={{ fontSize: '2.5rem', fontWeight: 950, marginBottom: '40px', letterSpacing: '-1px' }}>Routine Agenda</h3>
+                        <h3 style={{ fontSize: '2.5rem', fontWeight: 800, marginBottom: '40px', letterSpacing: '-1px' }}>Routine Agenda</h3>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                             {[
                                 'Dhuha & Murojaah', 'Dzuhur Prayer', 'Sunnah Fasting', 'English Day', 'Entrepreneur Expo', 

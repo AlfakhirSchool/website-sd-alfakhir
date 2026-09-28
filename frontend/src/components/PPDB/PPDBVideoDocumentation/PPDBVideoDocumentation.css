@@ -10,7 +10,7 @@
 }
 
 .video-doc-title {
-  font-weight: 900;
+  font-weight: 700;
   color: #1e1b4b;
   margin-bottom: 1.5rem;
   font-size: 1.8rem;
@@ -62,7 +62,7 @@
   color: white;
   padding: 14px 30px;
   border-radius: 18px;
-  font-weight: 900;
+  font-weight: 700;
   text-decoration: none;
   box-shadow: 0 10px 25px rgba(239,68,68,0.3);
   transition: 0.3s;

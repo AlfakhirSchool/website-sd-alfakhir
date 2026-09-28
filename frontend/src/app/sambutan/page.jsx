@@ -58,14 +58,14 @@ const SambutanPage = () => {
             <div style={{ background: 'transparent', padding: '140px 0 40px', color: '#0f172a', textAlign: 'center', position: 'relative', zIndex: 1 }}>
                 <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px' }}>
                     <div
-                        style={{ display: 'inline-block', padding: '5px 12px', background: 'rgba(249, 140, 29, 0.08)', borderRadius: '100px', color: 'var(--primary)', fontSize: '0.6rem', fontWeight: 900, letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '1rem' }}
+                        style={{ display: 'inline-block', padding: '5px 12px', background: 'rgba(249, 140, 29, 0.08)', borderRadius: '100px', color: 'var(--primary)', fontSize: '0.6rem', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '1rem' }}
                     >
                         {t('sambutan', 'badge')}
                     </div>
                     
                     <div style={{ position: 'relative', display: 'inline-block' }}>
                         <h1 
-                            style={{ fontSize: '1.3rem', fontWeight: 950, margin: 0, textTransform: 'uppercase', letterSpacing: '3px', color: '#0f172a', position: 'relative', zIndex: 2 }}
+                            style={{ fontSize: '1.3rem', fontWeight: 800, margin: 0, textTransform: 'uppercase', letterSpacing: '3px', color: '#0f172a', position: 'relative', zIndex: 2 }}
                         >
                             {t('sambutan', 'title')}
                         </h1>
@@ -101,17 +101,17 @@ const SambutanPage = () => {
                                         />
                                         <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '45%', background: 'linear-gradient(to top, rgba(15,23,42,0.92) 0%, rgba(15,23,42,0.55) 55%, transparent 100%)' }}></div>
                                         <div style={{ position: 'absolute', top: '20px', right: '20px', background: 'rgba(249,140,29,0.95)', borderRadius: '100px', padding: '6px 14px', boxShadow: '0 8px 20px rgba(249,140,29,0.35)' }}>
-                                            <p style={{ margin: 0, fontSize: '0.6rem', fontWeight: 900, color: 'white', letterSpacing: '1px' }}>★ {t('sambutan', 'role')}</p>
+                                            <p style={{ margin: 0, fontSize: '0.6rem', fontWeight: 700, color: 'white', letterSpacing: '1px' }}>★ {t('sambutan', 'role')}</p>
                                         </div>
                                         <div style={{ position: 'absolute', bottom: '25px', left: '30px', right: '30px' }}>
                                             <div style={{ width: '32px', height: '3px', background: 'var(--primary)', borderRadius: '10px', marginBottom: '10px' }}></div>
-                                            <h4 style={{ margin: 0, fontSize: '1.35rem', fontWeight: 950, color: 'white', letterSpacing: '-0.3px', lineHeight: 1.15, textShadow: '0 2px 12px rgba(0,0,0,0.3)' }}>{t('history', 'principalName')}</h4>
+                                            <h4 style={{ margin: 0, fontSize: '1.35rem', fontWeight: 800, color: 'white', letterSpacing: '-0.3px', lineHeight: 1.15, textShadow: '0 2px 12px rgba(0,0,0,0.3)' }}>{t('history', 'principalName')}</h4>
                                         </div>
                                     </div>
                                     <div className="card-padding-mobile" style={{ padding: '30px', background: 'white' }}>
                                         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px', opacity: 0.8 }}>
                                             <div style={{ width: '20px', height: '2px', background: 'var(--primary)', borderRadius: '10px' }}></div>
-                                            <p style={{ margin: 0, fontSize: '0.65rem', fontWeight: 900, color: '#64748b', textTransform: 'uppercase', letterSpacing: '1.5px' }}>{t('sambutan', 'academicBg')}</p>
+                                            <p style={{ margin: 0, fontSize: '0.65rem', fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '1.5px' }}>{t('sambutan', 'academicBg')}</p>
                                         </div>
                                         <p style={{ margin: 0, fontSize: '0.88rem', color: '#475569', lineHeight: 1.6, fontWeight: 500 }}>{t('history', 'principalBio')}</p>
                                     </div>
@@ -121,7 +121,7 @@ const SambutanPage = () => {
 
                         <div className="text-center-mobile">
                             <Quote size={40} style={{ color: 'var(--primary)', opacity: 0.1, marginBottom: '10px' }} className="mobile-hide" />
-                            <h2 style={{ fontSize: '1.5rem', fontWeight: 950, color: '#0f172a', marginBottom: '15px', lineHeight: 1.1, letterSpacing: '-0.5px' }}>
+                            <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#0f172a', marginBottom: '15px', lineHeight: 1.1, letterSpacing: '-0.5px' }}>
                                 {t('sambutan', 'greeting')}
                             </h2>
                             
@@ -148,7 +148,7 @@ const SambutanPage = () => {
                                     boxShadow: '0 15px 40px rgba(249, 140, 29, 0.05)',
                                     maxWidth: '600px'
                                 }}>
-                                <p style={{ margin: 0, fontWeight: 900, color: '#0f172a', fontSize: '1.1rem', fontStyle: 'italic', letterSpacing: '-0.5px' }}>
+                                <p style={{ margin: 0, fontWeight: 700, color: '#0f172a', fontSize: '1.1rem', fontStyle: 'italic', letterSpacing: '-0.5px' }}>
                                     "{t('sambutan', 'closing')}"
                                 </p>
                             </motion.div>

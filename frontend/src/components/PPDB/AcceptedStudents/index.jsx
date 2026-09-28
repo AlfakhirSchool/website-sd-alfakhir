@@ -157,7 +157,7 @@ const AcceptedStudents = ({
                             border: '1px solid rgba(249, 140, 29, 0.2)',
                             padding: '6px 14px', 
                             borderRadius: '10px', 
-                            fontWeight: 800,
+                            fontWeight: 600,
                             transition: 'all 0.2s ease',
                           }}
                           onMouseOver={(e) => {
@@ -264,7 +264,7 @@ const AcceptedStudents = ({
                     style={{
                       margin: "0 0 10px 0",
                       fontSize: "1.2rem",
-                      fontWeight: 900,
+                      fontWeight: 700,
                       color: "#475569",
                     }}
                   >
@@ -308,13 +308,13 @@ const AcceptedStudents = ({
                     <button 
                       key={p} 
                       onClick={() => setCurrentPage(p)}
-                      style={{ height: '34px', minWidth: '34px', padding: '0 10px', borderRadius: '8px', border: 'none', background: currentPage === p ? 'var(--primary)' : 'transparent', color: currentPage === p ? 'white' : '#64748b', fontWeight: 800, cursor: 'pointer', transition: '0.2s', fontSize: '0.8rem' }}
+                      style={{ height: '34px', minWidth: '34px', padding: '0 10px', borderRadius: '8px', border: 'none', background: currentPage === p ? 'var(--primary)' : 'transparent', color: currentPage === p ? 'white' : '#64748b', fontWeight: 600, cursor: 'pointer', transition: '0.2s', fontSize: '0.8rem' }}
                     >
                       {p}
                     </button>
                   );
                 } else if (p === currentPage - 2 || p === currentPage + 2) {
-                  return <span key={p} style={{ padding: '0 6px', color: '#94a3b8', fontSize: '0.8rem', fontWeight: 800 }}>...</span>;
+                  return <span key={p} style={{ padding: '0 6px', color: '#94a3b8', fontSize: '0.8rem', fontWeight: 600 }}>...</span>;
                 }
                 return null;
               })}

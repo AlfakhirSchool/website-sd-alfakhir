@@ -60,7 +60,7 @@ const PPDBPage = () => {
                     <motion.h1 
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
-                        style={{ fontSize: '2rem', fontWeight: 900, color: '#0f172a', marginBottom: '10px' }}
+                        style={{ fontSize: '2rem', fontWeight: 700, color: '#0f172a', marginBottom: '10px' }}
                     >
                         {t('ppdb_results', 'title')}
                     </motion.h1>
@@ -78,18 +78,18 @@ const PPDBPage = () => {
                                 <div style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '65px', height: '65px', borderRadius: '20px', background: 'white', border: '1px solid #f1f5f9', boxShadow: '0 8px 20px rgba(0,0,0,0.04)', marginBottom: '15px', padding: '10px' }}>
                                     <img src="/logo_new.webp" alt="SD Al-Fakhir" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
                                 </div>
-                                <h3 style={{ margin: '0 0 10px 0', fontSize: '1.4rem', fontWeight: 950, color: '#0f172a', letterSpacing: '0.5px' }}>{t('ppdb_results', 'letter.title')}</h3>
+                                <h3 style={{ margin: '0 0 10px 0', fontSize: '1.4rem', fontWeight: 800, color: '#0f172a', letterSpacing: '0.5px' }}>{t('ppdb_results', 'letter.title')}</h3>
                                 <div style={{ width: '80px', height: '4px', background: 'var(--primary)', margin: '0 auto', borderRadius: '4px' }} />
                             </div>
 
                             <div style={{ color: '#334155', fontSize: '0.95rem', lineHeight: 1.8 }}>
-                                <p style={{ fontWeight: 800, marginBottom: '8px', color: '#0f172a', fontSize: '1rem' }}>{t('ppdb_results', 'letter.greeting')}</p>
+                                <p style={{ fontWeight: 600, marginBottom: '8px', color: '#0f172a', fontSize: '1rem' }}>{t('ppdb_results', 'letter.greeting')}</p>
                                 <p style={{ marginBottom: '20px', fontWeight: 600 }}>{t('ppdb_results', 'letter.salutation')}</p>
 
                                 <p style={{ marginBottom: '20px', textAlign: 'justify' }} dangerouslySetInnerHTML={{ __html: t('ppdb_results', 'letter.p1') }} />
 
                                 <div style={{ background: '#f8fafc', padding: '20px 25px', borderRadius: '16px', border: '1px solid #e2e8f0', marginBottom: '25px' }}>
-                                    <h4 style={{ margin: '0 0 12px 0', fontSize: '1.05rem', color: '#0f172a', display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 900 }}>
+                                    <h4 style={{ margin: '0 0 12px 0', fontSize: '1.05rem', color: '#0f172a', display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 700 }}>
                                         <FileText size={18} color="var(--primary)" strokeWidth={2.5} />
                                         {t('ppdb_results', 'letter.howToTitle')}
                                     </h4>
@@ -103,7 +103,7 @@ const PPDBPage = () => {
                                 <div style={{ display: 'flex', gap: '15px', padding: '20px 25px', background: '#fffbeb', borderRadius: '16px', border: '1px solid #fef08a', marginBottom: '30px' }}>
                                     <AlertCircle size={24} color="#d97706" style={{ flexShrink: 0 }} />
                                     <div>
-                                        <div style={{ fontWeight: 900, color: '#92400e', marginBottom: '4px', fontSize: '1rem' }}>{t('ppdb_results', 'letter.noteTitle')}</div>
+                                        <div style={{ fontWeight: 700, color: '#92400e', marginBottom: '4px', fontSize: '1rem' }}>{t('ppdb_results', 'letter.noteTitle')}</div>
                                         <p style={{ margin: 0, fontSize: '0.9rem', color: '#92400e', lineHeight: 1.6 }}>
                                             {t('ppdb_results', 'letter.noteText')}
                                         </p>
@@ -111,11 +111,11 @@ const PPDBPage = () => {
                                 </div>
 
                                 <p style={{ marginBottom: '10px' }}>{t('ppdb_results', 'letter.closing')}</p>
-                                <p style={{ fontWeight: 800, color: '#0f172a', marginBottom: '25px', fontSize: '1rem' }}>{t('ppdb_results', 'letter.salam')}</p>
+                                <p style={{ fontWeight: 600, color: '#0f172a', marginBottom: '25px', fontSize: '1rem' }}>{t('ppdb_results', 'letter.salam')}</p>
 
                                 <div style={{ textAlign: 'right', paddingRight: '10px' }}>
                                     <p style={{ margin: '0 0 5px 0', color: '#64748b', fontSize: '0.9rem' }}>{t('ppdb_results', 'letter.signature1')}</p>
-                                    <p style={{ margin: 0, fontWeight: 950, color: '#0f172a', fontSize: '1.1rem', letterSpacing: '-0.3px' }}>{t('ppdb_results', 'letter.signature2')}</p>
+                                    <p style={{ margin: 0, fontWeight: 800, color: '#0f172a', fontSize: '1.1rem', letterSpacing: '-0.3px' }}>{t('ppdb_results', 'letter.signature2')}</p>
                                 </div>
                             </div>
                         </div>
@@ -178,7 +178,7 @@ const PPDBPage = () => {
                             style={{ background: 'white', padding: '30px', borderRadius: '24px', maxWidth: '400px', width: '90%', boxShadow: '0 20px 40px rgba(0,0,0,0.1)' }}
                         >
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-                                <h3 style={{ margin: 0, fontWeight: 800 }}>{t('ppdb_results', 'modalTitle')}</h3>
+                                <h3 style={{ margin: 0, fontWeight: 600 }}>{t('ppdb_results', 'modalTitle')}</h3>
                                 <button onClick={() => setShowMenu(false)} style={{ border: 'none', background: '#f1f5f9', borderRadius: '50%', width: '32px', height: '32px', cursor: 'pointer' }}><X size={18}/></button>
                             </div>
                             

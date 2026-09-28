@@ -41,7 +41,7 @@ const RegistrationPage = () => {
 
                             <div className="hide-mobile">
                                 <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} style={{ background: '#0f172a', padding: '30px', borderRadius: '16px', color: 'white', marginBottom: '30px' }}>
-                                    <h3 style={{ fontSize: '1.4rem', fontWeight: 800, marginBottom: '20px' }}>{t('reg', 'whyTitle') || "Why Al-Fakhir?"}</h3>
+                                    <h3 style={{ fontSize: '1.4rem', fontWeight: 600, marginBottom: '20px' }}>{t('reg', 'whyTitle') || "Why Al-Fakhir?"}</h3>
                                     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
                                         {[
                                             { title: t('about', 'card1'), desc: t('about', 'card1Desc') },
@@ -61,19 +61,19 @@ const RegistrationPage = () => {
                                         <div style={{ width: '38px', height: '38px', borderRadius: '10px', background: 'rgba(249,140,29,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                                             <MessageCircle size={18} color="var(--primary)" />
                                         </div>
-                                        <p style={{ color: '#0f172a', fontSize: '0.95rem', fontWeight: 800, margin: 0 }}>{t('reg', 'consultTitle')}</p>
+                                        <p style={{ color: '#0f172a', fontSize: '0.95rem', fontWeight: 600, margin: 0 }}>{t('reg', 'consultTitle')}</p>
                                     </div>
                                     <p style={{ color: '#64748b', fontSize: '0.8rem', lineHeight: 1.5, margin: '0 0 20px' }}>
                                         {t('reg', 'consultDesc')}
                                     </p>
                                     <a href="https://wa.me/628139526221" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
-                                        <motion.div whileHover={{ y: -2 }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '13px 18px', borderRadius: '12px', background: 'var(--primary)', color: 'white', fontWeight: 800, fontSize: '0.85rem', marginBottom: '10px' }}>
+                                        <motion.div whileHover={{ y: -2 }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '13px 18px', borderRadius: '12px', background: 'var(--primary)', color: 'white', fontWeight: 600, fontSize: '0.85rem', marginBottom: '10px' }}>
                                             <span style={{ display: 'flex', alignItems: 'center', gap: '10px' }}><MessageCircle size={16} /> +62 813-9526-221</span>
                                             <ArrowUpRight size={16} />
                                         </motion.div>
                                     </a>
                                     <a href="mailto:sdialfakhir@gmail.com" style={{ textDecoration: 'none' }}>
-                                        <motion.div whileHover={{ y: -2 }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '13px 18px', borderRadius: '12px', border: '1px solid #e2e8f0', color: '#0f172a', fontWeight: 800, fontSize: '0.85rem' }}>
+                                        <motion.div whileHover={{ y: -2 }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '13px 18px', borderRadius: '12px', border: '1px solid #e2e8f0', color: '#0f172a', fontWeight: 600, fontSize: '0.85rem' }}>
                                             <span style={{ display: 'flex', alignItems: 'center', gap: '10px' }}><Mail size={16} color="#64748b" /> sdialfakhir@gmail.com</span>
                                             <ArrowUpRight size={16} color="#64748b" />
                                         </motion.div>
@@ -87,16 +87,16 @@ const RegistrationPage = () => {
                                 <div style={{ width: '120px', height: '120px', background: 'var(--primary)', color: 'white', borderRadius: '50%', margin: '0 auto 3rem', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 30px 60px rgba(249,140,29,0.3)' }}>
                                     <CheckCircle2 size={60} />
                                 </div>
-                                <h2 style={{ fontSize: '3.5rem', fontWeight: 950, color: '#0f172a', letterSpacing: '-3px', marginBottom: '1.5rem' }}>{t('reg', 'success.title')}</h2>
+                                <h2 style={{ fontSize: '3.5rem', fontWeight: 800, color: '#0f172a', letterSpacing: '-3px', marginBottom: '1.5rem' }}>{t('reg', 'success.title')}</h2>
                                 <p style={{ fontSize: '1.3rem', color: '#64748b', fontFamily: "'Poppins', sans-serif", maxWidth: '600px', margin: '0 auto 4rem' }}>
                                     {t('reg', 'success.desc')}
                                 </p>
                                 
                                 <div style={{ display: 'flex', gap: '20px', justifyContent: 'center' }}>
-                                    <motion.button whileHover={{ y: -5 }} onClick={printCertificate} style={{ background: '#0f172a', color: 'white', padding: '22px 50px', borderRadius: '100px', border: 'none', fontWeight: 900, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '15px', fontSize: '1rem', boxShadow: '0 20px 40px rgba(15,23,42,0.2)' }}>
+                                    <motion.button whileHover={{ y: -5 }} onClick={printCertificate} style={{ background: '#0f172a', color: 'white', padding: '22px 50px', borderRadius: '100px', border: 'none', fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '15px', fontSize: '1rem', boxShadow: '0 20px 40px rgba(15,23,42,0.2)' }}>
                                         <Send size={20} /> {t('reg', 'success.btnPrint')}
                                     </motion.button>
-                                    <motion.button whileHover={{ background: '#f8fafc' }} onClick={() => setRegisteredData(null)} style={{ background: 'transparent', color: '#64748b', padding: '22px 50px', borderRadius: '100px', border: '1px solid #f1f5f9', fontWeight: 800, cursor: 'pointer', fontSize: '1rem' }}>
+                                    <motion.button whileHover={{ background: '#f8fafc' }} onClick={() => setRegisteredData(null)} style={{ background: 'transparent', color: '#64748b', padding: '22px 50px', borderRadius: '100px', border: '1px solid #f1f5f9', fontWeight: 600, cursor: 'pointer', fontSize: '1rem' }}>
                                         {t('reg', 'success.btnBack')}
                                     </motion.button>
                                 </div>
@@ -105,8 +105,8 @@ const RegistrationPage = () => {
                             <div id="pendaftaran-certificate" className="receipt-card">
                                 <div className="receipt-header">
                                     <img src="/logo_new.webp" alt="SD Islam Modern Al-Fakhir Official Logo" style={{ width: '56px', height: '56px', objectFit: 'contain', margin: '0 auto 12px' }} />
-                                    <h1 style={{ fontSize: '1.15rem', fontWeight: 950, color: '#0f172a', margin: 0, letterSpacing: '-0.5px' }}>SD ISLAM MODERN AL-FAKHIR</h1>
-                                    <p style={{ fontSize: '0.7rem', color: 'var(--primary)', margin: '4px 0 0', textTransform: 'uppercase', letterSpacing: '2px', fontWeight: 800 }}>{t('reg', 'success.labelRegistry')}</p>
+                                    <h1 style={{ fontSize: '1.15rem', fontWeight: 800, color: '#0f172a', margin: 0, letterSpacing: '-0.5px' }}>SD ISLAM MODERN AL-FAKHIR</h1>
+                                    <p style={{ fontSize: '0.7rem', color: 'var(--primary)', margin: '4px 0 0', textTransform: 'uppercase', letterSpacing: '2px', fontWeight: 600 }}>{t('reg', 'success.labelRegistry')}</p>
                                 </div>
 
                                 <div className="receipt-divider" />
@@ -146,8 +146,8 @@ const RegistrationPage = () => {
 
                                 <div style={{ textAlign: 'center', marginTop: '20px' }}>
                                     <CheckCircle2 size={32} color="var(--primary)" style={{ marginBottom: '8px' }} />
-                                    <p style={{ fontSize: '0.9rem', fontWeight: 900, color: '#0f172a', margin: 0 }}>{t('reg', 'success.labelAuthority')}</p>
-                                    <p style={{ fontSize: '0.65rem', color: '#94a3b8', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '1px', margin: '4px 0 0' }}>{t('reg', 'success.labelRegistry')}</p>
+                                    <p style={{ fontSize: '0.9rem', fontWeight: 700, color: '#0f172a', margin: 0 }}>{t('reg', 'success.labelAuthority')}</p>
+                                    <p style={{ fontSize: '0.65rem', color: '#94a3b8', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', margin: '4px 0 0' }}>{t('reg', 'success.labelRegistry')}</p>
                                 </div>
                             </div>
                         </motion.div>

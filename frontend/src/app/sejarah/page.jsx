@@ -68,14 +68,14 @@ const HistoryPage = () => {
             <div style={{ background: 'transparent', padding: '140px 0 40px', color: '#0f172a', textAlign: 'center', position: 'relative', zIndex: 1 }}>
                 <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px' }}>
                     <div
-                        style={{ display: 'inline-block', padding: '5px 12px', background: 'rgba(249, 140, 29, 0.08)', borderRadius: '100px', color: 'var(--primary)', fontSize: '0.6rem', fontWeight: 900, letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '1rem', opacity: 1 }}
+                        style={{ display: 'inline-block', padding: '5px 12px', background: 'rgba(249, 140, 29, 0.08)', borderRadius: '100px', color: 'var(--primary)', fontSize: '0.6rem', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '1rem', opacity: 1 }}
                     >
                         {t('history', 'badge')}
                     </div>
                     
                     <div style={{ position: 'relative', display: 'inline-block' }}>
                         <h1 
-                            style={{ fontSize: '1.4rem', fontWeight: 950, margin: 0, textTransform: 'uppercase', letterSpacing: '4px', color: '#0f172a', position: 'relative', zIndex: 2, opacity: 1 }}
+                            style={{ fontSize: '1.4rem', fontWeight: 800, margin: 0, textTransform: 'uppercase', letterSpacing: '4px', color: '#0f172a', position: 'relative', zIndex: 2, opacity: 1 }}
                         >
                             {t('history', 'title')}
                         </h1>
@@ -106,20 +106,20 @@ const HistoryPage = () => {
                                         />
                                     </div>
                                     <div className="floated-name">
-                                        <h4 style={{ margin: 0, fontSize: '1.1rem', fontWeight: 950, letterSpacing: '-0.3px' }}>Deni Irawan, M.Pd.</h4>
+                                        <h4 style={{ margin: 0, fontSize: '1.1rem', fontWeight: 800, letterSpacing: '-0.3px' }}>Deni Irawan, M.Pd.</h4>
                                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '10px' }}>
                                             <div style={{ width: '15px', height: '1.5px', background: 'rgba(255,255,255,0.6)' }}></div>
-                                            <p style={{ margin: 0, fontSize: '0.65rem', fontWeight: 900, color: 'rgba(255,255,255,0.9)', textTransform: 'uppercase', letterSpacing: '1.5px' }}>{t('history', 'founderBadge')}</p>
+                                            <p style={{ margin: 0, fontSize: '0.65rem', fontWeight: 700, color: 'rgba(255,255,255,0.9)', textTransform: 'uppercase', letterSpacing: '1.5px' }}>{t('history', 'founderBadge')}</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
                             <div>
-                                <div className="mobile-hide" style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', padding: '8px 20px', background: 'rgba(15, 23, 42, 0.04)', borderRadius: '100px', color: '#0f172a', fontSize: '0.65rem', fontWeight: 900, textTransform: 'uppercase', marginBottom: '1.5rem', letterSpacing: '2px' }}>
+                                <div className="mobile-hide" style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', padding: '8px 20px', background: 'rgba(15, 23, 42, 0.04)', borderRadius: '100px', color: '#0f172a', fontSize: '0.65rem', fontWeight: 700, textTransform: 'uppercase', marginBottom: '1.5rem', letterSpacing: '2px' }}>
                                     <Sparkles size={14} color="#f98c1d" /> {t('history', 'founderBadge')}
                                 </div>
-                                <h2 className="mobile-title" style={{ fontSize: '1.5rem', fontWeight: 950, marginBottom: '1.5rem', color: '#0f172a', lineHeight: 1.1, letterSpacing: '-0.5px' }}>
+                                <h2 className="mobile-title" style={{ fontSize: '1.5rem', fontWeight: 800, marginBottom: '1.5rem', color: '#0f172a', lineHeight: 1.1, letterSpacing: '-0.5px' }}>
                                     {t('history', 'visionaryPart1')} <br/><span style={{ color: 'var(--primary)', fontStyle: 'italic' }}>{t('history', 'visionaryPart2')}</span>
                                 </h2>
                                 <div style={{ fontSize: '1.05rem', color: '#475569', lineHeight: 1.8, marginBottom: '2.5rem', fontWeight: 500, opacity: 0.9 }}>
@@ -129,7 +129,7 @@ const HistoryPage = () => {
                                     <div style={{ width: '50px', height: '50px', background: 'rgba(249, 140, 29, 0.1)', borderRadius: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                                         <GraduationCap size={28} color="var(--primary)" />
                                     </div>
-                                    <p style={{ margin: 0, fontWeight: 800, color: '#1e293b', fontSize: '0.95rem', lineHeight: 1.4 }}>{t('history', 'iysaTitle')}</p>
+                                    <p style={{ margin: 0, fontWeight: 600, color: '#1e293b', fontSize: '0.95rem', lineHeight: 1.4 }}>{t('history', 'iysaTitle')}</p>
                                 </div>
                             </div>
                         </div>
@@ -140,7 +140,7 @@ const HistoryPage = () => {
                     <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '0 25px', textAlign: 'center' }}>
                         <div style={{ marginBottom: '50px' }}>
                             <div style={{ width: '35px', height: '3.5px', background: 'var(--primary)', margin: '0 auto 30px', borderRadius: '10px' }}></div>
-                            <h3 style={{ fontSize: '1.4rem', fontWeight: 950, color: '#0f172a', marginBottom: '0', letterSpacing: '-0.5px' }}>{t('about', 'historyMeaningTitle')}</h3>
+                            <h3 style={{ fontSize: '1.4rem', fontWeight: 800, color: '#0f172a', marginBottom: '0', letterSpacing: '-0.5px' }}>{t('about', 'historyMeaningTitle')}</h3>
                         </div>
 
                         <div className="card-compact">

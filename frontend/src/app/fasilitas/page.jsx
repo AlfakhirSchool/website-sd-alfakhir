@@ -83,14 +83,14 @@ const FacilityCard = ({ fac, hasImage, primaryColor, gridImage, index }) => {
                         <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', transform: "translateZ(30px)" }}>
                             <motion.div animate={{ y: [0, -10, 0] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }} style={{ color: primaryColor, opacity: 0.6 }}>{fac.icon}</motion.div>
                             <div style={{ marginTop: '15px', padding: '6px 12px', background: 'rgba(249, 140, 29, 0.05)', borderRadius: '8px', border: '1px solid rgba(249, 140, 29, 0.1)' }}>
-                                <span style={{ fontSize: '0.6rem', fontWeight: 900, color: primaryColor, letterSpacing: '1px', textTransform: 'uppercase' }}>Coming Soon</span>
+                                <span style={{ fontSize: '0.6rem', fontWeight: 700, color: primaryColor, letterSpacing: '1px', textTransform: 'uppercase' }}>Coming Soon</span>
                             </div>
                         </div>
                     )}
                 </div>
 
                 <div style={{ padding: '30px 25px', transform: "translateZ(40px)" }}>
-                    <h3 style={{ fontSize: '1.25rem', fontWeight: 950, color: '#0f172a', marginBottom: '10px', letterSpacing: '-0.5px' }}>{fac.name}</h3>
+                    <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0f172a', marginBottom: '10px', letterSpacing: '-0.5px' }}>{fac.name}</h3>
                     <p style={{ color: '#64748b', fontSize: '0.85rem', lineHeight: 1.6, fontWeight: 500 }}>{fac.desc}</p>
                 </div>
 
@@ -140,14 +140,14 @@ const FacilitiesPage = () => {
 
             <header style={{ padding: '140px 20px 30px', textAlign: 'center', position: 'relative', zIndex: 1 }}>
                 <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-                    <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} style={{ color: primaryColor, fontSize: '0.7rem', fontWeight: 900, letterSpacing: '3px', textTransform: 'uppercase', display: 'block', marginBottom: '12px' }}>
+                    <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} style={{ color: primaryColor, fontSize: '0.7rem', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase', display: 'block', marginBottom: '12px' }}>
                         Campus Infrastructure
                     </motion.span>
                     <motion.h1 
                         initial={{ opacity: 0, y: -20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8 }}
-                        style={{ fontSize: '2.5rem', fontWeight: 950, color: '#0f172a', marginBottom: '15px', letterSpacing: '-1.5px', lineHeight: 1.1 }}
+                        style={{ fontSize: '2.5rem', fontWeight: 800, color: '#0f172a', marginBottom: '15px', letterSpacing: '-1.5px', lineHeight: 1.1 }}
                     >
                         Fasilitas Sekolah
                     </motion.h1>

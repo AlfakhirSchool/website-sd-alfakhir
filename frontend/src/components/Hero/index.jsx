@@ -60,7 +60,7 @@ const Hero = () => {
                             border: '1px solid rgba(255,255,255,0.2)',
                             color: 'white',
                             fontSize: '0.65rem',
-                            fontWeight: 800,
+                            fontWeight: 600,
                             letterSpacing: '3px',
                             textTransform: 'uppercase',
                             marginBottom: '25px'
@@ -77,7 +77,7 @@ const Hero = () => {
                                 fetchPriority="high"
                             />
                             <div className="hero-text-container" style={{ borderLeft: isMobile ? 'none' : '2px solid rgba(255,255,255,0.3)', paddingLeft: isMobile ? 0 : '30px', textAlign: 'left' }}>
-                                <div className="hero-school-name" style={{ fontSize: isMobile ? '0.7rem' : '0.9rem', fontWeight: 800, opacity: 0.8 }}>
+                                <div className="hero-school-name" style={{ fontSize: isMobile ? '0.7rem' : '0.9rem', fontWeight: 600, opacity: 0.8 }}>
                                      {t('hero', 'schoolName')}
                                 </div>
                                 <h1 className="hero-school-type" style={{ 

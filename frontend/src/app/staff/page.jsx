@@ -85,12 +85,12 @@ const StaffPage = () => {
                     <div
                         style={{ display: 'inline-block', padding: '6px 16px', borderRadius: '100px', background: 'rgba(249, 140, 29, 0.08)', border: '1px solid rgba(249, 140, 29, 0.2)', marginBottom: '20px' }}
                     >
-                        <span style={{ fontSize: '0.65rem', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '2.5px', color: '#b45309' }}>
+                        <span style={{ fontSize: '0.65rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '2.5px', color: '#b45309' }}>
                             {t('staff', 'teamTag')}
                         </span>
                     </div>
                     
-                    <h1 style={{ fontSize: '2.2rem', fontWeight: 950, color: '#0f172a', marginBottom: '15px', letterSpacing: '-0.5px' }}>
+                    <h1 style={{ fontSize: '2.2rem', fontWeight: 800, color: '#0f172a', marginBottom: '15px', letterSpacing: '-0.5px' }}>
                         {t('staff', 'title')}
                     </h1>
                 </div>
@@ -112,9 +112,9 @@ const StaffPage = () => {
                     <div className="banner-grid">
                         <div style={{ position: 'relative' }}>
                             <div style={{ width: '45px', height: '3.5px', background: 'var(--primary)', borderRadius: '2px', marginBottom: '20px' }} />
-                            <h2 style={{ fontSize: '1.8rem', fontWeight: 950, color: '#0f172a', lineHeight: 1.25, letterSpacing: '-0.8px' }}>
+                            <h2 style={{ fontSize: '1.8rem', fontWeight: 800, color: '#0f172a', lineHeight: 1.25, letterSpacing: '-0.8px' }}>
                                 {t('staff', 'meetTitle1')} <br/>
-                                <span style={{ color: 'var(--primary)', fontStyle: 'italic', fontWeight: 900 }}>{t('staff', 'meetTitle2')}</span>
+                                <span style={{ color: 'var(--primary)', fontStyle: 'italic', fontWeight: 700 }}>{t('staff', 'meetTitle2')}</span>
                             </h2>
                         </div>
                         <div>
@@ -133,7 +133,7 @@ const StaffPage = () => {
                             {teachers.length > 0 && (
                                 <>
                                     <div style={{ marginBottom: '40px' }} className="section-header">
-                                        <h3 style={{ fontSize: '1.5rem', fontWeight: 900, color: '#0f172a', letterSpacing: '-0.5px', marginBottom: '10px' }}>
+                                        <h3 style={{ fontSize: '1.5rem', fontWeight: 700, color: '#0f172a', letterSpacing: '-0.5px', marginBottom: '10px' }}>
                                             {t('staff', 'teacherTitle')} <span style={{ color: 'var(--primary)', fontStyle: 'italic' }}>({t('staff', 'categories.teacher')}s)</span>
                                         </h3>
                                         <div className="accent-line" />
@@ -160,7 +160,7 @@ const StaffPage = () => {
                             {adminStaff.length > 0 && (
                                 <div style={{ marginTop: '80px' }}>
                                     <div style={{ marginBottom: '40px' }} className="section-header">
-                                        <h3 style={{ fontSize: '1.5rem', fontWeight: 900, color: '#0f172a', letterSpacing: '-0.5px', marginBottom: '10px' }}>
+                                        <h3 style={{ fontSize: '1.5rem', fontWeight: 700, color: '#0f172a', letterSpacing: '-0.5px', marginBottom: '10px' }}>
                                             {t('staff', 'staffTitle')} <span style={{ color: '#64748b', fontStyle: 'italic' }}>({t('staff', 'categories.staff')})</span>
                                         </h3>
                                         <div className="accent-line gray" />

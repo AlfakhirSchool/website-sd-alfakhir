@@ -62,13 +62,13 @@ const StrukturPage = () => {
             <div style={{ background: 'transparent', padding: '160px 0 60px', color: '#0f172a', textAlign: 'center', position: 'relative', zIndex: 1 }}>
                 <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px' }}>
                     <div
-                        style={{ display: 'inline-block', padding: '8px 25px', background: 'rgba(249, 140, 29, 0.08)', borderRadius: '100px', color: 'var(--primary)', fontSize: '0.65rem', fontWeight: 900, letterSpacing: '3px', textTransform: 'uppercase', marginBottom: '1.5rem' }}
+                        style={{ display: 'inline-block', padding: '8px 25px', background: 'rgba(249, 140, 29, 0.08)', borderRadius: '100px', color: 'var(--primary)', fontSize: '0.65rem', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase', marginBottom: '1.5rem' }}
                     >
                         {t('struktur', 'badge')}
                     </div>
                     
                     <h1 
-                        style={{ fontSize: '3rem', fontWeight: 950, margin: 0, letterSpacing: '-2px', color: '#0f172a', lineHeight: 1 }}
+                        style={{ fontSize: '3rem', fontWeight: 800, margin: 0, letterSpacing: '-2px', color: '#0f172a', lineHeight: 1 }}
                     >
                         {t('struktur', 'title')}
                     </h1>
@@ -94,35 +94,35 @@ const StrukturPage = () => {
                                     className="mobile-badge"
                                     style={{ position: 'absolute', bottom: '-20px', left: '20px', background: 'white', padding: '20px 35px', borderRadius: '25px', boxShadow: '0 20px 50px rgba(0,0,0,0.08)', border: '1px solid #f8fafc', zIndex: 2 }}
                                 >
-                                    <h4 style={{ margin: 0, fontSize: '1.2rem', fontWeight: 950, letterSpacing: '-0.5px' }}>{t('history', 'deputyName')}</h4>
+                                    <h4 style={{ margin: 0, fontSize: '1.2rem', fontWeight: 800, letterSpacing: '-0.5px' }}>{t('history', 'deputyName')}</h4>
                                     <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '6px' }}>
                                         <div style={{ width: '12px', height: '2px', background: 'var(--primary)' }}></div>
-                                        <p style={{ margin: 0, fontSize: '0.7rem', fontWeight: 900, color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '1px' }}>{t('history', 'deputyTitle1')} {t('history', 'deputyTitle2')}</p>
+                                        <p style={{ margin: 0, fontSize: '0.7rem', fontWeight: 700, color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '1px' }}>{t('history', 'deputyTitle1')} {t('history', 'deputyTitle2')}</p>
                                     </div>
                                 </motion.div>
                             </div>
 
                             <div className="text-center-mobile">
                                 <div className="mobile-hide" style={{ width: '50px', height: '5px', background: 'var(--primary)', marginBottom: '30px', borderRadius: '10px' }}></div>
-                                <h2 style={{ fontSize: '2.5rem', fontWeight: 950, marginBottom: '2rem', color: '#0f172a', lineHeight: 1.1, letterSpacing: '-2px' }}>
+                                <h2 style={{ fontSize: '2.5rem', fontWeight: 800, marginBottom: '2rem', color: '#0f172a', lineHeight: 1.1, letterSpacing: '-2px' }}>
                                     {t('struktur', 'excellenceTitle')} <br/><span style={{ color: 'var(--primary)', fontStyle: 'italic' }}>{t('struktur', 'managementSub')}</span>
                                 </h2>
                                 <p style={{ fontSize: '1.1rem', color: '#475569', lineHeight: 1.8, fontWeight: 500, opacity: 0.9 }}>
                                     {t('history', 'deputyBio')}
                                 </p>
                                 <div style={{ marginTop: '40px', display: 'flex', gap: '15px' }}>
-                                    <div style={{ padding: '12px 25px', background: '#f8fafc', borderRadius: '100px', fontSize: '0.9rem', fontWeight: 800, color: '#64748b', border: '1px solid #f1f5f9' }}>{t('struktur', 'opLabel')}</div>
-                                    <div style={{ padding: '12px 25px', background: '#f8fafc', borderRadius: '100px', fontSize: '0.9rem', fontWeight: 800, color: '#64748b', border: '1px solid #f1f5f9' }}>{t('struktur', 'hrLabel')}</div>
+                                    <div style={{ padding: '12px 25px', background: '#f8fafc', borderRadius: '100px', fontSize: '0.9rem', fontWeight: 600, color: '#64748b', border: '1px solid #f1f5f9' }}>{t('struktur', 'opLabel')}</div>
+                                    <div style={{ padding: '12px 25px', background: '#f8fafc', borderRadius: '100px', fontSize: '0.9rem', fontWeight: 600, color: '#64748b', border: '1px solid #f1f5f9' }}>{t('struktur', 'hrLabel')}</div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <div style={{ textAlign: 'center', marginBottom: '80px' }}>
-                        <div style={{ display: 'inline-block', padding: '8px 20px', background: 'rgba(15, 23, 42, 0.04)', borderRadius: '100px', color: '#64748b', fontSize: '0.7rem', fontWeight: 900, textTransform: 'uppercase', marginBottom: '1.5rem', letterSpacing: '3px' }}>
+                        <div style={{ display: 'inline-block', padding: '8px 20px', background: 'rgba(15, 23, 42, 0.04)', borderRadius: '100px', color: '#64748b', fontSize: '0.7rem', fontWeight: 700, textTransform: 'uppercase', marginBottom: '1.5rem', letterSpacing: '3px' }}>
                              {t('struktur', 'governanceBadge')}
                         </div>
-                        <h3 style={{ fontSize: '2.4rem', fontWeight: 950, color: '#0f172a', marginBottom: '0', letterSpacing: '-1.5px' }}>
+                        <h3 style={{ fontSize: '2.4rem', fontWeight: 800, color: '#0f172a', marginBottom: '0', letterSpacing: '-1.5px' }}>
                             {t('struktur', 'mapTitle')}
                         </h3>
                     </div>

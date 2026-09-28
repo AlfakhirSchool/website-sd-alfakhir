@@ -39,7 +39,7 @@ export default function NotFound() {
                         transition={{ duration: 0.5 }}
                         style={{ 
                             display: 'inline-block', padding: '8px 24px', background: 'rgba(249, 140, 29, 0.1)', 
-                            borderRadius: '100px', color: 'var(--primary)', fontSize: '0.75rem', fontWeight: 900, 
+                            borderRadius: '100px', color: 'var(--primary)', fontSize: '0.75rem', fontWeight: 700, 
                             letterSpacing: '3px', textTransform: 'uppercase', marginBottom: '1.5rem',
                             border: '1px solid rgba(249, 140, 29, 0.2)'
                         }}
@@ -53,7 +53,7 @@ export default function NotFound() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, delay: 0.1 }}
                         style={{ 
-                            fontSize: 'clamp(5rem, 15vw, 9rem)', fontWeight: 900, margin: 0, 
+                            fontSize: 'clamp(5rem, 15vw, 9rem)', fontWeight: 700, margin: 0, 
                             lineHeight: 0.9, letterSpacing: '-4px', 
                             background: 'linear-gradient(135deg, var(--primary) 0%, #0f172a 100%)',
                             WebkitBackgroundClip: 'text',
@@ -70,7 +70,7 @@ export default function NotFound() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, delay: 0.2 }}
-                        style={{ fontSize: '1.5rem', fontWeight: 800, color: '#0f172a', marginTop: '20px', marginBottom: '12px', letterSpacing: '-0.5px' }}
+                        style={{ fontSize: '1.5rem', fontWeight: 600, color: '#0f172a', marginTop: '20px', marginBottom: '12px', letterSpacing: '-0.5px' }}
                     >
                         Halaman Tidak Ditemukan
                     </motion.h2>
@@ -97,7 +97,7 @@ export default function NotFound() {
                                 whileTap={{ scale: 0.97 }}
                                 style={{
                                     padding: '18px 40px', background: 'var(--primary)', color: 'white',
-                                    border: 'none', borderRadius: '100px', fontWeight: 800, fontSize: '0.95rem',
+                                    border: 'none', borderRadius: '100px', fontWeight: 600, fontSize: '0.95rem',
                                     cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '10px',
                                     boxShadow: '0 15px 30px rgba(31, 134, 146, 0.25)', transition: 'box-shadow 0.3s ease',
                                     textTransform: 'uppercase', letterSpacing: '1px'

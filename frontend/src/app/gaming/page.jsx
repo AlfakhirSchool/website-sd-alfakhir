@@ -548,8 +548,8 @@ export default function AdminPage() {
                         >
                             <img src="/logo_new.webp" alt="SD Islam Modern Al-Fakhir Official Logo" style={{ width: '80%', height: '80%', objectFit: 'contain' }} />
                         </motion.div>
-                        <div style={{ fontSize: '0.65rem', fontWeight: 800, color: '#d4820a', letterSpacing: '2px', marginBottom: '10px' }}>PORTAL ADMIN</div>
-                        <h2 style={{ fontWeight: 800, color: '#1a1612', fontSize: '2rem', letterSpacing: '-0.5px', lineHeight: 1.15, margin: 0 }}>Selamat Datang<br/><span style={{ color: '#d4820a' }}>Kembali</span></h2>
+                        <div style={{ fontSize: '0.65rem', fontWeight: 600, color: '#d4820a', letterSpacing: '2px', marginBottom: '10px' }}>PORTAL ADMIN</div>
+                        <h2 style={{ fontWeight: 600, color: '#1a1612', fontSize: '2rem', letterSpacing: '-0.5px', lineHeight: 1.15, margin: 0 }}>Selamat Datang<br/><span style={{ color: '#d4820a' }}>Kembali</span></h2>
                         <p style={{ color: '#4a3f35', fontSize: '0.9rem', fontWeight: 500, marginTop: '12px' }}>SD Islam Modern Al-Fakhir</p>
                     </div>
 
@@ -557,7 +557,7 @@ export default function AdminPage() {
                         <motion.div 
                             initial={{ opacity: 0, height: 0 }} 
                             animate={{ opacity: 1, height: 'auto' }} 
-                            style={{ background: 'rgba(192, 57, 43, 0.05)', color: '#c0392b', padding: '16px', borderRadius: '14px', marginBottom: '2rem', display: 'flex', alignItems: 'center', gap: '12px', fontSize: '0.85rem', fontWeight: 800, border: '1px solid #c0392b' }}
+                            style={{ background: 'rgba(192, 57, 43, 0.05)', color: '#c0392b', padding: '16px', borderRadius: '14px', marginBottom: '2rem', display: 'flex', alignItems: 'center', gap: '12px', fontSize: '0.85rem', fontWeight: 600, border: '1px solid #c0392b' }}
                         >
                             <AlertCircle size={20} style={{ flexShrink: 0 }} /> <span style={{ textAlign: 'left' }}>{error}</span>
                         </motion.div>
@@ -565,7 +565,7 @@ export default function AdminPage() {
 
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', alignItems: 'center' }}>
                         <div style={{ background: '#faf7f2', border: '1px solid #ece4d8', borderRadius: '14px', padding: '30px 20px', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '15px' }}>
-                            <p style={{ fontSize: '0.75rem', fontWeight: 800, color: '#4a3f35', textTransform: 'uppercase', letterSpacing: '1px', margin: 0 }}>IDENTITAS GOOGLE</p>
+                            <p style={{ fontSize: '0.75rem', fontWeight: 600, color: '#4a3f35', textTransform: 'uppercase', letterSpacing: '1px', margin: 0 }}>IDENTITAS GOOGLE</p>
                             <div id="google-signIn-btn-container" style={{ minHeight: '44px', display: 'flex', justifyContent: 'center', width: '100%' }}></div>
                         </div>
                     </div>
@@ -644,7 +644,7 @@ export default function AdminPage() {
                         onClick={handleLogout}
                         style={{
                             width: '100%', padding: '13px', borderRadius: '14px', border: '1px solid rgba(192,57,43,0.25)',
-                            background: 'rgba(192,57,43,0.04)', color: '#c0392b', fontWeight: 800, cursor: 'pointer',
+                            background: 'rgba(192,57,43,0.04)', color: '#c0392b', fontWeight: 600, cursor: 'pointer',
                             display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', transition: 'background-color 0.2s ease', fontSize: '0.78rem', letterSpacing: '0.5px'
                         }}
                         onMouseOver={(e) => e.currentTarget.style.background = 'rgba(192,57,43,0.1)'}
@@ -662,7 +662,7 @@ export default function AdminPage() {
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '2.5rem' }}>
                         <div>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '10px' }}>
-                                <div style={{ background: '#fef3dc', color: '#d4820a', padding: '4px 10px', borderRadius: '100px', border: '1px solid #f3d9ab', fontSize: '0.65rem', fontWeight: 800, letterSpacing: '1.5px' }}>
+                                <div style={{ background: '#fef3dc', color: '#d4820a', padding: '4px 10px', borderRadius: '100px', border: '1px solid #f3d9ab', fontSize: '0.65rem', fontWeight: 600, letterSpacing: '1.5px' }}>
                                     ● LIVE
                                 </div>
                                 <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#9a8c82' }}>
@@ -690,7 +690,7 @@ export default function AdminPage() {
                                 disabled={isSaving}
                                 style={{
                                     background: '#d4820a', color: '#fffdf9', border: '1px solid #ece4d8', padding: '14px 28px',
-                                    borderRadius: '14px', fontWeight: 800, cursor: isSaving ? 'not-allowed' : 'pointer', display: 'flex',
+                                    borderRadius: '14px', fontWeight: 600, cursor: isSaving ? 'not-allowed' : 'pointer', display: 'flex',
                                     alignItems: 'center', gap: '12px', transition: '0.2s',
                                     fontSize: '0.85rem', letterSpacing: '1px'
                                 }}
@@ -715,7 +715,7 @@ export default function AdminPage() {
                                     }} 
                                     style={{ 
                                         background: '#fffdf9', border: '1px solid #0d7c6e', color: '#0d7c6e', 
-                                        padding: '14px 24px', borderRadius: '14px', fontWeight: 800, cursor: 'pointer',
+                                        padding: '14px 24px', borderRadius: '14px', fontWeight: 600, cursor: 'pointer',
                                         display: 'flex', alignItems: 'center', gap: '10px',
                                         fontSize: '0.85rem', letterSpacing: '1px'
                                     }}
@@ -734,12 +734,12 @@ export default function AdminPage() {
                                 style={{ background: 'rgba(212, 130, 10, 0.05)', border: '1px solid #d4820a', padding: '15px 25px', borderRadius: '14px', marginBottom: '2rem', display: 'flex', alignItems: 'center', gap: '15px', color: '#d4820a' }}
                             >
                                 <AlertCircle size={20} style={{ flexShrink: 0 }} />
-                                <div style={{ fontSize: '0.8rem', fontWeight: 800, letterSpacing: '1px' }}>
+                                <div style={{ fontSize: '0.8rem', fontWeight: 600, letterSpacing: '1px' }}>
                                     TERDETEKSI {validationErrors.filter(e => e.tab === activeTab).length} DATA YANG PERLU DIPERBAIKI PADA TAB INI.
                                 </div>
                                 <button 
                                     onClick={() => setError(validationErrors.filter(e => e.tab === activeTab).map(e => e.msg).join('\n'))}
-                                    style={{ marginLeft: 'auto', background: '#d4820a', color: '#fffdf9', border: 'none', padding: '6px 14px', borderRadius: '14px', fontSize: '0.7rem', fontWeight: 800, cursor: 'pointer', letterSpacing: '1px' }}
+                                    style={{ marginLeft: 'auto', background: '#d4820a', color: '#fffdf9', border: 'none', padding: '6px 14px', borderRadius: '14px', fontSize: '0.7rem', fontWeight: 600, cursor: 'pointer', letterSpacing: '1px' }}
                                 >
                                     LIHAT DETAIL
                                 </button>
@@ -747,13 +747,13 @@ export default function AdminPage() {
                         )}
 
                         {success && (
-                            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} style={{ background: 'rgba(13, 124, 110, 0.08)', color: '#0d7c6e', padding: '16px 25px', borderRadius: '14px', marginBottom: '2rem', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '15px', border: '1px solid #0d7c6e', fontSize: '0.85rem' }}>
+                            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} style={{ background: 'rgba(13, 124, 110, 0.08)', color: '#0d7c6e', padding: '16px 25px', borderRadius: '14px', marginBottom: '2rem', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '15px', border: '1px solid #0d7c6e', fontSize: '0.85rem' }}>
                                 <div style={{ border: '1px solid #0d7c6e', padding: '4px', background: '#fffdf9' }}><UserCheck size={18} color="#0d7c6e" /></div>
                                 <span>{success}</span>
                             </motion.div>
                         )}
                         {error && (
-                            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} style={{ background: 'rgba(192, 57, 43, 0.05)', color: '#c0392b', padding: '16px 20px', borderRadius: '14px', marginBottom: '2rem', textAlign: 'left', fontWeight: 800, border: '1px solid #c0392b', display: 'flex', alignItems: 'center', gap: '12px', fontSize: '0.85rem' }}>
+                            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} style={{ background: 'rgba(192, 57, 43, 0.05)', color: '#c0392b', padding: '16px 20px', borderRadius: '14px', marginBottom: '2rem', textAlign: 'left', fontWeight: 600, border: '1px solid #c0392b', display: 'flex', alignItems: 'center', gap: '12px', fontSize: '0.85rem' }}>
                                 <AlertCircle size={18} style={{ flexShrink: 0 }} /> 
                                 <div style={{ flex: 1, lineHeight: 1.5 }}>{error}</div>
                                 <button onClick={() => setError('')} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#c0392b', display: 'flex', padding: '4px' }}>
@@ -779,12 +779,12 @@ export default function AdminPage() {
                                     <div style={{ background: '#faf7f2', color: '#1a1612', padding: '40px', borderRadius: '20px', position: 'relative', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', borderLeft: '4px solid #d4820a', border: '1px solid #ece4d8', boxShadow: '0 20px 50px rgba(26,22,18,0.06)' }}>
                                         <div>
                                             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '20px' }}>
-                                                <div style={{ padding: '4px 10px', borderRadius: '100px', background: '#fef3dc', color: '#d4820a', fontSize: '0.65rem', fontWeight: 800, letterSpacing: '1px', border: '1px solid #f3d9ab' }}>Data Terbaru</div>
+                                                <div style={{ padding: '4px 10px', borderRadius: '100px', background: '#fef3dc', color: '#d4820a', fontSize: '0.65rem', fontWeight: 600, letterSpacing: '1px', border: '1px solid #f3d9ab' }}>Data Terbaru</div>
                                                 <span style={{ fontSize: '0.75rem', color: '#4a3f35' }}>|</span>
                                                 <span style={{ fontSize: '0.65rem', color: '#9a8c82', fontWeight: 700, letterSpacing: '0.5px' }}>SD ISLAM MODERN AL-FAKHIR</span>
                                             </div>
                                             <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#9a8c82', letterSpacing: '3px', marginBottom: '5px' }}>TOTAL SISWA DITERIMA</div>
-                                            <div style={{ fontSize: '4.5rem', fontWeight: 800, color: '#1a1612', lineHeight: '1', letterSpacing: '-2px', margin: '10px 0 25px 0' }}>
+                                            <div style={{ fontSize: '4.5rem', fontWeight: 600, color: '#1a1612', lineHeight: '1', letterSpacing: '-2px', margin: '10px 0 25px 0' }}>
                                                 {students.filter(s => isPassed(s.status)).length}
                                             </div>
                                         </div>
@@ -793,7 +793,7 @@ export default function AdminPage() {
                                                 <ShieldCheck size={20} style={{ color: '#d4820a' }} />
                                                 <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#1a1612', letterSpacing: '1px' }}>AKREDITASI</span>
                                             </div>
-                                            <div style={{ background: '#d4820a', color: '#fffdf9', padding: '4px 12px', fontWeight: 800, fontSize: '0.75rem', letterSpacing: '1px' }}>
+                                            <div style={{ background: '#d4820a', color: '#fffdf9', padding: '4px 12px', fontWeight: 600, fontSize: '0.75rem', letterSpacing: '1px' }}>
                                                 SANGAT BAIK ⭐
                                             </div>
                                         </div>
@@ -802,10 +802,10 @@ export default function AdminPage() {
                                     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
                                         <div style={{ background: '#faf7f2', padding: '30px', borderRadius: '18px', border: '1px solid #ece4d8', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', boxShadow: '0 15px 35px rgba(26,22,18,0.05)', transition: 'transform 0.25s ease' }}>
                                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
-                                                <span style={{ fontSize: '0.7rem', fontWeight: 800, color: '#9a8c82', letterSpacing: '2px' }}>PENDAFTAR CALON SISWA</span>
+                                                <span style={{ fontSize: '0.7rem', fontWeight: 600, color: '#9a8c82', letterSpacing: '2px' }}>PENDAFTAR CALON SISWA</span>
                                                 <BookOpen size={18} style={{ color: '#d4820a' }} />
                                             </div>
-                                            <div style={{ fontSize: '2.5rem', fontWeight: 800, color: '#1a1612' }}>
+                                            <div style={{ fontSize: '2.5rem', fontWeight: 600, color: '#1a1612' }}>
                                                 {registrations.length}
                                             </div>
                                             <div style={{ fontSize: '0.7rem', color: '#9a8c82', fontWeight: 600, marginTop: '5px' }}>Menunggu tahap peninjauan awal</div>
@@ -813,10 +813,10 @@ export default function AdminPage() {
 
                                         <div style={{ background: '#faf7f2', padding: '30px', borderRadius: '18px', border: '1px solid #ece4d8', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', boxShadow: '0 15px 35px rgba(26,22,18,0.05)', transition: 'transform 0.25s ease' }}>
                                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
-                                                <span style={{ fontSize: '0.7rem', fontWeight: 800, color: '#9a8c82', letterSpacing: '2px' }}>PESAN BELUM DIBACA</span>
+                                                <span style={{ fontSize: '0.7rem', fontWeight: 600, color: '#9a8c82', letterSpacing: '2px' }}>PESAN BELUM DIBACA</span>
                                                 <Mail size={18} style={{ color: '#d4820a' }} />
                                             </div>
-                                            <div style={{ fontSize: '2.5rem', fontWeight: 800, color: '#1a1612' }}>
+                                            <div style={{ fontSize: '2.5rem', fontWeight: 600, color: '#1a1612' }}>
                                                 {messages.filter(m => m.status === 'unread').length}
                                             </div>
                                             <div style={{ fontSize: '0.7rem', color: '#9a8c82', fontWeight: 600, marginTop: '5px' }}>Perlu ditanggapi segera</div>
@@ -830,7 +830,7 @@ export default function AdminPage() {
                                     <div style={{ background: '#faf7f2', padding: '30px', borderRadius: '18px', border: '1px solid #ece4d8', boxShadow: '0 15px 35px rgba(26,22,18,0.05)' }}>
                                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '35px' }}>
                                             <div>
-                                                <h3 style={{ margin: 0, fontSize: '1.05rem', fontWeight: 800, color: '#1a1612', letterSpacing: '1px' }}>Distribusi Pendaftaran</h3>
+                                                <h3 style={{ margin: 0, fontSize: '1.05rem', fontWeight: 600, color: '#1a1612', letterSpacing: '1px' }}>Distribusi Pendaftaran</h3>
                                                 <div style={{ fontSize: '0.7rem', color: '#9a8c82', fontWeight: 600, marginTop: '4px' }}>Pemetaan waktu real-time dari data pendaftar</div>
                                             </div>
                                             <div style={{ display: 'flex', gap: '15px' }}>
@@ -867,7 +867,7 @@ export default function AdminPage() {
                                                                 <motion.div initial={{ height: 0 }} animate={{ height: `${rPct}%` }} style={{ width: '10px', background: '#d4820a' }} title={`Pendaftar: ${regCounts[i]}`} />
                                                                 <motion.div initial={{ height: 0 }} animate={{ height: `${sPct}%` }} style={{ width: '10px', background: '#0d7c6e' }} title={`Diterima: ${counts[i]}`} />
                                                             </div>
-                                                            <span style={{ fontSize: '0.65rem', fontWeight: 800, color: '#9a8c82', letterSpacing: '1px' }}>{month}</span>
+                                                            <span style={{ fontSize: '0.65rem', fontWeight: 600, color: '#9a8c82', letterSpacing: '1px' }}>{month}</span>
                                                         </div>
                                                     );
                                                 });
@@ -883,7 +883,7 @@ export default function AdminPage() {
                                         return (
                                             <div style={{ background: '#faf7f2', padding: '30px', borderRadius: '18px', border: '1px solid #ece4d8', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', boxShadow: '0 15px 35px rgba(26,22,18,0.05)' }}>
                                                 <div>
-                                                    <h3 style={{ margin: '0 0 5px 0', fontSize: '1.05rem', fontWeight: 800, color: '#1a1612', letterSpacing: '1px' }}>Kuota Daya Tampung</h3>
+                                                    <h3 style={{ margin: '0 0 5px 0', fontSize: '1.05rem', fontWeight: 600, color: '#1a1612', letterSpacing: '1px' }}>Kuota Daya Tampung</h3>
                                                     <div style={{ fontSize: '0.7rem', color: '#9a8c82', fontWeight: 600, marginBottom: '25px' }}>Target ambang batas penerimaan</div>
                                                 </div>
                                                 
@@ -900,7 +900,7 @@ export default function AdminPage() {
                                                             />
                                                         </svg>
                                                         <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
-                                                            <span style={{ fontSize: '1.6rem', fontWeight: 800, color: '#d4820a', lineHeight: '1' }}>{pct}%</span>
+                                                            <span style={{ fontSize: '1.6rem', fontWeight: 600, color: '#d4820a', lineHeight: '1' }}>{pct}%</span>
                                                             <span style={{ fontSize: '0.6rem', fontWeight: 700, color: '#9a8c82', marginTop: '4px' }}>{activeCount} / 320</span>
                                                         </div>
                                                     </div>
@@ -921,10 +921,10 @@ export default function AdminPage() {
                                 <div style={{ background: '#faf7f2', padding: '30px', borderRadius: '18px', border: '1px solid #ece4d8', boxShadow: '0 15px 35px rgba(26,22,18,0.05)' }}>
                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
                                         <div>
-                                            <h3 style={{ margin: '0 0 4px 0', fontSize: '1.05rem', fontWeight: 800, color: '#1a1612', letterSpacing: '1px' }}>Aktivitas Terkini</h3>
+                                            <h3 style={{ margin: '0 0 4px 0', fontSize: '1.05rem', fontWeight: 600, color: '#1a1612', letterSpacing: '1px' }}>Aktivitas Terkini</h3>
                                             <div style={{ fontSize: '0.7rem', color: '#9a8c82', fontWeight: 600 }}>Log sinkronisasi otomatis & aktivitas pendaftar terbaru</div>
                                         </div>
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.65rem', fontWeight: 800, color: '#0d7c6e', background: '#fffdf9', padding: '4px 10px', border: '1px solid #0d7c6e', letterSpacing: '1px' }}>
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.65rem', fontWeight: 600, color: '#0d7c6e', background: '#fffdf9', padding: '4px 10px', border: '1px solid #0d7c6e', letterSpacing: '1px' }}>
                                             <span style={{ width: '6px', height: '6px', borderRadius: '14px', background: '#0d7c6e', display: 'inline-block' }} /> LIVE
                                         </div>
                                     </div>
@@ -932,16 +932,16 @@ export default function AdminPage() {
                                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '15px' }}>
                                         {/* Stream Column 1: Recent Admissions */}
                                         <div style={{ background: '#fffdf9', padding: '20px', border: '1px solid #ece4d8' }}>
-                                            <div style={{ fontSize: '0.65rem', fontWeight: 800, color: '#9a8c82', marginBottom: '12px', letterSpacing: '2px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                            <div style={{ fontSize: '0.65rem', fontWeight: 600, color: '#9a8c82', marginBottom: '12px', letterSpacing: '2px', display: 'flex', alignItems: 'center', gap: '6px' }}>
                                                 <UserCheck size={12} style={{ color: '#d4820a' }} /> BARU DIKIRIM
                                             </div>
                                             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                                                 {students.slice(0, 3).map((s, idx) => (
                                                     <div key={idx} style={{ background: '#faf7f2', padding: '10px 12px', borderLeft: `3px solid ${s.status?.includes('Lolos') || s.status?.includes('Diterima') ? '#0d7c6e' : '#d4820a'}`, border: '1px solid #ece4d8', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.75rem' }}>
-                                                        <div style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '120px', fontWeight: 800, color: '#1a1612' }}>
+                                                        <div style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '120px', fontWeight: 600, color: '#1a1612' }}>
                                                             {s.fullName || 'Tanpa Nama'}
                                                         </div>
-                                                        <span style={{ fontSize: '0.65rem', fontWeight: 800, padding: '2px 6px', background: '#fef3dc', color: '#d4820a', border: '1px solid #d4820a' }}>
+                                                        <span style={{ fontSize: '0.65rem', fontWeight: 600, padding: '2px 6px', background: '#fef3dc', color: '#d4820a', border: '1px solid #d4820a' }}>
                                                             {s.status || 'Menunggu'}
                                                         </span>
                                                     </div>
@@ -952,14 +952,14 @@ export default function AdminPage() {
 
                                         {/* Stream Column 2: Recent Inbox Activity */}
                                         <div style={{ background: '#fffdf9', padding: '20px', border: '1px solid #ece4d8' }}>
-                                            <div style={{ fontSize: '0.65rem', fontWeight: 800, color: '#9a8c82', marginBottom: '12px', letterSpacing: '2px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                            <div style={{ fontSize: '0.65rem', fontWeight: 600, color: '#9a8c82', marginBottom: '12px', letterSpacing: '2px', display: 'flex', alignItems: 'center', gap: '6px' }}>
                                                 <Mail size={12} style={{ color: '#d4820a' }} /> PESAN MASUK TERBARU
                                             </div>
                                             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                                                 {messages.slice(0, 3).map((m, idx) => (
                                                     <div key={idx} style={{ background: '#faf7f2', padding: '10px 12px', borderLeft: `3px solid ${m.status === 'unread' ? '#c0392b' : '#4a3f35'}`, border: '1px solid #ece4d8', display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '0.75rem' }}>
                                                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                                            <span style={{ fontWeight: 800, color: '#1a1612', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '100px' }}>{m.senderName || 'Pengunjung'}</span>
+                                                            <span style={{ fontWeight: 600, color: '#1a1612', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '100px' }}>{m.senderName || 'Pengunjung'}</span>
                                                             <span style={{ fontSize: '0.6rem', color: '#9a8c82', fontWeight: 700 }}>{m.status}</span>
                                                         </div>
                                                         <div style={{ fontSize: '0.7rem', color: '#9a8c82', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{m.subject || m.message || 'Tanpa subjek'}</div>
@@ -972,25 +972,25 @@ export default function AdminPage() {
                                         {/* Stream Column 3: Platform Telemetry Snapshot */}
                                         <div style={{ background: '#fffdf9', padding: '20px', border: '1px solid #ece4d8', color: '#1a1612', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                                             <div>
-                                                <div style={{ fontSize: '0.65rem', fontWeight: 800, color: '#9a8c82', marginBottom: '12px', letterSpacing: '2px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                                <div style={{ fontSize: '0.65rem', fontWeight: 600, color: '#9a8c82', marginBottom: '12px', letterSpacing: '2px', display: 'flex', alignItems: 'center', gap: '6px' }}>
                                                     <Clock size={12} style={{ color: '#d4820a' }} /> STATUS SISTEM
                                                 </div>
                                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '0.75rem' }}>
-                                                    <div style={{ display: 'flex', justifyContent: 'space-between', color: '#9a8c82', fontWeight: 800 }}>
+                                                    <div style={{ display: 'flex', justifyContent: 'space-between', color: '#9a8c82', fontWeight: 600 }}>
                                                         <span>Koneksi Database</span>
-                                                        <span style={{ color: '#0d7c6e', fontWeight: 800 }}>OK 24ms</span>
+                                                        <span style={{ color: '#0d7c6e', fontWeight: 600 }}>OK 24ms</span>
                                                     </div>
-                                                    <div style={{ display: 'flex', justifyContent: 'space-between', color: '#9a8c82', fontWeight: 800 }}>
+                                                    <div style={{ display: 'flex', justifyContent: 'space-between', color: '#9a8c82', fontWeight: 600 }}>
                                                         <span>Mesin Sinkronisasi</span>
-                                                        <span style={{ color: '#1a1612', fontWeight: 800 }}>Vercel Edge</span>
+                                                        <span style={{ color: '#1a1612', fontWeight: 600 }}>Vercel Edge</span>
                                                     </div>
-                                                    <div style={{ display: 'flex', justifyContent: 'space-between', color: '#9a8c82', fontWeight: 800 }}>
+                                                    <div style={{ display: 'flex', justifyContent: 'space-between', color: '#9a8c82', fontWeight: 600 }}>
                                                         <span>Total Data Aktif</span>
-                                                        <span style={{ color: '#d4820a', fontWeight: 800 }}>{students.length + registrations.length}</span>
+                                                        <span style={{ color: '#d4820a', fontWeight: 600 }}>{students.length + registrations.length}</span>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div style={{ fontSize: '0.6rem', color: '#9a8c82', borderTop: '1px solid #ece4d8', paddingTop: '10px', fontWeight: 800, letterSpacing: '1px' }}>
+                                            <div style={{ fontSize: '0.6rem', color: '#9a8c82', borderTop: '1px solid #ece4d8', paddingTop: '10px', fontWeight: 600, letterSpacing: '1px' }}>
                                                 TERVERIFIKASI AMAN OTOMATIS
                                             </div>
                                         </div>
@@ -1009,7 +1009,7 @@ export default function AdminPage() {
                                                 onClick={() => setShowConfig(!showConfig)}
                                                 whileHover={{ background: '#f0a830', color: '#1a1612' }}
                                                 whileTap={{ scale: 0.98 }}
-                                                style={{ background: '#faf7f2', border: '1px solid #ece4d8', padding: '10px 20px', borderRadius: '14px', fontSize: '0.85rem', fontWeight: 800, color: '#1a1612', display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', transition: '0.2s' }}
+                                                style={{ background: '#faf7f2', border: '1px solid #ece4d8', padding: '10px 20px', borderRadius: '14px', fontSize: '0.85rem', fontWeight: 600, color: '#1a1612', display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', transition: '0.2s' }}
                                             >
                                                 <Settings size={16} /> <span>Pengaturan Formulir</span>
                                             </motion.button>
@@ -1040,7 +1040,7 @@ export default function AdminPage() {
                                                                                     <X size={14} style={{ cursor: 'pointer', color: '#c0392b' }} onClick={() => handleDeleteYear(y)} />
                                                                                 </div>
                                                                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-                                                                                    <label style={{ fontSize: '0.6rem', fontWeight: 800, color: '#9a8c82' }}>LINK DOKUMENTASI YOUTUBE</label>
+                                                                                    <label style={{ fontSize: '0.6rem', fontWeight: 600, color: '#9a8c82' }}>LINK DOKUMENTASI YOUTUBE</label>
                                                                                     <input 
                                                                                         placeholder="https://youtube.com/watch?v=..." 
                                                                                         style={{ width: '100%', padding: '8px 12px', background: '#fffdf9', border: '1px solid #ece4d8', borderRadius: '14px', fontSize: '0.75rem', fontWeight: 600, color: '#1a1612', outline: 'none' }}
@@ -1162,12 +1162,12 @@ export default function AdminPage() {
                                                             <input style={{ background: 'transparent', border: 'none', fontWeight: 600, fontSize: '0.75rem', color: '#4a3f35', width: '100%', outline: 'none' }} value={s.school || s.schoolName || ''} onChange={e => handleStudentChange(originalIndex, 'school', e.target.value)} />
                                                         </td>
                                                         <td style={{ padding: '14px 10px', textAlign: 'center', borderRight: '1px solid #ece4d8' }}>
-                                                            <select value={s.year || availableYears[0] || '2026/2027'} onChange={e => handleStudentChange(originalIndex, 'year', e.target.value)} style={{ background: 'transparent', border: 'none', fontWeight: 800, fontSize: '0.75rem', cursor: 'pointer', outline: 'none', textAlign: 'center', color: '#1a1612' }}>
+                                                            <select value={s.year || availableYears[0] || '2026/2027'} onChange={e => handleStudentChange(originalIndex, 'year', e.target.value)} style={{ background: 'transparent', border: 'none', fontWeight: 600, fontSize: '0.75rem', cursor: 'pointer', outline: 'none', textAlign: 'center', color: '#1a1612' }}>
                                                                 {availableYears.map(y => <option key={y} value={y} style={{ background: '#fffdf9' }}>{y}</option>)}
                                                             </select>
                                                         </td>
                                                         <td style={{ padding: '14px 10px', textAlign: 'center', borderRight: '1px solid #ece4d8' }}>
-                                                            <select value={s.wave || '1'} onChange={e => handleStudentChange(originalIndex, 'wave', e.target.value)} style={{ background: 'transparent', border: 'none', fontWeight: 800, fontSize: '0.8rem', cursor: 'pointer', outline: 'none', textAlign: 'center', color: '#1a1612' }}>
+                                                            <select value={s.wave || '1'} onChange={e => handleStudentChange(originalIndex, 'wave', e.target.value)} style={{ background: 'transparent', border: 'none', fontWeight: 600, fontSize: '0.8rem', cursor: 'pointer', outline: 'none', textAlign: 'center', color: '#1a1612' }}>
                                                                 <option value="1" style={{ background: '#fffdf9' }}>1</option>
                                                                 <option value="2" style={{ background: '#fffdf9' }}>2</option>
                                                                 <option value="3" style={{ background: '#fffdf9' }}>3</option>
@@ -1177,7 +1177,7 @@ export default function AdminPage() {
                                                             <select 
                                                                 value={s.status || 'Not Yet Passed'} 
                                                                 onChange={e => handleStudentChange(originalIndex, 'status', e.target.value)}
-                                                                style={{ background: 'transparent', border: 'none', fontWeight: 800, fontSize: '0.75rem', color: isPassed(s.status) ? '#0d7c6e' : '#d4820a', cursor: 'pointer', outline: 'none', textAlign: 'center' }}
+                                                                style={{ background: 'transparent', border: 'none', fontWeight: 600, fontSize: '0.75rem', color: isPassed(s.status) ? '#0d7c6e' : '#d4820a', cursor: 'pointer', outline: 'none', textAlign: 'center' }}
                                                             >
                                                                 <option value="Passed Selection" style={{ background: '#fffdf9' }}>Lolos Seleksi</option>
                                                                 <option value="Not Yet Passed" style={{ background: '#fffdf9' }}>Belum Lolos</option>
@@ -1216,7 +1216,7 @@ export default function AdminPage() {
                                             {availableYears.map(y => <option key={`af-${y}`} value={y}>{y}</option>)}
                                         </select>
                                     </div>
-                                    <h3 style={{ margin: 0, fontWeight: 800, fontSize: '1.4rem', color: '#1a1612', letterSpacing: '-0.5px' }}>DATABASE SISWA DITERIMA</h3>
+                                    <h3 style={{ margin: 0, fontWeight: 600, fontSize: '1.4rem', color: '#1a1612', letterSpacing: '-0.5px' }}>DATABASE SISWA DITERIMA</h3>
                                     <div style={{ position: 'relative', width: '320px' }}>
                                         <Search size={18} style={{ position: 'absolute', left: '15px', top: '50%', transform: 'translateY(-50%)', color: '#d4820a' }} />
                                         <input 
@@ -1269,7 +1269,7 @@ export default function AdminPage() {
                                                                     color: '#1a1612', 
                                                                     borderRadius: '14px', 
                                                                     fontSize: '0.75rem', 
-                                                                    fontWeight: 800, 
+                                                                    fontWeight: 600, 
                                                                     letterSpacing: '0.5px', 
                                                                     border: '1px solid #ece4d8',
                                                                     width: '180px',
@@ -1296,7 +1296,7 @@ export default function AdminPage() {
                                                     </div>
 
                                                     <div style={{ position: 'relative', zIndex: 2 }}>
-                                                        <h4 style={{ margin: '0 0 12px 0', fontSize: '1.5rem', fontWeight: 800, color: '#1a1612', letterSpacing: '-0.8px', lineHeight: 1.2 }}>{s.name}</h4>
+                                                        <h4 style={{ margin: '0 0 12px 0', fontSize: '1.5rem', fontWeight: 600, color: '#1a1612', letterSpacing: '-0.8px', lineHeight: 1.2 }}>{s.name}</h4>
                                                         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#4a3f35', fontSize: '0.85rem', fontWeight: 700 }}>
                                                             <div style={{ width: '30px', height: '30px', borderRadius: '14px', background: '#fffdf9', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid #ece4d8' }}>
                                                                 <Users size={16} color="#d4820a" />
@@ -1307,8 +1307,8 @@ export default function AdminPage() {
 
                                                     <div style={{ background: '#fffdf9', padding: '20px 25px', borderRadius: '14px', border: '1px solid #ece4d8', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'relative', zIndex: 2 }}>
                                                         <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                                                            <span style={{ fontSize: '0.6rem', fontWeight: 800, color: '#9a8c82', textTransform: 'uppercase', letterSpacing: '1px' }}>TAHUN AJARAN</span>
-                                                            <span style={{ fontSize: '1.05rem', fontWeight: 800, color: '#d4820a' }}>{s.year}</span>
+                                                            <span style={{ fontSize: '0.6rem', fontWeight: 600, color: '#9a8c82', textTransform: 'uppercase', letterSpacing: '1px' }}>TAHUN AJARAN</span>
+                                                            <span style={{ fontSize: '1.05rem', fontWeight: 600, color: '#d4820a' }}>{s.year}</span>
                                                         </div>
                                                         <motion.div 
                                                             whileHover={{ scale: 1.1, x: 5, background: '#d4820a', color: '#fffdf9' }}
@@ -1332,7 +1332,7 @@ export default function AdminPage() {
                                             whileHover={{ y: -5, borderColor: '#d4820a' }}
                                             style={{ background: '#faf7f2', padding: '35px', borderRadius: '14px', border: '1px solid #ece4d8', display: 'flex', flexDirection: 'column', gap: '25px', position: 'relative', overflow: 'hidden', transition: '0.2s' }}
                                         >
-                                            <div style={{ position: 'absolute', top: '20px', left: '20px', width: '40px', height: '40px', background: '#d4820a', color: '#fffdf9', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1rem', fontWeight: 800, zIndex: 10 }}>{idx + 1}</div>
+                                            <div style={{ position: 'absolute', top: '20px', left: '20px', width: '40px', height: '40px', background: '#d4820a', color: '#fffdf9', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1rem', fontWeight: 600, zIndex: 10 }}>{idx + 1}</div>
                                             <div style={{ position: 'absolute', top: 0, right: 0, width: '150px', height: '150px', background: 'linear-gradient(135deg, transparent 50%, #d4820a08 100%)', zIndex: 0 }} />
                                             
                                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', position: 'relative', zIndex: 1 }}>
@@ -1340,13 +1340,13 @@ export default function AdminPage() {
                                                     <BookOpen size={30} />
                                                 </div>
                                                 <div style={{ textAlign: 'right' }}>
-                                                    <span style={{ display: 'block', fontSize: '0.7rem', color: '#9a8c82', fontWeight: 800, textTransform: 'uppercase' }}>DAFTAR PADA</span>
+                                                    <span style={{ display: 'block', fontSize: '0.7rem', color: '#9a8c82', fontWeight: 600, textTransform: 'uppercase' }}>DAFTAR PADA</span>
                                                     <span style={{ fontSize: '0.9rem', color: '#d4820a', fontWeight: 700 }}>{reg.registrationDate ? new Date(reg.registrationDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'long' }) : '-'}</span>
                                                 </div>
                                             </div>
 
                                             <div style={{ position: 'relative', zIndex: 1 }}>
-                                                <h4 style={{ margin: '0 0 10px 0', fontSize: '1.6rem', fontWeight: 800, color: '#1a1612', letterSpacing: '-1px', lineHeight: 1.2 }}>{reg.name}</h4>
+                                                <h4 style={{ margin: '0 0 10px 0', fontSize: '1.6rem', fontWeight: 600, color: '#1a1612', letterSpacing: '-1px', lineHeight: 1.2 }}>{reg.name}</h4>
                                                 <div style={{ display: 'flex', gap: '12px' }}>
                                                     <span style={{ padding: '6px 14px', background: '#fffdf9', color: '#1a1612', borderRadius: '14px', border: '1px solid #ece4d8', fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase' }}>{reg.gender === 'L' || reg.gender === 'Laki-laki' ? 'Laki-laki' : 'Perempuan'}</span>
                                                     <span style={{ padding: '6px 14px', background: '#d4820a10', color: '#d4820a', borderRadius: '14px', border: '1px solid #d4820a30', fontSize: '0.75rem', fontWeight: 700 }}>TAHUN {reg.year || '-'}</span>
@@ -1366,7 +1366,7 @@ export default function AdminPage() {
                                                 </div>
                                                 <div style={{ gridColumn: 'span 2', borderTop: '1px solid #ece4d8', paddingTop: '15px', marginTop: '5px' }}>
                                                     <div style={{ fontSize: '0.65rem', fontWeight: 700, color: '#9a8c82', textTransform: 'uppercase', marginBottom: '8px', letterSpacing: '1px' }}>ASAL SEKOLAH</div>
-                                                    <div style={{ fontSize: '0.95rem', fontWeight: 800, color: '#1a1612' }}>{reg.school || reg.schoolName || '-'}</div>
+                                                    <div style={{ fontSize: '0.95rem', fontWeight: 600, color: '#1a1612' }}>{reg.school || reg.schoolName || '-'}</div>
                                                 </div>
 
                                                 <div style={{ gridColumn: 'span 2', borderTop: '1px solid #ece4d8', paddingTop: '15px' }}>
@@ -1384,7 +1384,7 @@ export default function AdminPage() {
                                                 <Field label="TAHUN LULUS SEKOLAH ASAL" value={reg.graduationYear || '-'} />
                                                 <Field label="GELOMBANG" value={reg.wave || '-'} />
 
-                                                <div style={{ gridColumn: 'span 2', borderTop: '1px solid #ece4d8', paddingTop: '15px', fontSize: '0.7rem', fontWeight: 800, color: '#d4820a', letterSpacing: '1px' }}>DATA AYAH KANDUNG</div>
+                                                <div style={{ gridColumn: 'span 2', borderTop: '1px solid #ece4d8', paddingTop: '15px', fontSize: '0.7rem', fontWeight: 600, color: '#d4820a', letterSpacing: '1px' }}>DATA AYAH KANDUNG</div>
                                                 <Field label="NAMA AYAH" value={reg.fatherName || '-'} />
                                                 <Field label="NIK AYAH" value={reg.nikAyah || '-'} />
                                                 <Field label="TTL AYAH" value={reg.fatherBirthInfo || '-'} />
@@ -1394,7 +1394,7 @@ export default function AdminPage() {
                                                 <Field label="NO. TLP AYAH" value={reg.fatherPhone || '-'} />
                                                 <Field label="STATUS AYAH" value={reg.fatherStatus || '-'} />
 
-                                                <div style={{ gridColumn: 'span 2', borderTop: '1px solid #ece4d8', paddingTop: '15px', fontSize: '0.7rem', fontWeight: 800, color: '#d4820a', letterSpacing: '1px' }}>DATA IBU KANDUNG</div>
+                                                <div style={{ gridColumn: 'span 2', borderTop: '1px solid #ece4d8', paddingTop: '15px', fontSize: '0.7rem', fontWeight: 600, color: '#d4820a', letterSpacing: '1px' }}>DATA IBU KANDUNG</div>
                                                 <Field label="NAMA IBU" value={reg.motherName || '-'} />
                                                 <Field label="NIK IBU" value={reg.nikIbu || '-'} />
                                                 <Field label="TTL IBU" value={reg.motherBirthInfo || '-'} />
@@ -1449,7 +1449,7 @@ export default function AdminPage() {
                                         </motion.div>
                                     ))}
                                     {students.filter(s => s.registrationDate).length === 0 && (
-                                        <div style={{ textAlign: 'center', padding: '6rem', color: '#9a8c82', fontWeight: 800, gridColumn: 'span 2' }}>
+                                        <div style={{ textAlign: 'center', padding: '6rem', color: '#9a8c82', fontWeight: 600, gridColumn: 'span 2' }}>
                                             <BookOpen size={60} style={{ opacity: 0.2, marginBottom: '20px', margin: '0 auto' }} />
                                             <p>Belum ada pendaftaran online yang masuk.</p>
                                         </div>
@@ -1462,8 +1462,8 @@ export default function AdminPage() {
                                     {gallery.map((item, index) => (
                                         <motion.div key={item._id || index} initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} style={{ background: '#faf7f2', padding: '1.5rem', borderRadius: '14px', border: '1px solid #ece4d8' }}>
                                             <div style={{ aspectRatio: '16 / 10', background: '#fffdf9', borderRadius: '14px', marginBottom: '1.5rem', overflow: 'hidden', position: 'relative', border: item.imageUrl ? '1px solid #ece4d8' : '1px solid #c0392b' }}>
-                                                {item.imageUrl ? <img src={item.imageUrl} alt={item.title || "Gallery Item"} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <div style={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: '#c0392b', gap: '10px' }}><ImageIcon size={48} /><span style={{ fontSize: '0.7rem', fontWeight: 800 }}>GAMBAR TIDAK ADA</span></div>}
-                                                <label style={{ position: 'absolute', bottom: '15px', right: '15px', background: item.imageUrl ? '#d4820a' : '#c0392b', color: '#fffdf9', padding: '10px 20px', borderRadius: '14px', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 800 }}>
+                                                {item.imageUrl ? <img src={item.imageUrl} alt={item.title || "Gallery Item"} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <div style={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: '#c0392b', gap: '10px' }}><ImageIcon size={48} /><span style={{ fontSize: '0.7rem', fontWeight: 600 }}>GAMBAR TIDAK ADA</span></div>}
+                                                <label style={{ position: 'absolute', bottom: '15px', right: '15px', background: item.imageUrl ? '#d4820a' : '#c0392b', color: '#fffdf9', padding: '10px 20px', borderRadius: '14px', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 600 }}>
                                                     <span style={{ color: '#fffdf9' }}>{item.imageUrl ? 'GANTI GAMBAR' : 'UNGGAH SEKARANG'}</span>
                                                     <input type="file" style={{ display: 'none' }} accept="image/*" onChange={e => handleImageUpload(index, e.target.files[0])} />
                                                 </label>
@@ -1472,7 +1472,7 @@ export default function AdminPage() {
                                                 <div style={{ display: 'flex', gap: '10px' }}>
                                                     <div style={{ flex: 2 }}>
                                                         <label htmlFor={`gallery-title-${index}`} style={{ display: 'block', fontSize: '0.65rem', fontWeight: 700, color: '#9a8c82', marginBottom: '5px' }}>JUDUL KONTEN</label>
-                                                        <input id={`gallery-title-${index}`} placeholder="Judul Acara" style={{ width: '100%', padding: '12px 15px', border: item.title ? '1px solid #ece4d8' : '1px solid #c0392b', borderRadius: '14px', fontWeight: 800, fontSize: '0.9rem', background: '#fffdf9', color: '#1a1612', outline: 'none' }} onFocus={e => e.target.style.border = '1px solid #d4820a'} onBlur={e => e.target.style.border = item.title ? '1px solid #ece4d8' : '1px solid #c0392b'} value={item.title || ''} onChange={e => handleGalleryChange(index, 'title', e.target.value)} />
+                                                        <input id={`gallery-title-${index}`} placeholder="Judul Acara" style={{ width: '100%', padding: '12px 15px', border: item.title ? '1px solid #ece4d8' : '1px solid #c0392b', borderRadius: '14px', fontWeight: 600, fontSize: '0.9rem', background: '#fffdf9', color: '#1a1612', outline: 'none' }} onFocus={e => e.target.style.border = '1px solid #d4820a'} onBlur={e => e.target.style.border = item.title ? '1px solid #ece4d8' : '1px solid #c0392b'} value={item.title || ''} onChange={e => handleGalleryChange(index, 'title', e.target.value)} />
                                                     </div>
                                                     <div style={{ flex: 1 }}>
                                                         <label htmlFor={`gallery-cat-${index}`} style={{ display: 'block', fontSize: '0.65rem', fontWeight: 700, color: '#9a8c82', marginBottom: '5px' }}>JENIS</label>
@@ -1493,7 +1493,7 @@ export default function AdminPage() {
                                                     }} />
                                                 </div>
                                                 <textarea placeholder="Deskripsi lengkap acara..." style={{ width: '100%', padding: '15px', border: '1px solid #ece4d8', borderRadius: '14px', background: '#fffdf9', height: '100px', resize: 'none', fontSize: '0.85rem', color: '#1a1612', outline: 'none' }} onFocus={e => e.target.style.border = '1px solid #d4820a'} onBlur={e => e.target.style.border = '1px solid #ece4d8'} value={item.agenda || ''} onChange={e => handleGalleryChange(index, 'agenda', e.target.value)} />
-                                                <button onClick={() => handleDeleteGallery(index)} style={{ width: '100%', padding: '12px', border: '1px solid #ece4d8', color: '#c0392b', background: '#fffdf9', borderRadius: '14px', fontWeight: 800, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', transition: '0.2s' }} onMouseOver={e => { e.currentTarget.style.background = '#c0392b'; e.currentTarget.style.color = '#fff'; }} onMouseOut={e => { e.currentTarget.style.background = '#fffdf9'; e.currentTarget.style.color = '#c0392b'; }}><Trash2 size={18} /> <span>HAPUS KONTEN</span></button>
+                                                <button onClick={() => handleDeleteGallery(index)} style={{ width: '100%', padding: '12px', border: '1px solid #ece4d8', color: '#c0392b', background: '#fffdf9', borderRadius: '14px', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', transition: '0.2s' }} onMouseOver={e => { e.currentTarget.style.background = '#c0392b'; e.currentTarget.style.color = '#fff'; }} onMouseOut={e => { e.currentTarget.style.background = '#fffdf9'; e.currentTarget.style.color = '#c0392b'; }}><Trash2 size={18} /> <span>HAPUS KONTEN</span></button>
                                             </div>
                                         </motion.div>
                                     ))}
@@ -1521,16 +1521,16 @@ export default function AdminPage() {
                                                 ) : (
                                                     <div style={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: '#c0392b', gap: '8px' }}>
                                                         <Users size={48} />
-                                                        <span style={{ fontSize: '0.6rem', fontWeight: 800 }}>BELUM ADA FOTO</span>
+                                                        <span style={{ fontSize: '0.6rem', fontWeight: 600 }}>BELUM ADA FOTO</span>
                                                     </div>
                                                 )}
-                                                <label style={{ position: 'absolute', bottom: '15px', right: '15px', background: member.imageUrl ? '#d4820a' : '#c0392b', color: '#fffdf9', padding: '10px 20px', borderRadius: '14px', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 800 }}>
+                                                <label style={{ position: 'absolute', bottom: '15px', right: '15px', background: member.imageUrl ? '#d4820a' : '#c0392b', color: '#fffdf9', padding: '10px 20px', borderRadius: '14px', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 600 }}>
                                                     <span style={{ color: '#fffdf9' }}>{member.imageUrl ? 'GANTI' : 'TAMBAH FOTO'}</span>
                                                     <input type="file" style={{ display: 'none' }} accept="image/*" onChange={e => handleStaffImageUpload(index, e.target.files[0])} />
                                                 </label>
                                             </div>
                                             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                                                <input placeholder="Nama Lengkap & Gelar" aria-label="Staff Full Name" style={{ width: '100%', padding: '12px 15px', border: member.name ? '1px solid #ece4d8' : '1px solid #c0392b', borderRadius: '14px', fontWeight: 800, fontSize: '0.9rem', background: '#fffdf9', color: '#1a1612', outline: 'none' }} onFocus={e => e.target.style.border = '1px solid #d4820a'} onBlur={e => e.target.style.border = member.name ? '1px solid #ece4d8' : '1px solid #c0392b'} value={member.name || ''} onChange={e => handleStaffChange(index, 'name', e.target.value)} />
+                                                <input placeholder="Nama Lengkap & Gelar" aria-label="Staff Full Name" style={{ width: '100%', padding: '12px 15px', border: member.name ? '1px solid #ece4d8' : '1px solid #c0392b', borderRadius: '14px', fontWeight: 600, fontSize: '0.9rem', background: '#fffdf9', color: '#1a1612', outline: 'none' }} onFocus={e => e.target.style.border = '1px solid #d4820a'} onBlur={e => e.target.style.border = member.name ? '1px solid #ece4d8' : '1px solid #c0392b'} value={member.name || ''} onChange={e => handleStaffChange(index, 'name', e.target.value)} />
                                                 <input placeholder="Jabatan / Posisi" aria-label="Staff Role" style={{ width: '100%', padding: '12px 15px', border: '1px solid #ece4d8', borderRadius: '14px', fontWeight: 700, fontSize: '0.85rem', background: '#fffdf9', color: '#d4820a', outline: 'none' }} onFocus={e => e.target.style.border = '1px solid #d4820a'} onBlur={e => e.target.style.border = '1px solid #ece4d8'} value={member.role || ''} onChange={e => handleStaffChange(index, 'role', e.target.value)} />
                                                 
                                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', background: '#fffdf9', padding: '15px', borderRadius: '14px', border: '1px solid #ece4d8' }}>
@@ -1540,7 +1540,7 @@ export default function AdminPage() {
                                                     <input placeholder="Email Resmi" style={{ width: '100%', padding: '10px 12px', border: '1px solid #ece4d8', borderRadius: '14px', background: '#faf7f2', fontSize: '0.75rem', fontWeight: 600, color: '#1a1612', outline: 'none' }} onFocus={e => e.target.style.border = '1px solid #d4820a'} onBlur={e => e.target.style.border = '1px solid #ece4d8'} value={member.email || ''} onChange={e => handleStaffChange(index, 'email', e.target.value)} />
                                                 </div>
 
-                                                <button onClick={() => handleDeleteStaff(index)} style={{ width: '100%', padding: '12px', border: '1px solid #ece4d8', color: '#c0392b', background: '#fffdf9', borderRadius: '14px', fontWeight: 800, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', transition: '0.2s' }} onMouseOver={e => { e.currentTarget.style.background = '#c0392b'; e.currentTarget.style.color = '#fff'; }} onMouseOut={e => { e.currentTarget.style.background = '#fffdf9'; e.currentTarget.style.color = '#c0392b'; }}><Trash2 size={18} /> <span>HAPUS</span></button>
+                                                <button onClick={() => handleDeleteStaff(index)} style={{ width: '100%', padding: '12px', border: '1px solid #ece4d8', color: '#c0392b', background: '#fffdf9', borderRadius: '14px', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', transition: '0.2s' }} onMouseOver={e => { e.currentTarget.style.background = '#c0392b'; e.currentTarget.style.color = '#fff'; }} onMouseOut={e => { e.currentTarget.style.background = '#fffdf9'; e.currentTarget.style.color = '#c0392b'; }}><Trash2 size={18} /> <span>HAPUS</span></button>
                                             </div>
                                         </motion.div>
                                     ))}
@@ -1609,7 +1609,7 @@ export default function AdminPage() {
                                             </div>
                                         </motion.div>
                                     ))}
-                                    {messages.length === 0 && <div style={{ textAlign: 'center', padding: '5rem', color: '#9a8c82', fontWeight: 800 }}>Belum ada pesan.</div>}
+                                    {messages.length === 0 && <div style={{ textAlign: 'center', padding: '5rem', color: '#9a8c82', fontWeight: 600 }}>Belum ada pesan.</div>}
                                 </div>
                             </div>
                         ) : null}

@@ -19,12 +19,12 @@ const GalleryPage = () => {
             <div style={{ background: 'transparent', padding: '140px 0 30px', color: '#0f172a', textAlign: 'center', position: 'relative', zIndex: 1 }}>
                 <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px' }}>
                     <div
-                        style={{ display: 'inline-block', padding: '6px 16px', background: 'rgba(249, 140, 29, 0.08)', borderRadius: '100px', color: 'var(--primary)', fontSize: '0.65rem', fontWeight: 900, letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '1.5rem' }}
+                        style={{ display: 'inline-block', padding: '6px 16px', background: 'rgba(249, 140, 29, 0.08)', borderRadius: '100px', color: 'var(--primary)', fontSize: '0.65rem', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '1.5rem' }}
                     >
                         {t('contact', 'galleryBadge')}
                     </div>
                     <h1 
-                        style={{ fontSize: '1.6rem', fontWeight: 850, margin: 0, textTransform: 'uppercase', letterSpacing: '3px', color: '#0f172a' }}
+                        style={{ fontSize: '1.6rem', fontWeight: 700, margin: 0, textTransform: 'uppercase', letterSpacing: '3px', color: '#0f172a' }}
                     >
                         {t('contact', 'galleryTitle')}
                     </h1>

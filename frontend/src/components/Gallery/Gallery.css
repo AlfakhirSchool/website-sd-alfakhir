@@ -24,7 +24,7 @@
 
 .gallery-label {
   color: var(--primary);
-  font-weight: 800;
+  font-weight: 600;
   margin-bottom: 0.6rem;
   font-size: 0.75rem;
   letter-spacing: 3px;
@@ -34,7 +34,7 @@
 
 .gallery-title {
   color: #0f172a;
-  font-weight: 800;
+  font-weight: 600;
   line-height: 1.1;
   margin-bottom: 1.2rem;
   letter-spacing: -1.5px;
@@ -61,7 +61,7 @@
   border: 1.5px solid #e2e8f0;
   background: white;
   color: #64748b;
-  font-weight: 800;
+  font-weight: 600;
   font-size: 0.7rem;
   cursor: pointer;
   letter-spacing: 0.5px;
@@ -129,7 +129,7 @@
 
 .sidebar-label {
   font-size: 0.7rem;
-  font-weight: 900;
+  font-weight: 700;
   color: #94a3b8;
   letter-spacing: 2px;
   margin-bottom: 10px;
@@ -164,7 +164,7 @@
 }
 
 .sidebar-content h5 {
-  font-weight: 800;
+  font-weight: 600;
   margin: 0 0 4px 0;
   font-size: 1rem;
   color: #1e293b;
@@ -236,7 +236,7 @@
   padding: 5px 12px;
   border-radius: 12px;
   font-size: 0.65rem;
-  font-weight: 900;
+  font-weight: 700;
   border: 1px solid rgba(249,140,29,0.2);
 }
 

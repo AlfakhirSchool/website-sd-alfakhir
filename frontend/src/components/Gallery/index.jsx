@@ -94,10 +94,10 @@ const Gallery = ({ isSlider = false, defaultCategory = 'ALL' }) => {
     if (images.length === 0) return (
         <section id="gallery" className="gallery-section" style={{ padding: '80px 0', textAlign: 'center', background: '#fcfdfe' }}>
             <div className="gallery-container" style={{ maxWidth: '800px', margin: '0 auto' }}>
-                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', color: 'var(--primary)', fontWeight: 800, marginBottom: '1.2rem', fontSize: '0.75rem', letterSpacing: '2px', textTransform: 'uppercase', background: 'rgba(249, 140, 29, 0.1)', padding: '6px 16px', borderRadius: '99px' }}>
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', color: 'var(--primary)', fontWeight: 600, marginBottom: '1.2rem', fontSize: '0.75rem', letterSpacing: '2px', textTransform: 'uppercase', background: 'rgba(249, 140, 29, 0.1)', padding: '6px 16px', borderRadius: '99px' }}>
                     <Sparkles size={14} /> {isSlider ? t('gallery', 'labelNews') : t('gallery', 'labelGallery')}
                 </div>
-                <h2 style={{ fontSize: isMobile ? '1.8rem' : '2.5rem', color: 'var(--accent)', fontWeight: 800, lineHeight: 1.1, marginBottom: '1.2rem' }}>
+                <h2 style={{ fontSize: isMobile ? '1.8rem' : '2.5rem', color: 'var(--accent)', fontWeight: 600, lineHeight: 1.1, marginBottom: '1.2rem' }}>
                     {t('gallery', 'noStories')}
                 </h2>
                 <p style={{ color: '#64748b', fontSize: '1rem', lineHeight: 1.6 }}>
@@ -173,7 +173,7 @@ const Gallery = ({ isSlider = false, defaultCategory = 'ALL' }) => {
                                     <div className="featured-meta" style={{ marginBottom: isMobile ? '8px' : '15px' }}>
                                         <Calendar size={12}/> {filteredImages[currentIndex]?.date}
                                         <span style={{ opacity: 0.4 }}>|</span>
-                                        <span style={{ color: 'var(--primary)', fontWeight: 800 }}>{filteredImages[currentIndex]?.category}</span>
+                                        <span style={{ color: 'var(--primary)', fontWeight: 600 }}>{filteredImages[currentIndex]?.category}</span>
                                     </div>
                                     <h3 className="gallery-title" style={{ fontSize: isMobile ? '1.3rem' : '2.2rem', color: 'white' }}>{filteredImages[currentIndex]?.title}</h3>
                                 </div>
@@ -200,8 +200,8 @@ const Gallery = ({ isSlider = false, defaultCategory = 'ALL' }) => {
                                                     />
                                                 </div>
                                                 <div style={{ flex: 1 }}>
-                                                    <h5 style={{ fontWeight: 800, margin: '0 0 4px 0', fontSize: '1rem', color: '#1e293b', lineHeight: 1.3, display: '-webkit-box', WebkitLineClamp: '2', WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{img.title}</h5>
-                                                    <p style={{ margin: 0, fontSize: '0.8rem', color: 'var(--primary)', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '4px' }}>{t('gallery', 'viewStory')} <ArrowRight size={12} /></p>
+                                                    <h5 style={{ fontWeight: 600, margin: '0 0 4px 0', fontSize: '1rem', color: '#1e293b', lineHeight: 1.3, display: '-webkit-box', WebkitLineClamp: '2', WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{img.title}</h5>
+                                                    <p style={{ margin: 0, fontSize: '0.8rem', color: 'var(--primary)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px' }}>{t('gallery', 'viewStory')} <ArrowRight size={12} /></p>
                                                 </div>
                                             </motion.div>
                                         )
@@ -252,7 +252,7 @@ const Gallery = ({ isSlider = false, defaultCategory = 'ALL' }) => {
                                     </div>
                                     <div style={{ padding: '20px 10px 15px' }}>
                                         <div style={{ color: '#94a3b8', fontSize: '0.75rem', fontWeight: 700, marginBottom: '8px', letterSpacing: '1px' }}>{(img.date || '').toUpperCase()}</div>
-                                        <h4 style={{ fontWeight: 800, color: '#0f172a', marginBottom: '10px', fontSize: '1.25rem', lineHeight: 1.3 }}>{img.title}</h4>
+                                        <h4 style={{ fontWeight: 600, color: '#0f172a', marginBottom: '10px', fontSize: '1.25rem', lineHeight: 1.3 }}>{img.title}</h4>
                                         <p style={{ color: '#64748b', fontSize: '0.9rem', lineHeight: 1.6, margin: 0, display: '-webkit-box', WebkitLineClamp: '2', WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{img.agenda}</p>
                                     </div>
                                 </motion.div>
@@ -295,9 +295,9 @@ const Gallery = ({ isSlider = false, defaultCategory = 'ALL' }) => {
                                     </div>
                                     <div style={{ padding: '60px 50px', display: 'flex', flexDirection: 'column', background: 'white' }}>
                                         <div style={{ display: 'flex', gap: '15px', marginBottom: '25px', alignItems: 'center' }}>
-                                            <span style={{ color: 'var(--primary)', fontWeight: 800, fontSize: '0.8rem', letterSpacing: '2px' }}>{selectedImg.date}</span>
+                                            <span style={{ color: 'var(--primary)', fontWeight: 600, fontSize: '0.8rem', letterSpacing: '2px' }}>{selectedImg.date}</span>
                                             <span style={{ width: '4px', height: '4px', borderRadius: '50%', background: '#e2e8f0' }}></span>
-                                            <span style={{ color: '#94a3b8', fontWeight: 800, fontSize: '0.8rem', letterSpacing: '2px' }}>{selectedImg.category}</span>
+                                            <span style={{ color: '#94a3b8', fontWeight: 600, fontSize: '0.8rem', letterSpacing: '2px' }}>{selectedImg.category}</span>
                                         </div>
                                         <h3 className="gallery-title" style={{ fontSize: '2.5rem', marginBottom: '30px' }}>{selectedImg.title}</h3>
                                         <div style={{ height: '3px', width: '60px', background: 'var(--primary)', marginBottom: '35px' }}></div>
@@ -307,7 +307,7 @@ const Gallery = ({ isSlider = false, defaultCategory = 'ALL' }) => {
                                         <div style={{ marginTop: 'auto', paddingTop: '40px' }}>
                                              <button 
                                                 onClick={() => setSelectedImg(null)}
-                                                style={{ padding: '15px 40px', borderRadius: '99px', border: '1.5px solid #0f172a', background: 'transparent', color: '#0f172a', fontWeight: 800, cursor: 'pointer', transition: '0.3s' }}
+                                                style={{ padding: '15px 40px', borderRadius: '99px', border: '1.5px solid #0f172a', background: 'transparent', color: '#0f172a', fontWeight: 600, cursor: 'pointer', transition: '0.3s' }}
                                                 onMouseOver={e => { e.currentTarget.style.background = '#0f172a'; e.currentTarget.style.color = 'white'; }}
                                                 onMouseOut={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#0f172a'; }}
                                              >
