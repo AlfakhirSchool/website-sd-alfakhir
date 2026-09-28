@@ -508,7 +508,7 @@ export const translations = {
       },
       letter: {
         title: "PENGUMUMAN HASIL OBSERVASI SD",
-        greeting: "Assalamu’alaikum warahmatullahi wabarakatuh..",
+        greeting: "Assalamu’alaikum warahmatullahi wabarakatuh.",
         salutation: "Ayah dan Bunda yang kami hormati,",
         p1: "Alhamdulillah, kegiatan observasi siswa baru tingkat Sekolah Dasar telah selesai dilaksanakan. Hasil observasi ananda <strong>sudah dapat diakses</strong> oleh orang tua masing-masing dalam bentuk <i>file</i> dokumen PDF secara langsung melalui website ini.",
         howToTitle: "📄 Cara Mengakses Hasil Observasi:",
@@ -518,7 +518,7 @@ export const translations = {
         noteTitle: "🔐 Catatan Penting",
         noteText: "Mohon kerahasiaan dokumen hasil observasi tetap dijaga demi menjaga privasi siswa. Apabila mengalami kendala saat membuka file, silakan menghubungi admin/Tim IT Sekolah.",
         closing: "Demikian informasi yang dapat kami sampaikan. Terima kasih atas perhatian dan kerja samanya.",
-        salam: "Wassalamu’alaikum warahmatullahi wabarakatuh..",
+        salam: "Wassalamu’alaikum warahmatullahi wabarakatuh.",
         signature1: "Hormat kami,",
         signature2: "Tim Observasi Akademik SD"
       }
@@ -549,7 +549,7 @@ export const translations = {
       btn2: "EXPLORE FACILITIES",
       schoolName: "AL-FAKHIR",
       schoolType: "Elementary School",
-      btn: "New Student Registration Info",
+      btn: "REGISTRATION",
     },
     common: {
       loading: "Syncing data...",
@@ -950,7 +950,7 @@ export const translations = {
       deputyTitle1: "Meet with",
       deputyTitle2: "Deputy R&D and HR",
       deputyName: "Ms. Anggraini, A.Md, Pb.",
-      deputyBio: "Ms. Anggraini graduated from the School of Vocational Studies at Polytechnic of Universitas Indonesia, where she majored in Publishing (Journalism), and is now pursuing her study in Indonesian Language and Literature Education Department.\n\nAside from the class she was conducting (in Journalistic writing and Design), Ms. Anggraini is also known as PR Officer, Public Speaker, HRD Professional.",
+      deputyBio: "Ms. Anggraini graduated from the School of Vocational Studies at Polytechnic of Universitas Indonesia, where she majored in Publishing (Journalism), and is now pursuing her study in Indonesian Language and Literature Education Department.\n\nAside from the class she was conducting (in Journalistic writing and Design), Ms. Anggraini is also known as a PR Officer, Public Speaker, and HRD Professional.",
       pillars: [
         { title: "Intellectual Excellence", desc: "Encouraging student curiosity and creativity as future potential." },
         { title: "Character Development", desc: "Prioritizing Adab over Knowledge to produce a righteous generation." },
@@ -1047,7 +1047,7 @@ export const translations = {
       },
       letter: {
         title: "OBSERVATION RESULT ANNOUNCEMENT",
-        greeting: "Assalamu’alaikum warahmatullahi wabarakatuh..",
+        greeting: "Assalamu’alaikum warahmatullahi wabarakatuh.",
         salutation: "Dear Respected Parents,",
         p1: "Alhamdulillah, the observation activities for new Elementary School prospective students have been successfully completed. Your child's observation results <strong>can now be directly accessed</strong> in PDF format exclusively through this portal.",
         howToTitle: "📄 How to Access the Observation Results:",
@@ -1057,7 +1057,7 @@ export const translations = {
         noteTitle: "🔐 Important Note",
         noteText: "Please maintain the confidentiality of this document to protect student privacy. If you encounter any technical difficulties when downloading the file, please contact the School's Admin/IT Team immediately.",
         closing: "We thank you for your kind attention and continuous cooperation.",
-        salam: "Wassalamu’alaikum warahmatullahi wabarakatuh..",
+        salam: "Wassalamu’alaikum warahmatullahi wabarakatuh.",
         signature1: "Sincerely,",
         signature2: "Elementary School Observation Team"
       }
