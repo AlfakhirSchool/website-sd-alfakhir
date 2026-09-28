@@ -85,6 +85,7 @@ const RegistrationForm = ({ onSuccess }) => {
             if (!formData.parentName) newErrors.parentName = t('reg', 'form.errors.parentName');
             if (!formData.whatsapp || formData.whatsapp.length < 10) newErrors.whatsapp = t('reg', 'form.errors.whatsapp');
         } else if (step === 6) {
+            if (!selectedFile) newErrors.paymentProof = t('reg', 'form.errors.paymentProof');
             if (!captchaToken) newErrors.captcha = t('reg', 'form.errors.captcha');
         }
 
@@ -469,8 +470,6 @@ const RegistrationForm = ({ onSuccess }) => {
                                     </div>
                                 </div>
 
-                                <p className="formonly-note">{t('reg', 'form.labelFormOnlyNote')}</p>
-
                                 <div onClick={() => fileInputRef.current.click()} className={`upload-dropzone ${errors.paymentProof ? 'has-error' : ''}`}>
                                     <input id="paymentProof-input" type="file" accept="image/*" onChange={handleFileChange} ref={fileInputRef} style={{ display: 'none' }} aria-label={t('reg', 'form.labelUploadProof')} />
                                     {!selectedFile ? (
@@ -479,7 +478,7 @@ const RegistrationForm = ({ onSuccess }) => {
                                                 <Upload size={24} />
                                             </div>
                                             <label htmlFor="paymentProof-input" style={{ cursor: 'pointer', textAlign: 'center' }}>
-                                                <p className="upload-label-main">{t('reg', 'form.labelUploadProof')}</p>
+                                                <p className="upload-label-main">{t('reg', 'form.labelUploadProof')} <span className="required-star">*</span></p>
                                                 <p style={{ color: '#94a3b8', fontSize: '0.8rem', textTransform: 'none', letterSpacing: 'normal' }}>{t('reg', 'form.labelLimit')}</p>
                                             </label>
                                         </div>
