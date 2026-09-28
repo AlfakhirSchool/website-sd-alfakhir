@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
+import { useIsMobile } from '@/hooks/useIsMobile';
 import { Plus, Trash2, UserCheck, User, AlertCircle, Image as ImageIcon, LayoutDashboard, Download, Upload, Search, Settings, X, ChevronRight, Save, Eye, Users, BookOpen, RefreshCw, Mail, Phone, ShieldCheck, Clock } from 'lucide-react'; // Core icons
 import { motion, AnimatePresence } from 'framer-motion';
 import * as XLSX from 'xlsx';
@@ -40,6 +41,7 @@ async function adminMutate({ deletes = [], creates = [], patches = [] }) {
 
 export default function AdminPage() {
     // --- Refs & State ---
+    const isMobile = useIsMobile();
     const fileInputRef = useRef(null);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [adminEmail, setAdminEmail] = useState('');
@@ -775,7 +777,7 @@ export default function AdminPage() {
                         {activeTab === 'overview' ? (
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '30px', padding: '30px', background: '#fffdf9' }}>
                                 {/* Asymmetric Executive Hero Showcase */}
-                                <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '20px' }}>
+                                <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1.2fr 0.8fr', gap: '20px' }}>
                                     <div style={{ background: '#faf7f2', color: '#1a1612', padding: '40px', borderRadius: '20px', position: 'relative', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', borderLeft: '4px solid #d4820a', border: '1px solid #ece4d8', boxShadow: '0 20px 50px rgba(26,22,18,0.06)' }}>
                                         <div>
                                             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '20px' }}>
@@ -825,7 +827,7 @@ export default function AdminPage() {
                                 </div>
 
                                 {/* Analytics Array & Live Database Intelligence */}
-                                <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '20px' }}>
+                                <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '2fr 1fr', gap: '20px' }}>
                                     {/* Monthly Registration Flow */}
                                     <div style={{ background: '#faf7f2', padding: '30px', borderRadius: '18px', border: '1px solid #ece4d8', boxShadow: '0 15px 35px rgba(26,22,18,0.05)' }}>
                                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '35px' }}>
@@ -929,7 +931,7 @@ export default function AdminPage() {
                                         </div>
                                     </div>
 
-                                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '15px' }}>
+                                    <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: '15px' }}>
                                         {/* Stream Column 1: Recent Admissions */}
                                         <div style={{ background: '#fffdf9', padding: '20px', border: '1px solid #ece4d8' }}>
                                             <div style={{ fontSize: '0.65rem', fontWeight: 600, color: '#9a8c82', marginBottom: '12px', letterSpacing: '2px', display: 'flex', alignItems: 'center', gap: '6px' }}>
@@ -1353,7 +1355,7 @@ export default function AdminPage() {
                                                 </div>
                                             </div>
 
-                                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', background: '#fffdf9', padding: '25px', borderRadius: '14px', border: '1px solid #ece4d8', position: 'relative', zIndex: 1 }}>
+                                            <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: '20px', background: '#fffdf9', padding: '25px', borderRadius: '14px', border: '1px solid #ece4d8', position: 'relative', zIndex: 1 }}>
                                                 <div>
                                                     <div style={{ fontSize: '0.65rem', fontWeight: 700, color: '#9a8c82', textTransform: 'uppercase', marginBottom: '8px', letterSpacing: '1px' }}>NAMA ORANG TUA</div>
                                                     <div style={{ fontSize: '1rem', fontWeight: 700, color: '#1a1612' }}>{reg.parentName || '-'}</div>

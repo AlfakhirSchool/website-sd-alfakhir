@@ -16,9 +16,11 @@ import {
     CheckCircle2
 } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 const VisiMisiPage = () => {
     const { t } = useLanguage();
+    const isMobile = useIsMobile();
     const { scrollYProgress } = useScroll();
     const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 });
 
@@ -184,7 +186,7 @@ const VisiMisiPage = () => {
                             <Globe size={28} color={orangePrimary} />
                             <h3 style={{ fontSize: '1.6rem', fontWeight: 700, color: deepSlate }}>Foreign Languages</h3>
                         </div>
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
+                        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: '15px' }}>
                             {['English', 'Arabic', 'Korean', 'Japanese'].map((item, i) => (
                                 <div key={i} style={{ padding: '20px', background: '#f8fafc', borderRadius: '15px', fontWeight: 700, color: deepSlate, textAlign: 'center' }}>{item}</div>
                             ))}
@@ -235,7 +237,7 @@ const VisiMisiPage = () => {
                             ))}
                         </div>
                     </div>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: '20px' }}>
                         {[1, 2, 3, 4].map((num) => (
                             <div key={num} style={{ background: 'rgba(255,255,255,0.05)', borderRadius: '30px', aspectRatio: '1', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                                 <Camera size={40} opacity={0.1} />
