@@ -137,14 +137,28 @@ const RegistrationPage = () => {
                                                     <span style={{ fontSize: '1rem', fontWeight: 800, color: '#475569' }}>{registeredData?.gender}</span>
                                                 </div>
                                             </div>
+                                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '30px' }}>
+                                                <div>
+                                                    <span style={{ display: 'block', fontSize: '0.75rem', color: '#94a3b8', marginBottom: '5px', textTransform: 'uppercase' }}>NIK</span>
+                                                    <span style={{ fontSize: '1rem', fontWeight: 800, color: '#475569' }}>{registeredData?.nik || '-'}</span>
+                                                </div>
+                                                <div>
+                                                    <span style={{ display: 'block', fontSize: '0.75rem', color: '#94a3b8', marginBottom: '5px', textTransform: 'uppercase' }}>{t('reg', 'form.labelReligion')}</span>
+                                                    <span style={{ fontSize: '1rem', fontWeight: 800, color: '#475569' }}>{registeredData?.religion || '-'}</span>
+                                                </div>
+                                            </div>
                                             <div>
                                                 <span style={{ display: 'block', fontSize: '0.75rem', color: '#94a3b8', marginBottom: '5px', textTransform: 'uppercase' }}>{t('reg', 'success.labelAddress')}</span>
-                                                <span style={{ fontSize: '1rem', fontWeight: 800, color: '#475569', lineHeight: 1.5 }}>{registeredData?.address}</span>
+                                                <span style={{ fontSize: '1rem', fontWeight: 800, color: '#475569', lineHeight: 1.5 }}>{registeredData?.address}{registeredData?.city ? `, ${registeredData.city}` : ''}</span>
+                                            </div>
+                                            <div>
+                                                <span style={{ display: 'block', fontSize: '0.75rem', color: '#94a3b8', marginBottom: '5px', textTransform: 'uppercase' }}>{t('reg', 'form.labelPrevSchool')}</span>
+                                                <span style={{ fontSize: '1rem', fontWeight: 800, color: '#475569' }}>{registeredData?.schoolName || '-'}</span>
                                             </div>
                                         </div>
                                     </div>
                                     <div>
-                                        <h4 style={{ color: '#94a3b8', fontSize: '0.8rem', fontWeight: 900, textTransform: 'uppercase', marginBottom: '25px', letterSpacing: '2px' }}>{t('nav', 'profile')}</h4>
+                                        <h4 style={{ color: '#94a3b8', fontSize: '0.8rem', fontWeight: 900, textTransform: 'uppercase', marginBottom: '25px', letterSpacing: '2px' }}>{t('reg', 'success.labelGuardian')}</h4>
                                         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
                                             <div>
                                                 <span style={{ display: 'block', fontSize: '0.75rem', color: '#94a3b8', marginBottom: '5px', textTransform: 'uppercase' }}>{t('reg', 'success.labelGuardian')}</span>
@@ -153,6 +167,10 @@ const RegistrationPage = () => {
                                             <div>
                                                 <span style={{ display: 'block', fontSize: '0.75rem', color: '#94a3b8', marginBottom: '5px', textTransform: 'uppercase' }}>{t('reg', 'success.labelContact')}</span>
                                                 <span style={{ fontSize: '1.1rem', fontWeight: 950, color: '#0f172a' }}>{registeredData?.whatsapp}</span>
+                                            </div>
+                                            <div>
+                                                <span style={{ display: 'block', fontSize: '0.75rem', color: '#94a3b8', marginBottom: '5px', textTransform: 'uppercase' }}>{t('reg', 'form.labelKip')}</span>
+                                                <span style={{ fontSize: '1.1rem', fontWeight: 950, color: '#0f172a' }}>{registeredData?.kip || '-'}</span>
                                             </div>
                                             <div>
                                                 <span style={{ display: 'block', fontSize: '0.75rem', color: '#94a3b8', marginBottom: '5px', textTransform: 'uppercase' }}>{t('reg', 'success.labelYear')}</span>
