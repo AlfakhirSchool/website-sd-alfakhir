@@ -68,7 +68,7 @@ const StrukturPage = () => {
                     </div>
                     
                     <h1 
-                        style={{ fontSize: '3rem', fontWeight: 800, margin: 0, letterSpacing: '-2px', color: '#0f172a', lineHeight: 1 }}
+                        style={{ fontSize: 'clamp(1.9rem, 8vw, 3rem)', fontWeight: 800, margin: 0, letterSpacing: '-1px', color: '#0f172a', lineHeight: 1.1 }}
                     >
                         {t('struktur', 'title')}
                     </h1>

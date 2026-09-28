@@ -72,12 +72,13 @@ const FacilityCard = ({ fac, hasImage, primaryColor, gridImage, index }) => {
             >
                 <div style={{ width: '100%', height: '200px', background: hasImage ? 'white' : '#f8fafc', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden' }}>
                     {hasImage ? (
-                        <SmartImage 
+                        <SmartImage
                             isMotion={true}
                             motionProps={{ whileHover: { scale: 1.15 }, transition: { duration: 1.2 } }}
-                            src={gridImage} 
-                            alt={fac.name} 
-                            style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                            src={gridImage}
+                            alt={fac.name}
+                            loading="eager"
+                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                         />
                     ) : (
                         <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', transform: "translateZ(30px)" }}>
@@ -119,11 +120,15 @@ const FacilitiesPage = () => {
         { icon: <Waves size={30} />, name: 'Kolam Renang', desc: 'Fasilitas renang yang bersih untuk kesehatan dan rekreasi.' },
     ];
 
+    // Routed through /api/image: a direct <img src> to lh3.googleusercontent.com
+    // gets rejected by Chrome's Opaque Response Blocking once the request
+    // carries our site's Referer header, so the server fetches it instead.
+    const proxied = (id) => `/api/image?url=${encodeURIComponent(`https://lh3.googleusercontent.com/d/${id}=w1000`)}`;
     const gridImages = {
-        'Mushola': 'https://lh3.googleusercontent.com/d/10etl3hmil68_s_xYBytVfRCSAQohnKLS',
-        'Aula': 'https://lh3.googleusercontent.com/d/1i97Pi9UPMce3Y-IeBF4khkY-fuT2iBsq',
-        'Saung': 'https://lh3.googleusercontent.com/d/1iCCLVqOERSE72t8cgPnO8xQmxp9TJm-9',
-        'Kolam Renang': 'https://lh3.googleusercontent.com/d/10NnVjW1RywTIo40fMvTmpQhKh72HIq2-'
+        'Mushola': proxied('10etl3hmil68_s_xYBytVfRCSAQohnKLS'),
+        'Aula': proxied('1i97Pi9UPMce3Y-IeBF4khkY-fuT2iBsq'),
+        'Saung': proxied('1iCCLVqOERSE72t8cgPnO8xQmxp9TJm-9'),
+        'Kolam Renang': proxied('10NnVjW1RywTIo40fMvTmpQhKh72HIq2-')
     };
 
     return (

@@ -314,7 +314,7 @@
 
 @media (max-width: 640px) {
   .form-grid-2 {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
   .reg-action-row {
     flex-direction: column-reverse;
