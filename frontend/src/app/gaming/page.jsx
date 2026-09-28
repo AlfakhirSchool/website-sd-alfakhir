@@ -73,12 +73,12 @@ export default function AdminPage() {
 
         gallery.forEach((g, i) => {
             if (!g.title || g.title.trim() === '') errors.push({ tab: 'gallery', index: i, field: 'title', msg: `Judul Galeri #${i+1} kosong.` });
-            if (!g.imageUrl) errors.push({ tab: 'gallery', index: i, field: 'image', msg: `Konten "${g.title || 'Untitled'}" belum memiliki gambar.` });
+            if (!g.imageUrl) errors.push({ tab: 'gallery', index: i, field: 'image', msg: `Konten "${g.title || 'Tanpa Judul'}" belum memiliki gambar.` });
         });
 
         staff.forEach((st, i) => {
             if (!st.name || st.name.trim() === '') errors.push({ tab: 'staff', index: i, field: 'name', msg: `Nama Guru #${i+1} kosong.` });
-            if (!st.imageUrl) errors.push({ tab: 'staff', index: i, field: 'image', msg: `Guru "${st.name || 'Untitled'}" belum ada foto profil.` });
+            if (!st.imageUrl) errors.push({ tab: 'staff', index: i, field: 'image', msg: `Guru "${st.name || 'Tanpa Nama'}" belum ada foto profil.` });
         });
 
         setValidationErrors(errors);
@@ -135,7 +135,7 @@ export default function AdminPage() {
             setDeletedStaff([]);
         } catch (err) {
             console.error('Data Sync Full Error:', err);
-            let userFriendlyMsg = err.message || 'Unknown error';
+            let userFriendlyMsg = err.message || 'Kesalahan tidak diketahui';
             
             if (err.message?.includes('Failed to fetch') || err.message?.includes('reach')) {
                 userFriendlyMsg = 'Gagal menjangkau server Sanity. Pastikan CORS sudah diatur di Dashboard Sanity dan Token benar.';
@@ -403,7 +403,7 @@ export default function AdminPage() {
             students.forEach(std => upsert({
                 _type: 'student',
                 id: std.id || `REG-${Date.now()}`,
-                name: std.name || 'No Name',
+                name: std.name || 'Tanpa Nama',
                 school: std.school || std.schoolName || '',
                 score: std.score || '-',
                 status: std.status || 'Passed Selection',
@@ -415,7 +415,7 @@ export default function AdminPage() {
             // 2. Gallery
             gallery.forEach(item => upsert({
                 _type: 'gallery',
-                title: item.title || 'Untitled',
+                title: item.title || 'Tanpa Judul',
                 category: item.category || 'acara',
                 date: item.date || new Date().toLocaleDateString('en-GB'),
                 agenda: item.agenda || '',
@@ -426,7 +426,7 @@ export default function AdminPage() {
             // 3. Staff
             staff.forEach(stf => upsert({
                 _type: 'teacher',
-                name: stf.name || 'Staff Member',
+                name: stf.name || 'Anggota Staf',
                 role: stf.role || 'Guru',
                 vision: stf.vision || '',
                 education: stf.education || '',
@@ -449,12 +449,12 @@ export default function AdminPage() {
             setDeletedGallery([]);
             setDeletedStaff([]);
 
-            setSuccess('Global Database Successfully Synchronized!');
+            setSuccess('Database berhasil disinkronkan!');
             setTimeout(() => setSuccess(''), 3000);
             fetchAllData();
         } catch (err) { 
             console.error(err);
-            setError('Cloud Save Failed: ' + err.message); 
+            setError('Gagal menyimpan ke cloud: ' + err.message); 
         } finally { 
             setIsSaving(false); 
         }
@@ -478,7 +478,7 @@ export default function AdminPage() {
         worksheet["!cols"] = colWidths;
 
         XLSX.writeFile(workbook, "AlFakhir_Student_Data_Template.xlsx");
-        setSuccess('Template downloaded successfully!');
+        setSuccess('Template berhasil diunduh!');
         setTimeout(() => setSuccess(''), 2000);
     };
 
@@ -508,11 +508,11 @@ export default function AdminPage() {
                 }));
                 
                 setStudents([...students, ...newStudents]);
-                setSuccess(`${newStudents.length} Data imported successfully! Don't forget to click SAVE.`);
+                setSuccess(`${newStudents.length} data berhasil diimpor! Jangan lupa klik SIMPAN.`);
                 setTimeout(() => setSuccess(''), 3000);
             } catch (errImport) { 
                 console.error(errImport);
-                setError('Failed to read Excel. Ensure column format matches.'); 
+                setError('Gagal membaca file Excel. Pastikan format kolom sesuai.'); 
             }
         };
         reader.readAsBinaryString(file);
@@ -555,7 +555,7 @@ export default function AdminPage() {
 
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', alignItems: 'center' }}>
                         <div style={{ background: '#faf7f2', border: '1px solid #ece4d8', borderRadius: '14px', padding: '30px 20px', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '15px' }}>
-                            <p style={{ fontSize: '0.75rem', fontWeight: 800, color: '#4a3f35', textTransform: 'uppercase', letterSpacing: '1px', margin: 0 }}>GOOGLE CLOUD IDENTITY</p>
+                            <p style={{ fontSize: '0.75rem', fontWeight: 800, color: '#4a3f35', textTransform: 'uppercase', letterSpacing: '1px', margin: 0 }}>IDENTITAS GOOGLE</p>
                             <div id="google-signIn-btn-container" style={{ minHeight: '44px', display: 'flex', justifyContent: 'center', width: '100%' }}></div>
                         </div>
                     </div>
@@ -595,7 +595,7 @@ export default function AdminPage() {
                         <div style={{ position: 'absolute', bottom: '4px', right: '4px', width: '10px', height: '10px', borderRadius: '50%', background: '#0d7c6e', border: '2px solid #fffdf9' }} />
                     </motion.div>
                     <div style={{ textAlign: 'center' }}>
-                        <h1 style={{ fontSize: '1rem', fontWeight: 900, margin: 0, color: '#1a1612', letterSpacing: '1.5px', textTransform: 'uppercase' }}>Administrator</h1>
+                        <h1 style={{ fontSize: '1rem', fontWeight: 700, margin: 0, color: '#1a1612', letterSpacing: '1.5px', textTransform: 'uppercase' }}>Administrator</h1>
                         <p style={{ fontSize: '0.65rem', fontWeight: 700, margin: '5px 0 0', color: '#9a8c82', letterSpacing: '0.5px' }}>{adminEmail || 'sdialfakhir@gmail.com'}</p>
                     </div>
                 </div>
@@ -603,13 +603,13 @@ export default function AdminPage() {
                 {/* Nav Menu */}
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', flex: 1, overflowY: 'auto', padding: '4px 16px' }}>
                     {[
-                        { tab: 'overview', label: 'Home', icon: LayoutDashboard },
-                        { tab: 'registrations', label: 'Registrations', icon: BookOpen },
-                        { tab: 'students', label: 'Selection', icon: Search },
-                        { tab: 'active-students', label: 'Database', icon: UserCheck },
-                        { tab: 'gallery', label: 'Gallery', icon: ImageIcon },
-                        { tab: 'staff', label: 'Staff', icon: Users },
-                        { tab: 'messages', label: 'Messages', icon: Mail, badge: messages.filter(m => m.status === 'unread').length }
+                        { tab: 'overview', label: 'Beranda', icon: LayoutDashboard },
+                        { tab: 'registrations', label: 'Pendaftaran', icon: BookOpen },
+                        { tab: 'students', label: 'Seleksi', icon: Search },
+                        { tab: 'active-students', label: 'Basis Data', icon: UserCheck },
+                        { tab: 'gallery', label: 'Galeri', icon: ImageIcon },
+                        { tab: 'staff', label: 'Staf', icon: Users },
+                        { tab: 'messages', label: 'Pesan', icon: Mail, badge: messages.filter(m => m.status === 'unread').length }
                     ].map((item) => (
                         <motion.button
                             key={item.tab}
@@ -625,7 +625,7 @@ export default function AdminPage() {
                         >
                             <item.icon size={17} style={{ color: activeTab === item.tab ? '#d4820a' : '#9a8c82', flexShrink: 0 }} />
                             <span style={{ flex: 1 }}>{item.label}</span>
-                            {item.badge > 0 && <span style={{ background: '#c0392b', color: '#fffdf9', fontSize: '0.6rem', padding: '2px 7px', borderRadius: '100px', fontWeight: 900 }}>{item.badge}</span>}
+                            {item.badge > 0 && <span style={{ background: '#c0392b', color: '#fffdf9', fontSize: '0.6rem', padding: '2px 7px', borderRadius: '100px', fontWeight: 700 }}>{item.badge}</span>}
                         </motion.button>
                     ))}
                 </div>
@@ -641,7 +641,7 @@ export default function AdminPage() {
                         onMouseOver={(e) => e.currentTarget.style.background = 'rgba(192,57,43,0.1)'}
                         onMouseOut={(e) => e.currentTarget.style.background = 'rgba(192,57,43,0.04)'}
                     >
-                        <AlertCircle size={16} /> <span>Logout</span>
+                        <AlertCircle size={16} /> <span>Keluar</span>
                     </button>
                 </div>
             </div>
@@ -660,34 +660,34 @@ export default function AdminPage() {
                                     {currentTime.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })} | {currentTime.toLocaleTimeString('id-ID')}
                                 </div>
                             </div>
-                              <h2 style={{ fontSize: '1.75rem', fontWeight: 900, color: '#1a1612', letterSpacing: '-1px', margin: 0 }}>
-                                {activeTab === 'overview' ? 'Al-Fakhir Management System'
-                                    : activeTab === 'students' ? 'Observation & Selection Management' 
-                                    : activeTab === 'active-students' ? 'Accepted / Active Students Database'
-                                    : activeTab === 'registrations' ? 'Registration Data (Online Forms)'
-                                    : activeTab === 'gallery' ? 'Multimedia Content' 
-                                    : activeTab === 'staff' ? 'Teaching Team'
-                                    : 'Message Center'}
+                              <h2 style={{ fontSize: '1.75rem', fontWeight: 700, color: '#1a1612', letterSpacing: '-1px', margin: 0 }}>
+                                {activeTab === 'overview' ? 'Sistem Manajemen Al-Fakhir'
+                                    : activeTab === 'students' ? 'Manajemen Observasi & Seleksi'
+                                    : activeTab === 'active-students' ? 'Basis Data Siswa Diterima / Aktif'
+                                    : activeTab === 'registrations' ? 'Data Pendaftaran (Formulir Online)'
+                                    : activeTab === 'gallery' ? 'Konten Multimedia'
+                                    : activeTab === 'staff' ? 'Tim Pengajar'
+                                    : 'Pusat Pesan'}
                             </h2>
                             <p style={{ color: '#4a3f35', fontWeight: 600, fontSize: '0.9rem', marginTop: '5px' }}>
-                                Welcome back, Admin. Manage the Al-Fakhir ecosystem in real-time.
+                                Selamat datang kembali, Admin. Kelola ekosistem Al-Fakhir secara real-time.
                             </p>
                         </div>
                         <div style={{ display: 'flex', gap: '15px' }}>
-                            <motion.button 
+                            <motion.button
                                 whileHover={{ scale: 1.02, boxShadow: '0 0 15px rgba(212,130,10,0.4)' }}
                                 whileTap={{ scale: 0.98 }}
-                                onClick={handleSave} 
-                                disabled={isSaving} 
-                                style={{ 
-                                    background: '#d4820a', color: '#fffdf9', border: '1px solid #ece4d8', padding: '14px 28px', 
-                                    borderRadius: '14px', fontWeight: 950, cursor: isSaving ? 'not-allowed' : 'pointer', display: 'flex', 
+                                onClick={handleSave}
+                                disabled={isSaving}
+                                style={{
+                                    background: '#d4820a', color: '#fffdf9', border: '1px solid #ece4d8', padding: '14px 28px',
+                                    borderRadius: '14px', fontWeight: 800, cursor: isSaving ? 'not-allowed' : 'pointer', display: 'flex',
                                     alignItems: 'center', gap: '12px', transition: '0.2s',
                                     fontSize: '0.85rem', letterSpacing: '1px'
                                 }}
                             >
-                                {isSaving ? <RefreshCw className="animate-spin" size={18} /> : <Save size={18} />} 
-                                <span>{isSaving ? 'SYNCING...' : 'SAVE ALL'}</span>
+                                {isSaving ? <RefreshCw className="animate-spin" size={18} /> : <Save size={18} />}
+                                <span>{isSaving ? 'MENYIMPAN...' : 'SIMPAN SEMUA'}</span>
                             </motion.button>
                             
                             {(activeTab === 'students' || activeTab === 'active-students' || activeTab === 'gallery' || activeTab === 'staff') && (
@@ -706,12 +706,12 @@ export default function AdminPage() {
                                     }} 
                                     style={{ 
                                         background: '#fffdf9', border: '1px solid #0d7c6e', color: '#0d7c6e', 
-                                        padding: '14px 24px', borderRadius: '14px', fontWeight: 950, cursor: 'pointer',
+                                        padding: '14px 24px', borderRadius: '14px', fontWeight: 800, cursor: 'pointer',
                                         display: 'flex', alignItems: 'center', gap: '10px',
                                         fontSize: '0.85rem', letterSpacing: '1px'
                                     }}
                                 >
-                                    <Plus size={18} style={{ color: '#0d7c6e' }} /> <span>ADD NEW</span>
+                                    <Plus size={18} style={{ color: '#0d7c6e' }} /> <span>TAMBAH BARU</span>
                                 </motion.button>
                             )}
                         </div>
@@ -730,7 +730,7 @@ export default function AdminPage() {
                                 </div>
                                 <button 
                                     onClick={() => setError(validationErrors.filter(e => e.tab === activeTab).map(e => e.msg).join('\n'))}
-                                    style={{ marginLeft: 'auto', background: '#d4820a', color: '#fffdf9', border: 'none', padding: '6px 14px', borderRadius: '14px', fontSize: '0.7rem', fontWeight: 950, cursor: 'pointer', letterSpacing: '1px' }}
+                                    style={{ marginLeft: 'auto', background: '#d4820a', color: '#fffdf9', border: 'none', padding: '6px 14px', borderRadius: '14px', fontSize: '0.7rem', fontWeight: 800, cursor: 'pointer', letterSpacing: '1px' }}
                                 >
                                     LIHAT DETAIL
                                 </button>
@@ -760,7 +760,7 @@ export default function AdminPage() {
                                 <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1, ease: 'linear' }}>
                                     <RefreshCw size={40} color="#d4820a" />
                                 </motion.div>
-                                <p style={{ fontWeight: 900, color: '#d4820a', letterSpacing: '3px', fontSize: '0.8rem' }}>FETCHING TELEMETRY...</p>
+                                <p style={{ fontWeight: 700, color: '#d4820a', letterSpacing: '3px', fontSize: '0.8rem' }}>MEMUAT DATA...</p>
                             </div>
                         )}
                         {activeTab === 'overview' ? (
@@ -774,18 +774,18 @@ export default function AdminPage() {
                                                 <span style={{ fontSize: '0.75rem', color: '#4a3f35' }}>|</span>
                                                 <span style={{ fontSize: '0.65rem', color: '#9a8c82', fontWeight: 700, letterSpacing: '0.5px' }}>SD ISLAM MODERN AL-FAKHIR</span>
                                             </div>
-                                            <div style={{ fontSize: '0.75rem', fontWeight: 900, color: '#9a8c82', letterSpacing: '3px', marginBottom: '5px' }}>TOTAL VERIFIED ADMISSIONS</div>
-                                            <div style={{ fontSize: '4.5rem', fontWeight: 950, color: '#1a1612', lineHeight: '1', letterSpacing: '-2px', margin: '10px 0 25px 0' }}>
+                                            <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#9a8c82', letterSpacing: '3px', marginBottom: '5px' }}>TOTAL SISWA DITERIMA</div>
+                                            <div style={{ fontSize: '4.5rem', fontWeight: 800, color: '#1a1612', lineHeight: '1', letterSpacing: '-2px', margin: '10px 0 25px 0' }}>
                                                 {students.filter(s => s.status === 'Lolos' || s.status === 'Diterima' || s.status === 'Lolos Seleksi' || s.status === 'Lulus Seleksi' || s.status === 'Passed Selection').length}
                                             </div>
                                         </div>
                                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: '1px solid #ece4d8', paddingTop: '20px', marginTop: '10px' }}>
                                             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                                                 <ShieldCheck size={20} style={{ color: '#d4820a' }} />
-                                                <span style={{ fontSize: '0.8rem', fontWeight: 900, color: '#1a1612', letterSpacing: '1px' }}>ACCREDITATION GRADE</span>
+                                                <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#1a1612', letterSpacing: '1px' }}>AKREDITASI</span>
                                             </div>
-                                            <div style={{ background: '#d4820a', color: '#fffdf9', padding: '4px 12px', fontWeight: 950, fontSize: '0.75rem', letterSpacing: '1px' }}>
-                                                EXCELLENT ⭐
+                                            <div style={{ background: '#d4820a', color: '#fffdf9', padding: '4px 12px', fontWeight: 800, fontSize: '0.75rem', letterSpacing: '1px' }}>
+                                                SANGAT BAIK ⭐
                                             </div>
                                         </div>
                                     </div>
@@ -793,24 +793,24 @@ export default function AdminPage() {
                                     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
                                         <div style={{ background: '#faf7f2', padding: '30px', borderRadius: '18px', border: '1px solid #ece4d8', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', boxShadow: '0 15px 35px rgba(26,22,18,0.05)', transition: 'transform 0.25s ease' }}>
                                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
-                                                <span style={{ fontSize: '0.7rem', fontWeight: 950, color: '#9a8c82', letterSpacing: '2px' }}>CANDIDATE REGISTRATIONS</span>
+                                                <span style={{ fontSize: '0.7rem', fontWeight: 800, color: '#9a8c82', letterSpacing: '2px' }}>PENDAFTAR CALON SISWA</span>
                                                 <BookOpen size={18} style={{ color: '#d4820a' }} />
                                             </div>
-                                            <div style={{ fontSize: '2.5rem', fontWeight: 950, color: '#1a1612' }}>
+                                            <div style={{ fontSize: '2.5rem', fontWeight: 800, color: '#1a1612' }}>
                                                 {registrations.length}
                                             </div>
-                                            <div style={{ fontSize: '0.7rem', color: '#9a8c82', fontWeight: 600, marginTop: '5px' }}>Awaiting initial review phase</div>
+                                            <div style={{ fontSize: '0.7rem', color: '#9a8c82', fontWeight: 600, marginTop: '5px' }}>Menunggu tahap peninjauan awal</div>
                                         </div>
 
                                         <div style={{ background: '#faf7f2', padding: '30px', borderRadius: '18px', border: '1px solid #ece4d8', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', boxShadow: '0 15px 35px rgba(26,22,18,0.05)', transition: 'transform 0.25s ease' }}>
                                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
-                                                <span style={{ fontSize: '0.7rem', fontWeight: 950, color: '#9a8c82', letterSpacing: '2px' }}>PENDING COMMUNICATIONS</span>
+                                                <span style={{ fontSize: '0.7rem', fontWeight: 800, color: '#9a8c82', letterSpacing: '2px' }}>PESAN BELUM DIBACA</span>
                                                 <Mail size={18} style={{ color: '#d4820a' }} />
                                             </div>
-                                            <div style={{ fontSize: '2.5rem', fontWeight: 950, color: '#1a1612' }}>
+                                            <div style={{ fontSize: '2.5rem', fontWeight: 800, color: '#1a1612' }}>
                                                 {messages.filter(m => m.status === 'unread').length}
                                             </div>
-                                            <div style={{ fontSize: '0.7rem', color: '#9a8c82', fontWeight: 600, marginTop: '5px' }}>Unread messages requiring support</div>
+                                            <div style={{ fontSize: '0.7rem', color: '#9a8c82', fontWeight: 600, marginTop: '5px' }}>Perlu ditanggapi segera</div>
                                         </div>
                                     </div>
                                 </div>
@@ -821,15 +821,15 @@ export default function AdminPage() {
                                     <div style={{ background: '#faf7f2', padding: '30px', borderRadius: '18px', border: '1px solid #ece4d8', boxShadow: '0 15px 35px rgba(26,22,18,0.05)' }}>
                                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '35px' }}>
                                             <div>
-                                                <h3 style={{ margin: 0, fontSize: '1.05rem', fontWeight: 950, color: '#1a1612', letterSpacing: '1px' }}>Registration Distribution</h3>
-                                                <div style={{ fontSize: '0.7rem', color: '#9a8c82', fontWeight: 600, marginTop: '4px' }}>Real-time temporal mapping from database records</div>
+                                                <h3 style={{ margin: 0, fontSize: '1.05rem', fontWeight: 800, color: '#1a1612', letterSpacing: '1px' }}>Distribusi Pendaftaran</h3>
+                                                <div style={{ fontSize: '0.7rem', color: '#9a8c82', fontWeight: 600, marginTop: '4px' }}>Pemetaan waktu real-time dari data pendaftar</div>
                                             </div>
                                             <div style={{ display: 'flex', gap: '15px' }}>
-                                                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.65rem', fontWeight: 900, color: '#9a8c82', letterSpacing: '1px' }}>
-                                                    <div style={{ width: '8px', height: '8px', background: '#d4820a' }} /> <span>CANDIDATES</span>
+                                                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.65rem', fontWeight: 700, color: '#9a8c82', letterSpacing: '1px' }}>
+                                                    <div style={{ width: '8px', height: '8px', background: '#d4820a' }} /> <span>PENDAFTAR</span>
                                                 </div>
-                                                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.65rem', fontWeight: 900, color: '#9a8c82', letterSpacing: '1px' }}>
-                                                    <div style={{ width: '8px', height: '8px', background: '#0d7c6e' }} /> <span>ADMITTED</span>
+                                                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.65rem', fontWeight: 700, color: '#9a8c82', letterSpacing: '1px' }}>
+                                                    <div style={{ width: '8px', height: '8px', background: '#0d7c6e' }} /> <span>DITERIMA</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -858,7 +858,7 @@ export default function AdminPage() {
                                                                 <motion.div initial={{ height: 0 }} animate={{ height: `${rPct}%` }} style={{ width: '10px', background: '#d4820a' }} title={`Pendaftar: ${regCounts[i]}`} />
                                                                 <motion.div initial={{ height: 0 }} animate={{ height: `${sPct}%` }} style={{ width: '10px', background: '#0d7c6e' }} title={`Diterima: ${counts[i]}`} />
                                                             </div>
-                                                            <span style={{ fontSize: '0.65rem', fontWeight: 950, color: '#9a8c82', letterSpacing: '1px' }}>{month}</span>
+                                                            <span style={{ fontSize: '0.65rem', fontWeight: 800, color: '#9a8c82', letterSpacing: '1px' }}>{month}</span>
                                                         </div>
                                                     );
                                                 });
@@ -874,8 +874,8 @@ export default function AdminPage() {
                                         return (
                                             <div style={{ background: '#faf7f2', padding: '30px', borderRadius: '18px', border: '1px solid #ece4d8', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', boxShadow: '0 15px 35px rgba(26,22,18,0.05)' }}>
                                                 <div>
-                                                    <h3 style={{ margin: '0 0 5px 0', fontSize: '1.05rem', fontWeight: 950, color: '#1a1612', letterSpacing: '1px' }}>Capacity Quota</h3>
-                                                    <div style={{ fontSize: '0.7rem', color: '#9a8c82', fontWeight: 600, marginBottom: '25px' }}>Target intake threshold</div>
+                                                    <h3 style={{ margin: '0 0 5px 0', fontSize: '1.05rem', fontWeight: 800, color: '#1a1612', letterSpacing: '1px' }}>Kuota Daya Tampung</h3>
+                                                    <div style={{ fontSize: '0.7rem', color: '#9a8c82', fontWeight: 600, marginBottom: '25px' }}>Target ambang batas penerimaan</div>
                                                 </div>
                                                 
                                                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '10px 0' }}>
@@ -891,16 +891,16 @@ export default function AdminPage() {
                                                             />
                                                         </svg>
                                                         <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
-                                                            <span style={{ fontSize: '1.6rem', fontWeight: 950, color: '#d4820a', lineHeight: '1' }}>{pct}%</span>
-                                                            <span style={{ fontSize: '0.6rem', fontWeight: 900, color: '#9a8c82', marginTop: '4px' }}>{activeCount} / 320</span>
+                                                            <span style={{ fontSize: '1.6rem', fontWeight: 800, color: '#d4820a', lineHeight: '1' }}>{pct}%</span>
+                                                            <span style={{ fontSize: '0.6rem', fontWeight: 700, color: '#9a8c82', marginTop: '4px' }}>{activeCount} / 320</span>
                                                         </div>
                                                     </div>
                                                 </div>
 
                                                 <div style={{ borderTop: '1px solid #ece4d8', paddingTop: '15px', marginTop: '10px' }}>
-                                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.75rem', fontWeight: 900, letterSpacing: '1px' }}>
+                                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.75rem', fontWeight: 700, letterSpacing: '1px' }}>
                                                         <span style={{ color: '#9a8c82' }}>Status</span>
-                                                        <span style={{ color: pct >= 100 ? '#c0392b' : '#0d7c6e' }}>{pct >= 100 ? 'FULL' : 'AVAILABLE'}</span>
+                                                        <span style={{ color: pct >= 100 ? '#c0392b' : '#0d7c6e' }}>{pct >= 100 ? 'PENUH' : 'TERSEDIA'}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -912,77 +912,77 @@ export default function AdminPage() {
                                 <div style={{ background: '#faf7f2', padding: '30px', borderRadius: '18px', border: '1px solid #ece4d8', boxShadow: '0 15px 35px rgba(26,22,18,0.05)' }}>
                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
                                         <div>
-                                            <h3 style={{ margin: '0 0 4px 0', fontSize: '1.05rem', fontWeight: 950, color: '#1a1612', letterSpacing: '1px' }}>Live Intelligence Stream</h3>
-                                            <div style={{ fontSize: '0.7rem', color: '#9a8c82', fontWeight: 600 }}>Recent automated sync logs & applicant operations</div>
+                                            <h3 style={{ margin: '0 0 4px 0', fontSize: '1.05rem', fontWeight: 800, color: '#1a1612', letterSpacing: '1px' }}>Aktivitas Terkini</h3>
+                                            <div style={{ fontSize: '0.7rem', color: '#9a8c82', fontWeight: 600 }}>Log sinkronisasi otomatis & aktivitas pendaftar terbaru</div>
                                         </div>
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.65rem', fontWeight: 950, color: '#0d7c6e', background: '#fffdf9', padding: '4px 10px', border: '1px solid #0d7c6e', letterSpacing: '1px' }}>
-                                            <span style={{ width: '6px', height: '6px', borderRadius: '14px', background: '#0d7c6e', display: 'inline-block' }} /> LIVE ACTIVE
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.65rem', fontWeight: 800, color: '#0d7c6e', background: '#fffdf9', padding: '4px 10px', border: '1px solid #0d7c6e', letterSpacing: '1px' }}>
+                                            <span style={{ width: '6px', height: '6px', borderRadius: '14px', background: '#0d7c6e', display: 'inline-block' }} /> LIVE
                                         </div>
                                     </div>
 
                                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '15px' }}>
                                         {/* Stream Column 1: Recent Admissions */}
                                         <div style={{ background: '#fffdf9', padding: '20px', border: '1px solid #ece4d8' }}>
-                                            <div style={{ fontSize: '0.65rem', fontWeight: 950, color: '#9a8c82', marginBottom: '12px', letterSpacing: '2px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                                                <UserCheck size={12} style={{ color: '#d4820a' }} /> RECENTLY SUBMITTED
+                                            <div style={{ fontSize: '0.65rem', fontWeight: 800, color: '#9a8c82', marginBottom: '12px', letterSpacing: '2px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                                <UserCheck size={12} style={{ color: '#d4820a' }} /> BARU DIKIRIM
                                             </div>
                                             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                                                 {students.slice(0, 3).map((s, idx) => (
                                                     <div key={idx} style={{ background: '#faf7f2', padding: '10px 12px', borderLeft: `3px solid ${s.status?.includes('Lolos') || s.status?.includes('Diterima') ? '#0d7c6e' : '#d4820a'}`, border: '1px solid #ece4d8', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.75rem' }}>
                                                         <div style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '120px', fontWeight: 800, color: '#1a1612' }}>
-                                                            {s.fullName || 'No Name'}
+                                                            {s.fullName || 'Tanpa Nama'}
                                                         </div>
-                                                        <span style={{ fontSize: '0.65rem', fontWeight: 950, padding: '2px 6px', background: '#fef3dc', color: '#d4820a', border: '1px solid #d4820a' }}>
-                                                            {s.status || 'Pending'}
+                                                        <span style={{ fontSize: '0.65rem', fontWeight: 800, padding: '2px 6px', background: '#fef3dc', color: '#d4820a', border: '1px solid #d4820a' }}>
+                                                            {s.status || 'Menunggu'}
                                                         </span>
                                                     </div>
                                                 ))}
-                                                {students.length === 0 && <div style={{ fontSize: '0.7rem', color: '#4a3f35', fontStyle: 'italic' }}>No stream records</div>}
+                                                {students.length === 0 && <div style={{ fontSize: '0.7rem', color: '#4a3f35', fontStyle: 'italic' }}>Belum ada data</div>}
                                             </div>
                                         </div>
 
                                         {/* Stream Column 2: Recent Inbox Activity */}
                                         <div style={{ background: '#fffdf9', padding: '20px', border: '1px solid #ece4d8' }}>
-                                            <div style={{ fontSize: '0.65rem', fontWeight: 950, color: '#9a8c82', marginBottom: '12px', letterSpacing: '2px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                                                <Mail size={12} style={{ color: '#d4820a' }} /> RECENT INBOX TRAFFIC
+                                            <div style={{ fontSize: '0.65rem', fontWeight: 800, color: '#9a8c82', marginBottom: '12px', letterSpacing: '2px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                                <Mail size={12} style={{ color: '#d4820a' }} /> PESAN MASUK TERBARU
                                             </div>
                                             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                                                 {messages.slice(0, 3).map((m, idx) => (
                                                     <div key={idx} style={{ background: '#faf7f2', padding: '10px 12px', borderLeft: `3px solid ${m.status === 'unread' ? '#c0392b' : '#4a3f35'}`, border: '1px solid #ece4d8', display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '0.75rem' }}>
                                                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                                            <span style={{ fontWeight: 800, color: '#1a1612', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '100px' }}>{m.senderName || 'Visitor'}</span>
-                                                            <span style={{ fontSize: '0.6rem', color: '#9a8c82', fontWeight: 900 }}>{m.status}</span>
+                                                            <span style={{ fontWeight: 800, color: '#1a1612', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '100px' }}>{m.senderName || 'Pengunjung'}</span>
+                                                            <span style={{ fontSize: '0.6rem', color: '#9a8c82', fontWeight: 700 }}>{m.status}</span>
                                                         </div>
-                                                        <div style={{ fontSize: '0.7rem', color: '#9a8c82', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{m.subject || m.message || 'No subject'}</div>
+                                                        <div style={{ fontSize: '0.7rem', color: '#9a8c82', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{m.subject || m.message || 'Tanpa subjek'}</div>
                                                     </div>
                                                 ))}
-                                                {messages.length === 0 && <div style={{ fontSize: '0.7rem', color: '#4a3f35', fontStyle: 'italic' }}>No unread records</div>}
+                                                {messages.length === 0 && <div style={{ fontSize: '0.7rem', color: '#4a3f35', fontStyle: 'italic' }}>Belum ada pesan</div>}
                                             </div>
                                         </div>
 
                                         {/* Stream Column 3: Platform Telemetry Snapshot */}
                                         <div style={{ background: '#fffdf9', padding: '20px', border: '1px solid #ece4d8', color: '#1a1612', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                                             <div>
-                                                <div style={{ fontSize: '0.65rem', fontWeight: 950, color: '#9a8c82', marginBottom: '12px', letterSpacing: '2px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                                                    <Clock size={12} style={{ color: '#d4820a' }} /> SYSTEM TELEMETRY
+                                                <div style={{ fontSize: '0.65rem', fontWeight: 800, color: '#9a8c82', marginBottom: '12px', letterSpacing: '2px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                                    <Clock size={12} style={{ color: '#d4820a' }} /> STATUS SISTEM
                                                 </div>
                                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '0.75rem' }}>
                                                     <div style={{ display: 'flex', justifyContent: 'space-between', color: '#9a8c82', fontWeight: 800 }}>
-                                                        <span>Database Heartbeat</span>
-                                                        <span style={{ color: '#0d7c6e', fontWeight: 950 }}>OK 24ms</span>
+                                                        <span>Koneksi Database</span>
+                                                        <span style={{ color: '#0d7c6e', fontWeight: 800 }}>OK 24ms</span>
                                                     </div>
                                                     <div style={{ display: 'flex', justifyContent: 'space-between', color: '#9a8c82', fontWeight: 800 }}>
-                                                        <span>Sync Engine</span>
-                                                        <span style={{ color: '#1a1612', fontWeight: 950 }}>Vercel Edge</span>
+                                                        <span>Mesin Sinkronisasi</span>
+                                                        <span style={{ color: '#1a1612', fontWeight: 800 }}>Vercel Edge</span>
                                                     </div>
                                                     <div style={{ display: 'flex', justifyContent: 'space-between', color: '#9a8c82', fontWeight: 800 }}>
-                                                        <span>Total Active Nodes</span>
-                                                        <span style={{ color: '#d4820a', fontWeight: 950 }}>{students.length + registrations.length}</span>
+                                                        <span>Total Data Aktif</span>
+                                                        <span style={{ color: '#d4820a', fontWeight: 800 }}>{students.length + registrations.length}</span>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div style={{ fontSize: '0.6rem', color: '#9a8c82', borderTop: '1px solid #ece4d8', paddingTop: '10px', fontWeight: 950, letterSpacing: '1px' }}>
-                                                AUTOMATICALLY VERIFIED SECURE
+                                            <div style={{ fontSize: '0.6rem', color: '#9a8c82', borderTop: '1px solid #ece4d8', paddingTop: '10px', fontWeight: 800, letterSpacing: '1px' }}>
+                                                TERVERIFIKASI AMAN OTOMATIS
                                             </div>
                                         </div>
                                     </div>
@@ -993,7 +993,7 @@ export default function AdminPage() {
                                 {/* Executive Brutalism Configuration Row */}
                                 <div style={{ background: '#fffdf9', padding: '15px 30px', borderBottom: '1px solid #ece4d8', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                     <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-                                        <div style={{ padding: '6px 12px', background: '#d4820a', color: '#fffdf9', borderRadius: '14px', fontSize: '0.65rem', fontWeight: 1000, letterSpacing: '1px' }}>TELEMETRY SETTINGS:</div>
+                                        <div style={{ padding: '6px 12px', background: '#d4820a', color: '#fffdf9', borderRadius: '14px', fontSize: '0.65rem', fontWeight: 1000, letterSpacing: '1px' }}>PENGATURAN:</div>
                                         
                                         <div style={{ position: 'relative' }}>
                                             <motion.button 
@@ -1002,7 +1002,7 @@ export default function AdminPage() {
                                                 whileTap={{ scale: 0.98 }}
                                                 style={{ background: '#faf7f2', border: '1px solid #ece4d8', padding: '10px 20px', borderRadius: '14px', fontSize: '0.85rem', fontWeight: 800, color: '#1a1612', display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', transition: '0.2s' }}
                                             >
-                                                <Settings size={16} /> <span>Form Settings</span>
+                                                <Settings size={16} /> <span>Pengaturan Formulir</span>
                                             </motion.button>
 
                                             <AnimatePresence>
@@ -1016,10 +1016,10 @@ export default function AdminPage() {
                                                         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
                                                             {/* Compact Year Manage */}
                                                             <div>
-                                                                <h5 style={{ margin: '0 0 12px 0', fontSize: '0.75rem', fontWeight: 1000, color: '#d4820a', letterSpacing: '1px' }}>ACADEMIC YEAR SETTINGS</h5>
+                                                                <h5 style={{ margin: '0 0 12px 0', fontSize: '0.75rem', fontWeight: 1000, color: '#d4820a', letterSpacing: '1px' }}>PENGATURAN TAHUN AJARAN</h5>
                                                                 <div style={{ display: 'flex', gap: '6px', marginBottom: '12px' }}>
                                                                     <input placeholder="20xx..." style={{ flex: 1, padding: '8px 12px', background: '#faf7f2', border: '1px solid #ece4d8', borderRadius: '14px', fontSize: '0.8rem', fontWeight: 700, color: '#1a1612', outline: 'none' }} value={newYearInput} onChange={e => setNewYearInput(e.target.value)} />
-                                                                    <button onClick={handleAddYear} style={{ background: '#d4820a', color: '#fffdf9', border: 'none', padding: '8px', borderRadius: '14px', cursor: 'pointer', fontWeight: 900 }}><Plus size={16} /></button>
+                                                                    <button onClick={handleAddYear} style={{ background: '#d4820a', color: '#fffdf9', border: 'none', padding: '8px', borderRadius: '14px', cursor: 'pointer', fontWeight: 700 }}><Plus size={16} /></button>
                                                                 </div>
                                                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', maxHeight: '300px', overflowY: 'auto' }}>
                                                                     {availableYears.map(y => {
@@ -1027,11 +1027,11 @@ export default function AdminPage() {
                                                                         return (
                                                                             <div key={y} style={{ background: '#faf7f2', borderRadius: '14px', padding: '15px', border: '1px solid #ece4d8' }}>
                                                                                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', alignItems: 'center' }}>
-                                                                                    <span style={{ fontWeight: 900, color: '#1a1612' }}>{y}</span>
+                                                                                    <span style={{ fontWeight: 700, color: '#1a1612' }}>{y}</span>
                                                                                     <X size={14} style={{ cursor: 'pointer', color: '#c0392b' }} onClick={() => handleDeleteYear(y)} />
                                                                                 </div>
                                                                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-                                                                                    <label style={{ fontSize: '0.6rem', fontWeight: 800, color: '#9a8c82' }}>YOUTUBE DOCUMENTATION LINK</label>
+                                                                                    <label style={{ fontSize: '0.6rem', fontWeight: 800, color: '#9a8c82' }}>LINK DOKUMENTASI YOUTUBE</label>
                                                                                     <input 
                                                                                         placeholder="https://youtube.com/watch?v=..." 
                                                                                         style={{ width: '100%', padding: '8px 12px', background: '#fffdf9', border: '1px solid #ece4d8', borderRadius: '14px', fontSize: '0.75rem', fontWeight: 600, color: '#1a1612', outline: 'none' }}
@@ -1060,7 +1060,7 @@ export default function AdminPage() {
                                                 onChange={(e) => setFilterYear(e.target.value)}
                                                 style={{ padding: '8px 15px', borderRadius: '14px', border: '1px solid #ece4d8', background: '#fffdf9', fontSize: '0.85rem', fontWeight: 700, outline: 'none', color: '#1a1612' }}
                                             >
-                                                <option value="Semua">All Years</option>
+                                                <option value="Semua">Semua Tahun</option>
                                                 {availableYears.map(y => <option key={`f-${y}`} value={y}>{y}</option>)}
                                             </select>
                                             <select 
@@ -1068,20 +1068,20 @@ export default function AdminPage() {
                                                 onChange={(e) => setFilterWave(e.target.value)}
                                                 style={{ padding: '8px 15px', borderRadius: '14px', border: '1px solid #ece4d8', background: '#fffdf9', fontSize: '0.85rem', fontWeight: 700, outline: 'none', color: '#1a1612' }}
                                             >
-                                                <option value="Semua">All Waves</option>
+                                                <option value="Semua">Semua Gelombang</option>
                                                 <option value="1">Gelombang 1</option>
                                                 <option value="2">Gelombang 2</option>
                                                 <option value="3">Gelombang 3</option>
                                             </select>
                                         </div>
                                         <button onClick={handleDownloadTemplate} style={{ background: '#fffdf9', border: '1px solid #ece4d8', color: '#1a1612', padding: '10px 18px', borderRadius: '14px', fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', transition: '0.2s' }} onMouseOver={e => { e.currentTarget.style.background = '#1a1612'; e.currentTarget.style.color = '#fffdf9'; }} onMouseOut={e => { e.currentTarget.style.background = '#fffdf9'; e.currentTarget.style.color = '#1a1612'; }}><Download size={16} /> <span>TEMPLATE</span></button>
-                                        <button onClick={() => fileInputRef.current?.click()} style={{ background: '#1a1612', border: '1px solid #ece4d8', color: '#fffdf9', padding: '10px 18px', borderRadius: '14px', fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', transition: '0.2s' }} onMouseOver={e => { e.currentTarget.style.background = '#d4820a'; }} onMouseOut={e => { e.currentTarget.style.background = '#1a1612'; }}><Upload size={16} /> <span>IMPORT</span></button>
+                                        <button onClick={() => fileInputRef.current?.click()} style={{ background: '#1a1612', border: '1px solid #ece4d8', color: '#fffdf9', padding: '10px 18px', borderRadius: '14px', fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', transition: '0.2s' }} onMouseOver={e => { e.currentTarget.style.background = '#d4820a'; }} onMouseOut={e => { e.currentTarget.style.background = '#1a1612'; }}><Upload size={16} /> <span>IMPOR</span></button>
                                     </div>
                                     <div style={{ position: 'relative', width: '100%', maxWidth: '350px' }}>
                                         <Search size={18} style={{ position: 'absolute', left: '15px', top: '50%', transform: 'translateY(-50%)', color: '#d4820a' }} />
                                         <input 
                                             type="text" 
-                                            placeholder="Search Name / Reg No..." 
+                                            placeholder="Cari Nama / No. Registrasi..." 
                                             value={searchQuery}
                                             onChange={(e) => setSearchQuery(e.target.value)}
                                             style={{ width: '100%', padding: '12px 20px 12px 45px', borderRadius: '14px', border: '1px solid #ece4d8', background: '#fffdf9', fontSize: '0.9rem', fontWeight: 600, outline: 'none', transition: '0.3s', color: '#1a1612' }} 
@@ -1094,15 +1094,15 @@ export default function AdminPage() {
                                     <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', tableLayout: 'fixed', border: '1px solid #ece4d8' }}>
                                         <thead>
                                             <tr style={{ textAlign: 'left', background: '#faf7f2' }}>
-                                                <th style={{ padding: '15px 10px', width: '50px', fontSize: '0.7rem', fontWeight: 900, color: '#1a1612', textTransform: 'uppercase', letterSpacing: '1px', borderBottom: '1px solid #ece4d8', borderRight: '1px solid #ece4d8', textAlign: 'center' }}>NO</th>
-                                                <th style={{ padding: '15px 10px', width: '160px', fontSize: '0.7rem', fontWeight: 900, color: '#1a1612', textTransform: 'uppercase', letterSpacing: '1px', borderBottom: '1px solid #ece4d8', borderRight: '1px solid #ece4d8', textAlign: 'center' }}>ID / NO REG</th>
-                                                <th style={{ padding: '15px 10px', width: '220px', fontSize: '0.7rem', fontWeight: 900, color: '#1a1612', textTransform: 'uppercase', letterSpacing: '1px', borderBottom: '1px solid #ece4d8', borderRight: '1px solid #ece4d8', textAlign: 'left' }}>STUDENT NAME</th>
-                                                <th style={{ padding: '15px 10px', fontSize: '0.7rem', fontWeight: 900, color: '#1a1612', textTransform: 'uppercase', letterSpacing: '1px', borderBottom: '1px solid #ece4d8', borderRight: '1px solid #ece4d8', textAlign: 'left' }}>PREVIOUS SCHOOL</th>
-                                                <th style={{ padding: '15px 10px', width: '110px', fontSize: '0.7rem', fontWeight: 900, color: '#1a1612', textTransform: 'uppercase', letterSpacing: '1px', borderBottom: '1px solid #ece4d8', borderRight: '1px solid #ece4d8', textAlign: 'center' }}>YEAR</th>
-                                                <th style={{ padding: '15px 10px', width: '70px', fontSize: '0.7rem', fontWeight: 900, color: '#1a1612', textTransform: 'uppercase', letterSpacing: '1px', borderBottom: '1px solid #ece4d8', borderRight: '1px solid #ece4d8', textAlign: 'center' }}>WAVE</th>
-                                                <th style={{ padding: '15px 10px', width: '160px', fontSize: '0.7rem', fontWeight: 900, color: '#1a1612', textTransform: 'uppercase', letterSpacing: '1px', borderBottom: '1px solid #ece4d8', borderRight: '1px solid #ece4d8', textAlign: 'center' }}>STATUS</th>
-                                                <th style={{ padding: '15px 10px', width: '180px', fontSize: '0.7rem', fontWeight: 900, color: '#1a1612', textTransform: 'uppercase', letterSpacing: '1px', borderBottom: '1px solid #ece4d8', borderRight: '1px solid #ece4d8', textAlign: 'left' }}>PDF LINK (DRIVE)</th>
-                                                <th style={{ padding: '15px 10px', width: '70px', textAlign: 'center', fontSize: '0.7rem', fontWeight: 900, color: '#1a1612', textTransform: 'uppercase', borderBottom: '1px solid #ece4d8' }}>ACTION</th>
+                                                <th style={{ padding: '15px 10px', width: '50px', fontSize: '0.7rem', fontWeight: 700, color: '#1a1612', textTransform: 'uppercase', letterSpacing: '1px', borderBottom: '1px solid #ece4d8', borderRight: '1px solid #ece4d8', textAlign: 'center' }}>NO</th>
+                                                <th style={{ padding: '15px 10px', width: '160px', fontSize: '0.7rem', fontWeight: 700, color: '#1a1612', textTransform: 'uppercase', letterSpacing: '1px', borderBottom: '1px solid #ece4d8', borderRight: '1px solid #ece4d8', textAlign: 'center' }}>ID / NO REG</th>
+                                                <th style={{ padding: '15px 10px', width: '220px', fontSize: '0.7rem', fontWeight: 700, color: '#1a1612', textTransform: 'uppercase', letterSpacing: '1px', borderBottom: '1px solid #ece4d8', borderRight: '1px solid #ece4d8', textAlign: 'left' }}>NAMA SISWA</th>
+                                                <th style={{ padding: '15px 10px', width: '160px', whiteSpace: 'nowrap', fontSize: '0.7rem', fontWeight: 700, color: '#1a1612', textTransform: 'uppercase', letterSpacing: '1px', borderBottom: '1px solid #ece4d8', borderRight: '1px solid #ece4d8', textAlign: 'left' }}>ASAL SEKOLAH</th>
+                                                <th style={{ padding: '15px 10px', width: '110px', fontSize: '0.7rem', fontWeight: 700, color: '#1a1612', textTransform: 'uppercase', letterSpacing: '1px', borderBottom: '1px solid #ece4d8', borderRight: '1px solid #ece4d8', textAlign: 'center' }}>TAHUN</th>
+                                                <th style={{ padding: '15px 10px', width: '70px', fontSize: '0.7rem', fontWeight: 700, color: '#1a1612', textTransform: 'uppercase', letterSpacing: '1px', borderBottom: '1px solid #ece4d8', borderRight: '1px solid #ece4d8', textAlign: 'center' }}>GEL.</th>
+                                                <th style={{ padding: '15px 10px', width: '160px', fontSize: '0.7rem', fontWeight: 700, color: '#1a1612', textTransform: 'uppercase', letterSpacing: '1px', borderBottom: '1px solid #ece4d8', borderRight: '1px solid #ece4d8', textAlign: 'center' }}>STATUS</th>
+                                                <th style={{ padding: '15px 10px', width: '180px', fontSize: '0.7rem', fontWeight: 700, color: '#1a1612', textTransform: 'uppercase', letterSpacing: '1px', borderBottom: '1px solid #ece4d8', borderRight: '1px solid #ece4d8', textAlign: 'left' }}>LINK PDF (DRIVE)</th>
+                                                <th style={{ padding: '15px 10px', width: '70px', textAlign: 'center', fontSize: '0.7rem', fontWeight: 700, color: '#1a1612', textTransform: 'uppercase', borderBottom: '1px solid #ece4d8' }}>AKSI</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -1123,7 +1123,7 @@ export default function AdminPage() {
                                                         style={{ background: '#fffdf9', borderBottom: '1px solid #ece4d8', transition: '0.2s' }}
                                                     >
                                                         <td style={{ padding: '14px 10px', textAlign: 'center', borderRight: '1px solid #ece4d8', background: '#faf7f2' }}>
-                                                            <div style={{ fontSize: '0.8rem', fontWeight: 900, color: '#1a1612' }}>{idx + 1}</div>
+                                                            <div style={{ fontSize: '0.8rem', fontWeight: 700, color: '#1a1612' }}>{idx + 1}</div>
                                                         </td>
                                                         <td style={{ padding: '14px 10px', textAlign: 'center', borderRight: '1px solid #ece4d8' }}>
                                                             <input 
@@ -1133,7 +1133,7 @@ export default function AdminPage() {
                                                                     color: '#1a1612', 
                                                                     borderRadius: '14px', 
                                                                     fontSize: '0.75rem', 
-                                                                    fontWeight: 900, 
+                                                                    fontWeight: 700, 
                                                                     border: '1px solid #ece4d8',
                                                                     width: '100%',
                                                                     textAlign: 'center', 
@@ -1147,7 +1147,7 @@ export default function AdminPage() {
                                                             />
                                                         </td>
                                                         <td style={{ padding: '14px 10px', borderRight: '1px solid #ece4d8' }}>
-                                                            <input style={{ background: 'transparent', border: 'none', fontWeight: 900, fontSize: '0.85rem', color: '#1a1612', width: '100%', outline: 'none', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }} value={s.name || ''} onChange={e => handleStudentChange(originalIndex, 'name', e.target.value)} />
+                                                            <input style={{ background: 'transparent', border: 'none', fontWeight: 700, fontSize: '0.85rem', color: '#1a1612', width: '100%', outline: 'none', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }} value={s.name || ''} onChange={e => handleStudentChange(originalIndex, 'name', e.target.value)} />
                                                         </td>
                                                         <td style={{ padding: '14px 10px', borderRight: '1px solid #ece4d8' }}>
                                                             <input style={{ background: 'transparent', border: 'none', fontWeight: 600, fontSize: '0.75rem', color: '#4a3f35', width: '100%', outline: 'none' }} value={s.school || s.schoolName || ''} onChange={e => handleStudentChange(originalIndex, 'school', e.target.value)} />
@@ -1168,10 +1168,10 @@ export default function AdminPage() {
                                                             <select 
                                                                 value={s.status || 'Not Yet Passed'} 
                                                                 onChange={e => handleStudentChange(originalIndex, 'status', e.target.value)}
-                                                                style={{ background: 'transparent', border: 'none', fontWeight: 950, fontSize: '0.75rem', color: s.status === 'Lolos' || s.status === 'Diterima' || s.status === 'Lolos Seleksi' || s.status === 'Lulus Seleksi' || s.status === 'Passed Selection' ? '#0d7c6e' : '#d4820a', cursor: 'pointer', outline: 'none', textAlign: 'center' }}
+                                                                style={{ background: 'transparent', border: 'none', fontWeight: 800, fontSize: '0.75rem', color: s.status === 'Lolos' || s.status === 'Diterima' || s.status === 'Lolos Seleksi' || s.status === 'Lulus Seleksi' || s.status === 'Passed Selection' ? '#0d7c6e' : '#d4820a', cursor: 'pointer', outline: 'none', textAlign: 'center' }}
                                                             >
-                                                                <option value="Passed Selection" style={{ background: '#fffdf9' }}>Passed Selection</option>
-                                                                <option value="Not Yet Passed" style={{ background: '#fffdf9' }}>Not Yet Passed</option>
+                                                                <option value="Passed Selection" style={{ background: '#fffdf9' }}>Lolos Seleksi</option>
+                                                                <option value="Not Yet Passed" style={{ background: '#fffdf9' }}>Belum Lolos</option>
                                                             </select>
                                                         </td>
 
@@ -1203,16 +1203,16 @@ export default function AdminPage() {
                                             onChange={(e) => setFilterYear(e.target.value)}
                                             style={{ padding: '8px 15px', borderRadius: '14px', border: '1px solid #ece4d8', background: '#fffdf9', fontSize: '0.85rem', fontWeight: 700, outline: 'none', color: '#1a1612' }}
                                         >
-                                            <option value="Semua">All Years</option>
+                                            <option value="Semua">Semua Tahun</option>
                                             {availableYears.map(y => <option key={`af-${y}`} value={y}>{y}</option>)}
                                         </select>
                                     </div>
-                                    <h3 style={{ margin: 0, fontWeight: 950, fontSize: '1.4rem', color: '#1a1612', letterSpacing: '-0.5px' }}>DATABASE OF ACCEPTED STUDENTS</h3>
+                                    <h3 style={{ margin: 0, fontWeight: 800, fontSize: '1.4rem', color: '#1a1612', letterSpacing: '-0.5px' }}>DATABASE SISWA DITERIMA</h3>
                                     <div style={{ position: 'relative', width: '320px' }}>
                                         <Search size={18} style={{ position: 'absolute', left: '15px', top: '50%', transform: 'translateY(-50%)', color: '#d4820a' }} />
                                         <input 
                                             type="text" 
-                                            placeholder="Search Active Students..." 
+                                            placeholder="Cari Siswa Aktif..." 
                                             value={searchQuery}
                                             onChange={(e) => setSearchQuery(e.target.value)}
                                             style={{ width: '100%', padding: '12px 15px 12px 45px', borderRadius: '14px', border: '1px solid #ece4d8', background: '#fffdf9', fontSize: '0.9rem', fontWeight: 600, color: '#1a1612', outline: 'none' }}
@@ -1260,7 +1260,7 @@ export default function AdminPage() {
                                                                     color: '#1a1612', 
                                                                     borderRadius: '14px', 
                                                                     fontSize: '0.75rem', 
-                                                                    fontWeight: 950, 
+                                                                    fontWeight: 800, 
                                                                     letterSpacing: '0.5px', 
                                                                     border: '1px solid #ece4d8',
                                                                     width: '180px',
@@ -1282,24 +1282,24 @@ export default function AdminPage() {
                                                             letterSpacing: '0.5px'
                                                         }}>
                                                             <div style={{ width: '6px', height: '6px', borderRadius: '14px', background: '#0d7c6e' }} />
-                                                            <span>{s.status?.toUpperCase() || 'ACCEPTED'}</span>
+                                                            <span>{s.status?.toUpperCase() || 'DITERIMA'}</span>
                                                         </div>
                                                     </div>
 
                                                     <div style={{ position: 'relative', zIndex: 2 }}>
-                                                        <h4 style={{ margin: '0 0 12px 0', fontSize: '1.5rem', fontWeight: 950, color: '#1a1612', letterSpacing: '-0.8px', lineHeight: 1.2 }}>{s.name}</h4>
+                                                        <h4 style={{ margin: '0 0 12px 0', fontSize: '1.5rem', fontWeight: 800, color: '#1a1612', letterSpacing: '-0.8px', lineHeight: 1.2 }}>{s.name}</h4>
                                                         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#4a3f35', fontSize: '0.85rem', fontWeight: 700 }}>
                                                             <div style={{ width: '30px', height: '30px', borderRadius: '14px', background: '#fffdf9', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid #ece4d8' }}>
                                                                 <Users size={16} color="#d4820a" />
                                                             </div>
-                                                            <span>{s.school || s.schoolName || 'Previous School Not Set'}</span>
+                                                            <span>{s.school || s.schoolName || 'Asal Sekolah Belum Diisi'}</span>
                                                         </div>
                                                     </div>
 
                                                     <div style={{ background: '#fffdf9', padding: '20px 25px', borderRadius: '14px', border: '1px solid #ece4d8', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'relative', zIndex: 2 }}>
                                                         <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                                                            <span style={{ fontSize: '0.6rem', fontWeight: 950, color: '#9a8c82', textTransform: 'uppercase', letterSpacing: '1px' }}>ACADEMIC YEAR</span>
-                                                            <span style={{ fontSize: '1.05rem', fontWeight: 950, color: '#d4820a' }}>{s.year}</span>
+                                                            <span style={{ fontSize: '0.6rem', fontWeight: 800, color: '#9a8c82', textTransform: 'uppercase', letterSpacing: '1px' }}>TAHUN AJARAN</span>
+                                                            <span style={{ fontSize: '1.05rem', fontWeight: 800, color: '#d4820a' }}>{s.year}</span>
                                                         </div>
                                                         <motion.div 
                                                             whileHover={{ scale: 1.1, x: 5, background: '#d4820a', color: '#fffdf9' }}
@@ -1323,7 +1323,7 @@ export default function AdminPage() {
                                             whileHover={{ y: -5, borderColor: '#d4820a' }}
                                             style={{ background: '#faf7f2', padding: '35px', borderRadius: '14px', border: '1px solid #ece4d8', display: 'flex', flexDirection: 'column', gap: '25px', position: 'relative', overflow: 'hidden', transition: '0.2s' }}
                                         >
-                                            <div style={{ position: 'absolute', top: '20px', left: '20px', width: '40px', height: '40px', background: '#d4820a', color: '#fffdf9', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1rem', fontWeight: 950, zIndex: 10 }}>{idx + 1}</div>
+                                            <div style={{ position: 'absolute', top: '20px', left: '20px', width: '40px', height: '40px', background: '#d4820a', color: '#fffdf9', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1rem', fontWeight: 800, zIndex: 10 }}>{idx + 1}</div>
                                             <div style={{ position: 'absolute', top: 0, right: 0, width: '150px', height: '150px', background: 'linear-gradient(135deg, transparent 50%, #d4820a08 100%)', zIndex: 0 }} />
                                             
                                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', position: 'relative', zIndex: 1 }}>
@@ -1331,32 +1331,32 @@ export default function AdminPage() {
                                                     <BookOpen size={30} />
                                                 </div>
                                                 <div style={{ textAlign: 'right' }}>
-                                                    <span style={{ display: 'block', fontSize: '0.7rem', color: '#9a8c82', fontWeight: 800, textTransform: 'uppercase' }}>REGISTERED ON</span>
-                                                    <span style={{ fontSize: '0.9rem', color: '#d4820a', fontWeight: 900 }}>{reg.registrationDate ? new Date(reg.registrationDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'long' }) : '-'}</span>
+                                                    <span style={{ display: 'block', fontSize: '0.7rem', color: '#9a8c82', fontWeight: 800, textTransform: 'uppercase' }}>DAFTAR PADA</span>
+                                                    <span style={{ fontSize: '0.9rem', color: '#d4820a', fontWeight: 700 }}>{reg.registrationDate ? new Date(reg.registrationDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'long' }) : '-'}</span>
                                                 </div>
                                             </div>
 
                                             <div style={{ position: 'relative', zIndex: 1 }}>
-                                                <h4 style={{ margin: '0 0 10px 0', fontSize: '1.6rem', fontWeight: 950, color: '#1a1612', letterSpacing: '-1px', lineHeight: 1.2 }}>{reg.name}</h4>
+                                                <h4 style={{ margin: '0 0 10px 0', fontSize: '1.6rem', fontWeight: 800, color: '#1a1612', letterSpacing: '-1px', lineHeight: 1.2 }}>{reg.name}</h4>
                                                 <div style={{ display: 'flex', gap: '12px' }}>
-                                                    <span style={{ padding: '6px 14px', background: '#fffdf9', color: '#1a1612', borderRadius: '14px', border: '1px solid #ece4d8', fontSize: '0.75rem', fontWeight: 900, textTransform: 'uppercase' }}>{reg.gender === 'L' ? 'Male' : 'Female'}</span>
-                                                    <span style={{ padding: '6px 14px', background: '#d4820a10', color: '#d4820a', borderRadius: '14px', border: '1px solid #d4820a30', fontSize: '0.75rem', fontWeight: 900 }}>YEAR {reg.year || '-'}</span>
+                                                    <span style={{ padding: '6px 14px', background: '#fffdf9', color: '#1a1612', borderRadius: '14px', border: '1px solid #ece4d8', fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase' }}>{reg.gender === 'L' || reg.gender === 'Laki-laki' ? 'Laki-laki' : 'Perempuan'}</span>
+                                                    <span style={{ padding: '6px 14px', background: '#d4820a10', color: '#d4820a', borderRadius: '14px', border: '1px solid #d4820a30', fontSize: '0.75rem', fontWeight: 700 }}>TAHUN {reg.year || '-'}</span>
                                                 </div>
                                             </div>
 
                                             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', background: '#fffdf9', padding: '25px', borderRadius: '14px', border: '1px solid #ece4d8', position: 'relative', zIndex: 1 }}>
                                                 <div>
-                                                    <div style={{ fontSize: '0.65rem', fontWeight: 900, color: '#9a8c82', textTransform: 'uppercase', marginBottom: '8px', letterSpacing: '1px' }}>PARENT NAME</div>
-                                                    <div style={{ fontSize: '1rem', fontWeight: 900, color: '#1a1612' }}>{reg.parentName || '-'}</div>
+                                                    <div style={{ fontSize: '0.65rem', fontWeight: 700, color: '#9a8c82', textTransform: 'uppercase', marginBottom: '8px', letterSpacing: '1px' }}>NAMA ORANG TUA</div>
+                                                    <div style={{ fontSize: '1rem', fontWeight: 700, color: '#1a1612' }}>{reg.parentName || '-'}</div>
                                                 </div>
                                                 <div>
-                                                    <div style={{ fontSize: '0.65rem', fontWeight: 900, color: '#9a8c82', textTransform: 'uppercase', marginBottom: '8px', letterSpacing: '1px' }}>WA CONTACT</div>
-                                                    <div style={{ fontSize: '1rem', fontWeight: 900, color: '#0d7c6e', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                                    <div style={{ fontSize: '0.65rem', fontWeight: 700, color: '#9a8c82', textTransform: 'uppercase', marginBottom: '8px', letterSpacing: '1px' }}>KONTAK WA</div>
+                                                    <div style={{ fontSize: '1rem', fontWeight: 700, color: '#0d7c6e', display: 'flex', alignItems: 'center', gap: '8px' }}>
                                                         <Phone size={16} /> <span>{reg.whatsapp}</span>
                                                     </div>
                                                 </div>
                                                 <div style={{ gridColumn: 'span 2', borderTop: '1px solid #ece4d8', paddingTop: '15px', marginTop: '5px' }}>
-                                                    <div style={{ fontSize: '0.65rem', fontWeight: 900, color: '#9a8c82', textTransform: 'uppercase', marginBottom: '8px', letterSpacing: '1px' }}>PREVIOUS SCHOOL</div>
+                                                    <div style={{ fontSize: '0.65rem', fontWeight: 700, color: '#9a8c82', textTransform: 'uppercase', marginBottom: '8px', letterSpacing: '1px' }}>ASAL SEKOLAH</div>
                                                     <div style={{ fontSize: '0.95rem', fontWeight: 800, color: '#1a1612' }}>{reg.school || reg.schoolName || '-'}</div>
                                                 </div>
                                             </div>
@@ -1372,17 +1372,17 @@ export default function AdminPage() {
                                                             }
                                                             window.open(pUrl, '_blank');
                                                         }} 
-                                                        style={{ flex: 1, padding: '16px', background: '#d4820a', color: '#fffdf9', border: 'none', borderRadius: '14px', fontWeight: 900, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}
+                                                        style={{ flex: 1, padding: '16px', background: '#d4820a', color: '#fffdf9', border: 'none', borderRadius: '14px', fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}
                                                     >
-                                                        <Eye size={20} /> <span>VIEW PAYMENT PROOF</span>
+                                                        <Eye size={20} /> <span>LIHAT BUKTI BAYAR</span>
                                                     </motion.button>
                                                 ) : (
-                                                    <div style={{ flex: 1, padding: '16px', background: '#c0392b15', color: '#c0392b', borderRadius: '14px', fontSize: '0.85rem', fontWeight: 900, textAlign: 'center', border: '1px solid #c0392b30' }}>PAYMENT PROOF MISSING</div>
+                                                    <div style={{ flex: 1, padding: '16px', background: '#c0392b15', color: '#c0392b', borderRadius: '14px', fontSize: '0.85rem', fontWeight: 700, textAlign: 'center', border: '1px solid #c0392b30' }}>BUKTI BAYAR BELUM ADA</div>
                                                 )}
                                                 <motion.button 
                                                     whileHover={{ scale: 1.05, background: '#c0392b', color: '#fff' }}
                                                     onClick={async () => { 
-                                                        if (window.confirm('Delete this registration record?')) { 
+                                                        if (window.confirm('Hapus data pendaftaran ini?')) { 
                                                             try {
                                                                 setIsLoading(true);
                                                                 await adminMutate({ deletes: [{ type: 'student', id: reg._id }] });
@@ -1407,7 +1407,7 @@ export default function AdminPage() {
                                     {students.filter(s => s.registrationDate).length === 0 && (
                                         <div style={{ textAlign: 'center', padding: '6rem', color: '#9a8c82', fontWeight: 800, gridColumn: 'span 2' }}>
                                             <BookOpen size={60} style={{ opacity: 0.2, marginBottom: '20px', margin: '0 auto' }} />
-                                            <p>No online registrations received yet.</p>
+                                            <p>Belum ada pendaftaran online yang masuk.</p>
                                         </div>
                                     )}
                                 </div>
@@ -1418,38 +1418,38 @@ export default function AdminPage() {
                                     {gallery.map((item, index) => (
                                         <motion.div key={item._id || index} initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} style={{ background: '#faf7f2', padding: '1.5rem', borderRadius: '14px', border: '1px solid #ece4d8' }}>
                                             <div style={{ aspectRatio: '16 / 10', background: '#fffdf9', borderRadius: '14px', marginBottom: '1.5rem', overflow: 'hidden', position: 'relative', border: item.imageUrl ? '1px solid #ece4d8' : '1px solid #c0392b' }}>
-                                                {item.imageUrl ? <img src={item.imageUrl} alt={item.title || "Gallery Item"} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <div style={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: '#c0392b', gap: '10px' }}><ImageIcon size={48} /><span style={{ fontSize: '0.7rem', fontWeight: 800 }}>IMAGE MISSING</span></div>}
-                                                <label style={{ position: 'absolute', bottom: '15px', right: '15px', background: item.imageUrl ? '#d4820a' : '#c0392b', color: '#fffdf9', padding: '10px 20px', borderRadius: '14px', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 950 }}>
-                                                    <span style={{ color: '#fffdf9' }}>{item.imageUrl ? 'CHANGE IMAGE' : 'UPLOAD NOW'}</span>
+                                                {item.imageUrl ? <img src={item.imageUrl} alt={item.title || "Gallery Item"} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <div style={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: '#c0392b', gap: '10px' }}><ImageIcon size={48} /><span style={{ fontSize: '0.7rem', fontWeight: 800 }}>GAMBAR TIDAK ADA</span></div>}
+                                                <label style={{ position: 'absolute', bottom: '15px', right: '15px', background: item.imageUrl ? '#d4820a' : '#c0392b', color: '#fffdf9', padding: '10px 20px', borderRadius: '14px', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 800 }}>
+                                                    <span style={{ color: '#fffdf9' }}>{item.imageUrl ? 'GANTI GAMBAR' : 'UNGGAH SEKARANG'}</span>
                                                     <input type="file" style={{ display: 'none' }} accept="image/*" onChange={e => handleImageUpload(index, e.target.files[0])} />
                                                 </label>
                                             </div>
                                             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                                                 <div style={{ display: 'flex', gap: '10px' }}>
                                                     <div style={{ flex: 2 }}>
-                                                        <label htmlFor={`gallery-title-${index}`} style={{ display: 'block', fontSize: '0.65rem', fontWeight: 900, color: '#9a8c82', marginBottom: '5px' }}>CONTENT TITLE</label>
-                                                        <input id={`gallery-title-${index}`} placeholder="Event Title" style={{ width: '100%', padding: '12px 15px', border: item.title ? '1px solid #ece4d8' : '1px solid #c0392b', borderRadius: '14px', fontWeight: 800, fontSize: '0.9rem', background: '#fffdf9', color: '#1a1612', outline: 'none' }} onFocus={e => e.target.style.border = '1px solid #d4820a'} onBlur={e => e.target.style.border = item.title ? '1px solid #ece4d8' : '1px solid #c0392b'} value={item.title || ''} onChange={e => handleGalleryChange(index, 'title', e.target.value)} />
+                                                        <label htmlFor={`gallery-title-${index}`} style={{ display: 'block', fontSize: '0.65rem', fontWeight: 700, color: '#9a8c82', marginBottom: '5px' }}>JUDUL KONTEN</label>
+                                                        <input id={`gallery-title-${index}`} placeholder="Judul Acara" style={{ width: '100%', padding: '12px 15px', border: item.title ? '1px solid #ece4d8' : '1px solid #c0392b', borderRadius: '14px', fontWeight: 800, fontSize: '0.9rem', background: '#fffdf9', color: '#1a1612', outline: 'none' }} onFocus={e => e.target.style.border = '1px solid #d4820a'} onBlur={e => e.target.style.border = item.title ? '1px solid #ece4d8' : '1px solid #c0392b'} value={item.title || ''} onChange={e => handleGalleryChange(index, 'title', e.target.value)} />
                                                     </div>
                                                     <div style={{ flex: 1 }}>
-                                                        <label htmlFor={`gallery-cat-${index}`} style={{ display: 'block', fontSize: '0.65rem', fontWeight: 900, color: '#9a8c82', marginBottom: '5px' }}>TYPE</label>
+                                                        <label htmlFor={`gallery-cat-${index}`} style={{ display: 'block', fontSize: '0.65rem', fontWeight: 700, color: '#9a8c82', marginBottom: '5px' }}>JENIS</label>
                                                         <select id={`gallery-cat-${index}`} style={{ width: '100%', padding: '12px', border: '1px solid #ece4d8', borderRadius: '14px', background: '#fffdf9', fontWeight: 700, fontSize: '0.8rem', color: '#1a1612', outline: 'none' }} value={item.category || 'acara'} onChange={e => handleGalleryChange(index, 'category', e.target.value)}>
-                                                            <option value="acara">Event</option>
-                                                            <option value="berita">News</option>
-                                                            <option value="penghargaan">Award</option>
-                                                            <option value="lain-lain">Other</option>
+                                                            <option value="acara">Acara</option>
+                                                            <option value="berita">Berita</option>
+                                                            <option value="penghargaan">Penghargaan</option>
+                                                            <option value="lain-lain">Lainnya</option>
                                                         </select>
                                                     </div>
                                                 </div>
                                                 <div style={{ display: 'flex', gap: '10px' }}>
-                                                    <input placeholder="Date (e.g. 12 Mar 2026)" aria-label="Event Date" style={{ flex: 1, padding: '12px 15px', border: '1px solid #ece4d8', borderRadius: '14px', background: '#fffdf9', color: '#1a1612', fontWeight: 700, fontSize: '0.85rem', outline: 'none' }} onFocus={e => e.target.style.border = '1px solid #d4820a'} onBlur={e => e.target.style.border = '1px solid #ece4d8'} value={item.date || ''} onChange={e => handleGalleryChange(index, 'date', e.target.value)} />
+                                                    <input placeholder="Tanggal (mis. 12 Mar 2026)" aria-label="Event Date" style={{ flex: 1, padding: '12px 15px', border: '1px solid #ece4d8', borderRadius: '14px', background: '#fffdf9', color: '#1a1612', fontWeight: 700, fontSize: '0.85rem', outline: 'none' }} onFocus={e => e.target.style.border = '1px solid #d4820a'} onBlur={e => e.target.style.border = '1px solid #ece4d8'} value={item.date || ''} onChange={e => handleGalleryChange(index, 'date', e.target.value)} />
                                                     <input type="date" aria-label="Pick Date" style={{ width: '45px', padding: '10px', border: '1px solid #ece4d8', borderRadius: '14px', background: '#d4820a', color: '#fffdf9', cursor: 'pointer', outline: 'none' }} onChange={e => {
                                                         const d = new Date(e.target.value);
                                                         const formatted = d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
                                                         handleGalleryChange(index, 'date', formatted);
                                                     }} />
                                                 </div>
-                                                <textarea placeholder="Full agenda description..." style={{ width: '100%', padding: '15px', border: '1px solid #ece4d8', borderRadius: '14px', background: '#fffdf9', height: '100px', resize: 'none', fontSize: '0.85rem', color: '#1a1612', outline: 'none' }} onFocus={e => e.target.style.border = '1px solid #d4820a'} onBlur={e => e.target.style.border = '1px solid #ece4d8'} value={item.agenda || ''} onChange={e => handleGalleryChange(index, 'agenda', e.target.value)} />
-                                                <button onClick={() => handleDeleteGallery(index)} style={{ width: '100%', padding: '12px', border: '1px solid #ece4d8', color: '#c0392b', background: '#fffdf9', borderRadius: '14px', fontWeight: 800, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', transition: '0.2s' }} onMouseOver={e => { e.currentTarget.style.background = '#c0392b'; e.currentTarget.style.color = '#fff'; }} onMouseOut={e => { e.currentTarget.style.background = '#fffdf9'; e.currentTarget.style.color = '#c0392b'; }}><Trash2 size={18} /> <span>DELETE CONTENT</span></button>
+                                                <textarea placeholder="Deskripsi lengkap acara..." style={{ width: '100%', padding: '15px', border: '1px solid #ece4d8', borderRadius: '14px', background: '#fffdf9', height: '100px', resize: 'none', fontSize: '0.85rem', color: '#1a1612', outline: 'none' }} onFocus={e => e.target.style.border = '1px solid #d4820a'} onBlur={e => e.target.style.border = '1px solid #ece4d8'} value={item.agenda || ''} onChange={e => handleGalleryChange(index, 'agenda', e.target.value)} />
+                                                <button onClick={() => handleDeleteGallery(index)} style={{ width: '100%', padding: '12px', border: '1px solid #ece4d8', color: '#c0392b', background: '#fffdf9', borderRadius: '14px', fontWeight: 800, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', transition: '0.2s' }} onMouseOver={e => { e.currentTarget.style.background = '#c0392b'; e.currentTarget.style.color = '#fff'; }} onMouseOut={e => { e.currentTarget.style.background = '#fffdf9'; e.currentTarget.style.color = '#c0392b'; }}><Trash2 size={18} /> <span>HAPUS KONTEN</span></button>
                                             </div>
                                         </motion.div>
                                     ))}
@@ -1470,33 +1470,33 @@ export default function AdminPage() {
                                                             e.currentTarget.onerror = null;
                                                             e.currentTarget.style.display = 'none';
                                                             if (e.currentTarget.parentElement) {
-                                                                e.currentTarget.parentElement.innerHTML = '<div style="height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #c0392b; gap: 8px;"><span style="font-size: 0.6rem; font-weight: 800;">BROKEN IMAGE</span></div>';
+                                                                e.currentTarget.parentElement.innerHTML = '<div style="height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #c0392b; gap: 8px;"><span style="font-size: 0.6rem; font-weight: 800;">GAMBAR RUSAK</span></div>';
                                                             }
                                                         }}
                                                     />
                                                 ) : (
                                                     <div style={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: '#c0392b', gap: '8px' }}>
                                                         <Users size={48} />
-                                                        <span style={{ fontSize: '0.6rem', fontWeight: 800 }}>NO PHOTO</span>
+                                                        <span style={{ fontSize: '0.6rem', fontWeight: 800 }}>BELUM ADA FOTO</span>
                                                     </div>
                                                 )}
-                                                <label style={{ position: 'absolute', bottom: '15px', right: '15px', background: member.imageUrl ? '#d4820a' : '#c0392b', color: '#fffdf9', padding: '10px 20px', borderRadius: '14px', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 950 }}>
-                                                    <span style={{ color: '#fffdf9' }}>{member.imageUrl ? 'REPLACE' : 'ADD PHOTO'}</span>
+                                                <label style={{ position: 'absolute', bottom: '15px', right: '15px', background: member.imageUrl ? '#d4820a' : '#c0392b', color: '#fffdf9', padding: '10px 20px', borderRadius: '14px', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 800 }}>
+                                                    <span style={{ color: '#fffdf9' }}>{member.imageUrl ? 'GANTI' : 'TAMBAH FOTO'}</span>
                                                     <input type="file" style={{ display: 'none' }} accept="image/*" onChange={e => handleStaffImageUpload(index, e.target.files[0])} />
                                                 </label>
                                             </div>
                                             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                                                <input placeholder="Full Name & Titles" aria-label="Staff Full Name" style={{ width: '100%', padding: '12px 15px', border: member.name ? '1px solid #ece4d8' : '1px solid #c0392b', borderRadius: '14px', fontWeight: 800, fontSize: '0.9rem', background: '#fffdf9', color: '#1a1612', outline: 'none' }} onFocus={e => e.target.style.border = '1px solid #d4820a'} onBlur={e => e.target.style.border = member.name ? '1px solid #ece4d8' : '1px solid #c0392b'} value={member.name || ''} onChange={e => handleStaffChange(index, 'name', e.target.value)} />
-                                                <input placeholder="Role / Position" aria-label="Staff Role" style={{ width: '100%', padding: '12px 15px', border: '1px solid #ece4d8', borderRadius: '14px', fontWeight: 700, fontSize: '0.85rem', background: '#fffdf9', color: '#d4820a', outline: 'none' }} onFocus={e => e.target.style.border = '1px solid #d4820a'} onBlur={e => e.target.style.border = '1px solid #ece4d8'} value={member.role || ''} onChange={e => handleStaffChange(index, 'role', e.target.value)} />
+                                                <input placeholder="Nama Lengkap & Gelar" aria-label="Staff Full Name" style={{ width: '100%', padding: '12px 15px', border: member.name ? '1px solid #ece4d8' : '1px solid #c0392b', borderRadius: '14px', fontWeight: 800, fontSize: '0.9rem', background: '#fffdf9', color: '#1a1612', outline: 'none' }} onFocus={e => e.target.style.border = '1px solid #d4820a'} onBlur={e => e.target.style.border = member.name ? '1px solid #ece4d8' : '1px solid #c0392b'} value={member.name || ''} onChange={e => handleStaffChange(index, 'name', e.target.value)} />
+                                                <input placeholder="Jabatan / Posisi" aria-label="Staff Role" style={{ width: '100%', padding: '12px 15px', border: '1px solid #ece4d8', borderRadius: '14px', fontWeight: 700, fontSize: '0.85rem', background: '#fffdf9', color: '#d4820a', outline: 'none' }} onFocus={e => e.target.style.border = '1px solid #d4820a'} onBlur={e => e.target.style.border = '1px solid #ece4d8'} value={member.role || ''} onChange={e => handleStaffChange(index, 'role', e.target.value)} />
                                                 
                                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', background: '#fffdf9', padding: '15px', borderRadius: '14px', border: '1px solid #ece4d8' }}>
-                                                    <label style={{ fontSize: '0.65rem', fontWeight: 900, color: '#9a8c82' }}>PROFESSIONAL DETAILS</label>
-                                                    <input placeholder="Short Vision (One sentence)" style={{ width: '100%', padding: '10px 12px', border: '1px solid #ece4d8', borderRadius: '14px', background: '#faf7f2', fontSize: '0.75rem', fontWeight: 600, color: '#1a1612', outline: 'none' }} onFocus={e => e.target.style.border = '1px solid #d4820a'} onBlur={e => e.target.style.border = '1px solid #ece4d8'} value={member.vision || ''} onChange={e => handleStaffChange(index, 'vision', e.target.value)} />
-                                                    <input placeholder="Latest Education (e.g. S1 IT)" style={{ width: '100%', padding: '10px 12px', border: '1px solid #ece4d8', borderRadius: '14px', background: '#faf7f2', fontSize: '0.75rem', fontWeight: 600, color: '#1a1612', outline: 'none' }} onFocus={e => e.target.style.border = '1px solid #d4820a'} onBlur={e => e.target.style.border = '1px solid #ece4d8'} value={member.education || ''} onChange={e => handleStaffChange(index, 'education', e.target.value)} />
-                                                    <input placeholder="Official Email" style={{ width: '100%', padding: '10px 12px', border: '1px solid #ece4d8', borderRadius: '14px', background: '#faf7f2', fontSize: '0.75rem', fontWeight: 600, color: '#1a1612', outline: 'none' }} onFocus={e => e.target.style.border = '1px solid #d4820a'} onBlur={e => e.target.style.border = '1px solid #ece4d8'} value={member.email || ''} onChange={e => handleStaffChange(index, 'email', e.target.value)} />
+                                                    <label style={{ fontSize: '0.65rem', fontWeight: 700, color: '#9a8c82' }}>DETAIL PROFESIONAL</label>
+                                                    <input placeholder="Visi Singkat (satu kalimat)" style={{ width: '100%', padding: '10px 12px', border: '1px solid #ece4d8', borderRadius: '14px', background: '#faf7f2', fontSize: '0.75rem', fontWeight: 600, color: '#1a1612', outline: 'none' }} onFocus={e => e.target.style.border = '1px solid #d4820a'} onBlur={e => e.target.style.border = '1px solid #ece4d8'} value={member.vision || ''} onChange={e => handleStaffChange(index, 'vision', e.target.value)} />
+                                                    <input placeholder="Pendidikan Terakhir (mis. S1 TI)" style={{ width: '100%', padding: '10px 12px', border: '1px solid #ece4d8', borderRadius: '14px', background: '#faf7f2', fontSize: '0.75rem', fontWeight: 600, color: '#1a1612', outline: 'none' }} onFocus={e => e.target.style.border = '1px solid #d4820a'} onBlur={e => e.target.style.border = '1px solid #ece4d8'} value={member.education || ''} onChange={e => handleStaffChange(index, 'education', e.target.value)} />
+                                                    <input placeholder="Email Resmi" style={{ width: '100%', padding: '10px 12px', border: '1px solid #ece4d8', borderRadius: '14px', background: '#faf7f2', fontSize: '0.75rem', fontWeight: 600, color: '#1a1612', outline: 'none' }} onFocus={e => e.target.style.border = '1px solid #d4820a'} onBlur={e => e.target.style.border = '1px solid #ece4d8'} value={member.email || ''} onChange={e => handleStaffChange(index, 'email', e.target.value)} />
                                                 </div>
 
-                                                <button onClick={() => handleDeleteStaff(index)} style={{ width: '100%', padding: '12px', border: '1px solid #ece4d8', color: '#c0392b', background: '#fffdf9', borderRadius: '14px', fontWeight: 800, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', transition: '0.2s' }} onMouseOver={e => { e.currentTarget.style.background = '#c0392b'; e.currentTarget.style.color = '#fff'; }} onMouseOut={e => { e.currentTarget.style.background = '#fffdf9'; e.currentTarget.style.color = '#c0392b'; }}><Trash2 size={18} /> <span>DELETE</span></button>
+                                                <button onClick={() => handleDeleteStaff(index)} style={{ width: '100%', padding: '12px', border: '1px solid #ece4d8', color: '#c0392b', background: '#fffdf9', borderRadius: '14px', fontWeight: 800, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', transition: '0.2s' }} onMouseOver={e => { e.currentTarget.style.background = '#c0392b'; e.currentTarget.style.color = '#fff'; }} onMouseOut={e => { e.currentTarget.style.background = '#fffdf9'; e.currentTarget.style.color = '#c0392b'; }}><Trash2 size={18} /> <span>HAPUS</span></button>
                                             </div>
                                         </motion.div>
                                     ))}
@@ -1518,7 +1518,7 @@ export default function AdminPage() {
                                                         <Mail size={20} />
                                                     </div>
                                                     <div>
-                                                        <h4 style={{ margin: 0, fontWeight: 900, fontSize: '1rem', color: '#1a1612' }}>{msg.name}</h4>
+                                                        <h4 style={{ margin: 0, fontWeight: 700, fontSize: '1rem', color: '#1a1612' }}>{msg.name}</h4>
                                                         <p style={{ margin: 0, fontSize: '0.8rem', color: '#9a8c82', fontWeight: 600 }}>{msg.email}</p>
                                                     </div>
                                                 </div>
@@ -1528,7 +1528,7 @@ export default function AdminPage() {
                                                     </span>
                                                     <button 
                                                         onClick={async () => {
-                                                            if (window.confirm('Delete message?')) {
+                                                            if (window.confirm('Hapus pesan ini?')) {
                                                                 await adminMutate({ deletes: [{ type: 'contactMessage', id: msg._id }] });
                                                                 fetchAllData();
                                                             }
@@ -1542,7 +1542,7 @@ export default function AdminPage() {
                                                 </div>
                                             </div>
                                             <div style={{ background: '#fffdf9', padding: '20px', borderRadius: '14px', border: '1px solid #ece4d8' }}>
-                                                <div style={{ fontWeight: 900, fontSize: '0.8rem', color: '#d4820a', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>Subject: {msg.subject || 'No Subject'}</div>
+                                                <div style={{ fontWeight: 700, fontSize: '0.8rem', color: '#d4820a', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>Subject: {msg.subject || 'Tanpa Subjek'}</div>
                                                 <p style={{ margin: 0, fontSize: '0.95rem', color: '#1a1612', lineHeight: 1.6, whiteSpace: 'pre-wrap' }}>{msg.message}</p>
                                             </div>
                                             <div style={{ marginTop: '15px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -1553,19 +1553,19 @@ export default function AdminPage() {
                                                                 await adminMutate({ patches: [{ id: msg._id, set: { status: 'read' } }] });
                                                                 fetchAllData();
                                                             }}
-                                                            style={{ fontSize: '0.7rem', fontWeight: 900, color: '#fffdf9', background: '#0d7c6e', border: 'none', padding: '6px 14px', borderRadius: '14px', cursor: 'pointer' }}
+                                                            style={{ fontSize: '0.7rem', fontWeight: 700, color: '#fffdf9', background: '#0d7c6e', border: 'none', padding: '6px 14px', borderRadius: '14px', cursor: 'pointer' }}
                                                         >
-                                                            MARK AS READ
+                                                            TANDAI DIBACA
                                                         </button>
                                                     )}
                                                 </div>
-                                                <a href={`mailto:${msg.email}?subject=Reply to: ${msg.subject}`} style={{ fontSize: '0.8rem', fontWeight: 900, color: '#d4820a', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '5px' }}>
-                                                    <span>REPLY VIA EMAIL</span> <ChevronRight size={14} />
+                                                <a href={`mailto:${msg.email}?subject=Reply to: ${msg.subject}`} style={{ fontSize: '0.8rem', fontWeight: 700, color: '#d4820a', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '5px' }}>
+                                                    <span>BALAS VIA EMAIL</span> <ChevronRight size={14} />
                                                 </a>
                                             </div>
                                         </motion.div>
                                     ))}
-                                    {messages.length === 0 && <div style={{ textAlign: 'center', padding: '5rem', color: '#9a8c82', fontWeight: 800 }}>No messages yet.</div>}
+                                    {messages.length === 0 && <div style={{ textAlign: 'center', padding: '5rem', color: '#9a8c82', fontWeight: 800 }}>Belum ada pesan.</div>}
                                 </div>
                             </div>
                         ) : null}
@@ -1577,8 +1577,8 @@ export default function AdminPage() {
                         ) && (
                             <div style={{ padding: '8rem', textAlign: 'center', background: '#fffdf9', border: '1px solid #ece4d8', margin: '40px' }}>
                                 <LayoutDashboard size={80} style={{ opacity: 0.15, margin: '0 auto 1.5rem', color: '#d4820a' }} />
-                                <p style={{ fontWeight: 900, color: '#1a1612', fontSize: '1.1rem' }}>NO DATA AVAILABLE IN CLOUD</p>
-                                <p style={{ fontSize: '0.85rem', color: '#9a8c82', fontWeight: 700 }}>Click "ADD NEW RECORD" above to deploy container units.</p>
+                                <p style={{ fontWeight: 700, color: '#1a1612', fontSize: '1.1rem' }}>BELUM ADA DATA</p>
+                                <p style={{ fontSize: '0.85rem', color: '#9a8c82', fontWeight: 700 }}>Klik "TAMBAH BARU" di atas untuk menambah data baru.</p>
                             </div>
                         )}
 

@@ -37,7 +37,19 @@ export async function POST(req) {
         const formData = await req.formData();
         const studentName = formData.get('name') || '';
         const parentName = formData.get('parentName') || '';
+        const nik = formData.get('nik') || '';
         const file = formData.get('paymentProof');
+
+        // Duplicate-submission guard: parents re-submitting the whole form
+        // after a slow/unclear response created repeat records (same child,
+        // same NIK, minutes apart) in both Sheets and the database. Treat a
+        // resubmission as a no-op success instead of creating another one.
+        if (nik) {
+            const existing = await studentApi.findByNik(nik).catch(() => null);
+            if (existing) {
+                return NextResponse.json({ success: true, studentId: existing.id, alreadyRegistered: true });
+            }
+        }
 
         let driveLink = '';
         if (file && typeof file.arrayBuffer === 'function' && file.size > 0) {
@@ -60,7 +72,7 @@ export async function POST(req) {
             formData.get('gender') || '',
             formData.get('birthPlace') || '',
             formData.get('birthDate') || '',
-            formData.get('nik') || '',
+            nik,
             formData.get('nisn') || '',
             formData.get('schoolName') || '',
             formData.get('address') || '',
@@ -84,7 +96,7 @@ export async function POST(req) {
             gender: formData.get('gender') || '',
             birthPlace: formData.get('birthPlace') || '',
             birthDate: formData.get('birthDate') || '',
-            nik: formData.get('nik') || '',
+            nik: nik,
             nisn: formData.get('nisn') || '',
             school: formData.get('schoolName') || '',
             address: formData.get('address') || '',

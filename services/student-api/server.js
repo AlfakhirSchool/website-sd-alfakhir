@@ -89,6 +89,15 @@ app.get('/students', (req, res) => {
     res.json(rows);
 });
 
+// Duplicate-submission guard for the registration form: same child (by NIK)
+// submitting the form again shouldn't create a second record.
+app.get('/students/find-by-nik', (req, res) => {
+    const nik = (req.query.nik || '').trim();
+    if (!nik) return res.json(null);
+    const row = db.prepare(`SELECT ${ALL_COLUMNS.join(',')} FROM students WHERE nik = ? ORDER BY createdAt ASC LIMIT 1`).get(nik);
+    res.json(row || null);
+});
+
 // No PII — safe for the public PPDB result page.
 app.get('/students/public', (req, res) => {
     const placeholders = PASSED_STATUSES.map(() => '?').join(',');

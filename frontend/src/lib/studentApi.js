@@ -26,6 +26,7 @@ async function call(path, options = {}) {
 
 export const studentApi = {
     list: () => call('/students'),
+    findByNik: (nik) => call(`/students/find-by-nik?nik=${encodeURIComponent(nik)}`),
     listPublic: () => call('/students/public'),
     create: (doc) => call('/students', { method: 'POST', body: JSON.stringify(doc) }),
     patch: (id, set) => call(`/students/${encodeURIComponent(id)}`, { method: 'PATCH', body: JSON.stringify({ set }) }),
