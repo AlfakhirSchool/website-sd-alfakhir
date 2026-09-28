@@ -4,8 +4,8 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { ChevronDown, X, Search as SearchIcon, FileText, AlertCircle } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { Search as SearchIcon, FileText, AlertCircle } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { apiFetch } from '@/lib/api';
 import LoadingSpinner from '@/components/Loading/LoadingSpinner';
 import { useLanguage } from '@/context/LanguageContext';
@@ -18,7 +18,6 @@ const PPDBPage = () => {
     const { t } = useLanguage();
     const [selectedYear, setSelectedYear] = useState('2026/2027');
     const [selectedWave, setSelectedWave] = useState('1'); 
-    const [showMenu, setShowMenu] = useState(false);
     const [years, setYears] = useState(['2026/2027']);
     const [yearConfigs, setYearConfigs] = useState([]);
     const [availableWaves, setAvailableWaves] = useState(['1', '2', '3']);
@@ -142,16 +141,31 @@ const PPDBPage = () => {
                             />
                         </div>
 
-                        <div style={{ display: 'flex', gap: '10px' }}>
-                            <button 
-                                onClick={() => setShowMenu(true)}
-                                style={{ 
-                                    background: 'white', color: '#475569', border: '1px solid #e2e8f0', padding: '12px 20px', borderRadius: '12px', cursor: 'pointer', fontWeight: 700, fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '8px'
-                                }}
+                        <select
+                            value={selectedYear}
+                            onChange={(e) => setSelectedYear(e.target.value)}
+                            style={{ background: 'white', color: '#475569', border: '1px solid #e2e8f0', padding: '12px 20px', borderRadius: '12px', cursor: 'pointer', fontWeight: 700, fontSize: '0.9rem' }}
+                        >
+                            {years.map(y => <option key={y} value={y}>{y}</option>)}
+                        </select>
+                    </div>
+
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginBottom: '25px' }}>
+                        <button
+                            onClick={() => setSelectedWave('doc')}
+                            style={{ padding: '10px 18px', borderRadius: '100px', border: 'none', background: selectedWave === 'doc' ? 'var(--primary)' : 'white', color: selectedWave === 'doc' ? 'white' : '#475569', fontWeight: 700, fontSize: '0.85rem', cursor: 'pointer', boxShadow: '0 2px 6px rgba(0,0,0,0.04)' }}
+                        >
+                            🎬 {t('ppdb_results', 'videoDoc')}
+                        </button>
+                        {availableWaves.map(w => (
+                            <button
+                                key={w}
+                                onClick={() => setSelectedWave(w)}
+                                style={{ padding: '10px 18px', borderRadius: '100px', border: 'none', background: selectedWave === w ? 'var(--primary)' : 'white', color: selectedWave === w ? 'white' : '#475569', fontWeight: 700, fontSize: '0.85rem', cursor: 'pointer', boxShadow: '0 2px 6px rgba(0,0,0,0.04)' }}
                             >
-                                <ChevronDown size={18} /> {selectedYear}
+                                📅 {t('ppdb_results', 'waveName')} {w}
                             </button>
-                        </div>
+                        ))}
                     </div>
 
                     <div style={{ background: 'white', borderRadius: '20px', overflow: 'hidden', boxShadow: '0 10px 30px rgba(0,0,0,0.04)', border: '1px solid #eef2f6' }}>
@@ -166,43 +180,6 @@ const PPDBPage = () => {
                     </div>
                 </div>
             </main>
-
-            <AnimatePresence>
-                {showMenu && (
-                    <motion.div 
-                        initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-                        style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', background: 'rgba(15, 23, 42, 0.4)', backdropFilter: 'blur(4px)', zIndex: 4000, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-                    >
-                        <motion.div 
-                            initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }}
-                            style={{ background: 'white', padding: '30px', borderRadius: '24px', maxWidth: '400px', width: '90%', boxShadow: '0 20px 40px rgba(0,0,0,0.1)' }}
-                        >
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-                                <h3 style={{ margin: 0, fontWeight: 600 }}>{t('ppdb_results', 'modalTitle')}</h3>
-                                <button onClick={() => setShowMenu(false)} style={{ border: 'none', background: '#f1f5f9', borderRadius: '50%', width: '32px', height: '32px', cursor: 'pointer' }}><X size={18}/></button>
-                            </div>
-                            
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                                <div>
-                                    <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#94a3b8', marginBottom: '8px', textTransform: 'uppercase' }}>{t('ppdb_results', 'yearLabel')}</label>
-                                    <select value={selectedYear} onChange={(e) => setSelectedYear(e.target.value)} style={{ width: '100%', padding: '12px', borderRadius: '10px', border: '1px solid #e2e8f0', fontWeight: 600 }}>
-                                        {years.map(y => <option key={y} value={y}>{y}</option>)}
-                                    </select>
-                                </div>
-                                <div>
-                                    <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#94a3b8', marginBottom: '8px', textTransform: 'uppercase' }}>{t('ppdb_results', 'waveLabel')}</label>
-                                    <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '8px' }}>
-                                        <button onClick={() => { setSelectedWave('doc'); setShowMenu(false); }} style={{ padding: '12px', borderRadius: '10px', border: 'none', background: selectedWave === 'doc' ? 'var(--primary)' : '#f8fafc', color: selectedWave === 'doc' ? 'white' : '#475569', fontWeight: 700, textAlign: 'left', cursor: 'pointer' }}>🎬 {t('ppdb_results', 'videoDoc')}</button>
-                                        {availableWaves.map(w => (
-                                            <button key={w} onClick={() => { setSelectedWave(w); setShowMenu(false); }} style={{ padding: '12px', borderRadius: '10px', border: 'none', background: selectedWave === w ? 'var(--primary)' : '#f8fafc', color: selectedWave === w ? 'white' : '#475569', fontWeight: 700, textAlign: 'left', cursor: 'pointer' }}>📅 {t('ppdb_results', 'waveName')} {w}</button>
-                                        ))}
-                                    </div>
-                                </div>
-                            </div>
-                        </motion.div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
 
             <Footer />
         </div>
