@@ -965,7 +965,7 @@ export default function AdminPage() {
                                                 {students.slice(0, 3).map((s, idx) => (
                                                     <div key={idx} style={{ background: '#faf7f2', padding: '10px 12px', borderLeft: `3px solid ${s.status?.includes('Lolos') || s.status?.includes('Diterima') ? '#0d7c6e' : '#d4820a'}`, border: '1px solid #ece4d8', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.75rem' }}>
                                                         <div style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '120px', fontWeight: 600, color: '#1a1612' }}>
-                                                            {s.fullName || 'Tanpa Nama'}
+                                                            {s.name || 'Tanpa Nama'}
                                                         </div>
                                                         <span style={{ fontSize: '0.65rem', fontWeight: 600, padding: '2px 6px', background: '#fef3dc', color: '#d4820a', border: '1px solid #d4820a' }}>
                                                             {s.status || 'Menunggu'}
