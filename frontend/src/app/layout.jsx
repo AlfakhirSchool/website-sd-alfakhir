@@ -8,6 +8,11 @@ const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit" });
 export const metadata = {
   title: "SDI Al Fakhir - Sekolah Dasar Islam Modern",
   description: "Website resmi SDI Al Fakhir. Memberikan pendidikan Islam terbaik dengan kurikulum modern.",
+  icons: {
+    icon: "/favicon.webp",
+    shortcut: "/favicon.webp",
+    apple: "/favicon.webp",
+  },
 };
 
 export default function RootLayout({ children }) {
