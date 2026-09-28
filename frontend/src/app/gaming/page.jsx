@@ -1506,6 +1506,20 @@ export default function AdminPage() {
                                         return typeOk && yearOk;
                                     });
 
+                                    const downloadRegistrations = () => {
+                                        const exportRows = rows.map((r, i) => {
+                                            const type = r.registrationType || (r.paymentProof ? 'booking_fee' : 'formulir');
+                                            const row = { '#': i + 1, TIPE: type === 'booking_fee' ? 'BOOKING FEE' : 'AMBIL FORMULIR', 'DAPAT KURSI': (r.seatConfirmed === 'true' || r.seatConfirmed === true) ? 'YA' : 'TIDAK' };
+                                            REG_COLUMNS.forEach(col => { row[col.label] = col.get(r); });
+                                            return row;
+                                        });
+                                        const worksheet = XLSX.utils.json_to_sheet(exportRows);
+                                        const workbook = XLSX.utils.book_new();
+                                        XLSX.utils.book_append_sheet(workbook, worksheet, 'Pendaftaran');
+                                        const yearLabel = filterYear === 'Semua' ? 'SemuaTahun' : filterYear.replace('/', '-');
+                                        XLSX.writeFile(workbook, `AlFakhir_Pendaftaran_${yearLabel}.xlsx`);
+                                    };
+
                                     const patchRegistration = async (id, set) => {
                                         // Optimistic local update — a full fetchAllData() here would
                                         // throw up the full-screen "MEMUAT DATA..." overlay for every
@@ -1529,7 +1543,16 @@ export default function AdminPage() {
                                     }
 
                                     return (
-                                        <div style={{ overflowX: 'auto', border: '1px solid #ece4d8', borderRadius: '14px' }}>
+                                        <div>
+                                            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '15px' }}>
+                                                <button
+                                                    onClick={downloadRegistrations}
+                                                    style={{ padding: '10px 20px', borderRadius: '10px', border: 'none', background: '#166534', color: '#fffdf9', fontWeight: 700, fontSize: '0.8rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}
+                                                >
+                                                    <Download size={16} /> Download Data ({rows.length})
+                                                </button>
+                                            </div>
+                                            <div style={{ overflowX: 'auto', border: '1px solid #ece4d8', borderRadius: '14px' }}>
                                             <table style={{ borderCollapse: 'collapse', width: 'max-content', minWidth: '100%' }}>
                                                 <thead>
                                                     <tr>
@@ -1619,6 +1642,7 @@ export default function AdminPage() {
                                                     ))}
                                                 </tbody>
                                             </table>
+                                            </div>
                                         </div>
                                     );
                                 })()}
