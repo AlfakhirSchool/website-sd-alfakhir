@@ -1348,144 +1348,124 @@ export default function AdminPage() {
                                         </button>
                                     ))}
                                 </div>
-                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(420px, 1fr))', gap: '30px' }}>
-                                    {students.filter(s => s.registrationDate).filter(s => {
+                                {(() => {
+                                    const REG_COLUMNS = [
+                                        { label: 'DAFTAR PADA', get: r => r.registrationDate ? new Date(r.registrationDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : '-' },
+                                        { label: 'NAMA ANAK', get: r => r.name || '-' },
+                                        { label: 'JENIS KELAMIN', get: r => r.gender === 'L' || r.gender === 'Laki-laki' ? 'Laki-laki' : 'Perempuan' },
+                                        { label: 'TAHUN', get: r => r.year || '-' },
+                                        { label: 'GELOMBANG', get: r => r.wave || '-' },
+                                        { label: 'TIPE', get: r => (r.registrationType || (r.paymentProof ? 'booking_fee' : 'formulir')) === 'booking_fee' ? 'BOOKING FEE' : 'AMBIL FORMULIR' },
+                                        { label: 'NAMA ORANG TUA', get: r => r.parentName || '-' },
+                                        { label: 'KONTAK WA', get: r => r.whatsapp || '-' },
+                                        { label: 'ASAL SEKOLAH', get: r => r.school || r.schoolName || '-' },
+                                        { label: 'TEMPAT, TGL LAHIR', get: r => `${r.birthPlace || '-'}${r.birthDate ? `, ${new Date(r.birthDate).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}` : ''}` },
+                                        { label: 'NIK', get: r => r.nik || '-' },
+                                        { label: 'NISN', get: r => r.nisn || '-' },
+                                        { label: 'AGAMA', get: r => r.religion || '-' },
+                                        { label: 'ANAK KE / DARI SAUDARA', get: r => `${r.childOrder || '-'} dari ${r.siblingOf || '-'}` },
+                                        { label: 'TINGGI / BERAT', get: r => `${r.height || '-'} cm / ${r.weight || '-'} kg` },
+                                        { label: 'BAHASA SEHARI-HARI', get: r => r.dailyLanguage || '-' },
+                                        { label: 'NO. KIP/KIS/KKS/KPS', get: r => r.kip || '-' },
+                                        { label: 'NO. HP SISWA', get: r => r.studentPhone || '-' },
+                                        { label: 'ALAMAT', get: r => `${r.address || '-'}${r.city ? `, ${r.city}` : ''}${r.province ? `, ${r.province}` : ''}` },
+                                        { label: 'TAHUN LULUS ASAL', get: r => r.graduationYear || '-' },
+                                        { label: 'NAMA AYAH', get: r => r.fatherName || '-' },
+                                        { label: 'NIK AYAH', get: r => r.nikAyah || '-' },
+                                        { label: 'TTL AYAH', get: r => r.fatherBirthInfo || '-' },
+                                        { label: 'PENDIDIKAN AYAH', get: r => r.fatherEducation || '-' },
+                                        { label: 'PEKERJAAN AYAH', get: r => r.fatherJob || '-' },
+                                        { label: 'PENGHASILAN AYAH', get: r => r.fatherIncome || '-' },
+                                        { label: 'NO. TLP AYAH', get: r => r.fatherPhone || '-' },
+                                        { label: 'STATUS AYAH', get: r => r.fatherStatus || '-' },
+                                        { label: 'NAMA IBU', get: r => r.motherName || '-' },
+                                        { label: 'NIK IBU', get: r => r.nikIbu || '-' },
+                                        { label: 'TTL IBU', get: r => r.motherBirthInfo || '-' },
+                                        { label: 'PENDIDIKAN IBU', get: r => r.motherEducation || '-' },
+                                        { label: 'PEKERJAAN IBU', get: r => r.motherJob || '-' },
+                                        { label: 'PENGHASILAN IBU', get: r => r.motherIncome || '-' },
+                                        { label: 'NO. TLP IBU', get: r => r.motherPhone || '-' },
+                                        { label: 'STATUS IBU', get: r => r.motherStatus || '-' },
+                                    ];
+                                    const rows = students.filter(s => s.registrationDate).filter(s => {
                                         const type = s.registrationType || (s.paymentProof ? 'booking_fee' : 'formulir');
                                         return registrationFilter === 'all' || type === registrationFilter;
-                                    }).map((reg, idx) => (
-                                        <motion.div 
-                                            key={reg._id || idx}
-                                            whileHover={{ y: -5, borderColor: '#d4820a' }}
-                                            style={{ background: '#faf7f2', padding: '35px', borderRadius: '14px', border: '1px solid #ece4d8', display: 'flex', flexDirection: 'column', gap: '25px', position: 'relative', overflow: 'hidden', transition: '0.2s' }}
-                                        >
-                                            <div style={{ position: 'absolute', top: '20px', left: '20px', width: '40px', height: '40px', background: '#d4820a', color: '#fffdf9', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1rem', fontWeight: 600, zIndex: 10 }}>{idx + 1}</div>
-                                            <div style={{ position: 'absolute', top: 0, right: 0, width: '150px', height: '150px', background: 'linear-gradient(135deg, transparent 50%, #d4820a08 100%)', zIndex: 0 }} />
-                                            
-                                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', position: 'relative', zIndex: 1 }}>
-                                                <div style={{ width: '64px', height: '64px', borderRadius: '14px', background: '#fffdf9', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#d4820a', border: '1px solid #ece4d8', marginLeft: '35px' }}>
-                                                    <BookOpen size={30} />
-                                                </div>
-                                                <div style={{ textAlign: 'right' }}>
-                                                    <span style={{ display: 'block', fontSize: '0.7rem', color: '#9a8c82', fontWeight: 600, textTransform: 'uppercase' }}>DAFTAR PADA</span>
-                                                    <span style={{ fontSize: '0.9rem', color: '#d4820a', fontWeight: 700 }}>{reg.registrationDate ? new Date(reg.registrationDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'long' }) : '-'}</span>
-                                                </div>
+                                    });
+
+                                    if (rows.length === 0) {
+                                        return (
+                                            <div style={{ textAlign: 'center', padding: '6rem', color: '#9a8c82', fontWeight: 600 }}>
+                                                <BookOpen size={60} style={{ opacity: 0.2, marginBottom: '20px', margin: '0 auto' }} />
+                                                <p>Belum ada pendaftaran online yang masuk.</p>
                                             </div>
+                                        );
+                                    }
 
-                                            <div style={{ position: 'relative', zIndex: 1 }}>
-                                                <h4 style={{ margin: '0 0 10px 0', fontSize: '1.6rem', fontWeight: 600, color: '#1a1612', letterSpacing: '-1px', lineHeight: 1.2 }}>{reg.name}</h4>
-                                                <div style={{ display: 'flex', gap: '12px' }}>
-                                                    <span style={{ padding: '6px 14px', background: '#fffdf9', color: '#1a1612', borderRadius: '14px', border: '1px solid #ece4d8', fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase' }}>{reg.gender === 'L' || reg.gender === 'Laki-laki' ? 'Laki-laki' : 'Perempuan'}</span>
-                                                    <span style={{ padding: '6px 14px', background: '#d4820a10', color: '#d4820a', borderRadius: '14px', border: '1px solid #d4820a30', fontSize: '0.75rem', fontWeight: 700 }}>TAHUN {reg.year || '-'}</span>
-                                                    {(reg.registrationType || (reg.paymentProof ? 'booking_fee' : 'formulir')) === 'booking_fee' ? (
-                                                        <span style={{ padding: '6px 14px', background: '#0d7c6e15', color: '#0d7c6e', borderRadius: '14px', border: '1px solid #0d7c6e30', fontSize: '0.75rem', fontWeight: 700 }}>BOOKING FEE</span>
-                                                    ) : (
-                                                        <span style={{ padding: '6px 14px', background: '#c0392b15', color: '#c0392b', borderRadius: '14px', border: '1px solid #c0392b30', fontSize: '0.75rem', fontWeight: 700 }}>AMBIL FORMULIR</span>
-                                                    )}
-                                                </div>
-                                            </div>
-
-                                            <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: '20px', background: '#fffdf9', padding: '25px', borderRadius: '14px', border: '1px solid #ece4d8', position: 'relative', zIndex: 1 }}>
-                                                <div>
-                                                    <div style={{ fontSize: '0.65rem', fontWeight: 700, color: '#9a8c82', textTransform: 'uppercase', marginBottom: '8px', letterSpacing: '1px' }}>NAMA ORANG TUA</div>
-                                                    <div style={{ fontSize: '1rem', fontWeight: 700, color: '#1a1612' }}>{reg.parentName || '-'}</div>
-                                                </div>
-                                                <div>
-                                                    <div style={{ fontSize: '0.65rem', fontWeight: 700, color: '#9a8c82', textTransform: 'uppercase', marginBottom: '8px', letterSpacing: '1px' }}>KONTAK WA</div>
-                                                    <div style={{ fontSize: '1rem', fontWeight: 700, color: '#0d7c6e', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                                        <Phone size={16} /> <span>{reg.whatsapp}</span>
-                                                    </div>
-                                                </div>
-                                                <div style={{ gridColumn: 'span 2', borderTop: '1px solid #ece4d8', paddingTop: '15px', marginTop: '5px' }}>
-                                                    <div style={{ fontSize: '0.65rem', fontWeight: 700, color: '#9a8c82', textTransform: 'uppercase', marginBottom: '8px', letterSpacing: '1px' }}>ASAL SEKOLAH</div>
-                                                    <div style={{ fontSize: '0.95rem', fontWeight: 600, color: '#1a1612' }}>{reg.school || reg.schoolName || '-'}</div>
-                                                </div>
-
-                                                <div style={{ gridColumn: 'span 2', borderTop: '1px solid #ece4d8', paddingTop: '15px' }}>
-                                                    <Field label="TEMPAT, TANGGAL LAHIR" value={`${reg.birthPlace || '-'}${reg.birthDate ? `, ${new Date(reg.birthDate).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}` : ''}`} />
-                                                </div>
-                                                <Field label="NIK" value={reg.nik || '-'} />
-                                                <Field label="NISN" value={reg.nisn || '-'} />
-                                                <Field label="AGAMA" value={reg.religion || '-'} />
-                                                <Field label="ANAK KE / DARI SAUDARA" value={`${reg.childOrder || '-'} dari ${reg.siblingOf || '-'}`} />
-                                                <Field label="TINGGI / BERAT BADAN" value={`${reg.height || '-'} cm / ${reg.weight || '-'} kg`} />
-                                                <Field label="BAHASA SEHARI-HARI" value={reg.dailyLanguage || '-'} />
-                                                <Field label="NO. KIP/KIS/KKS/KPS" value={reg.kip || '-'} />
-                                                <Field label="NO. HP SISWA" value={reg.studentPhone || '-'} />
-                                                <Field span label="ALAMAT" value={`${reg.address || '-'}${reg.city ? `, ${reg.city}` : ''}${reg.province ? `, ${reg.province}` : ''}`} />
-                                                <Field label="TAHUN LULUS SEKOLAH ASAL" value={reg.graduationYear || '-'} />
-                                                <Field label="GELOMBANG" value={reg.wave || '-'} />
-
-                                                <div style={{ gridColumn: 'span 2', borderTop: '1px solid #ece4d8', paddingTop: '15px', fontSize: '0.7rem', fontWeight: 600, color: '#d4820a', letterSpacing: '1px' }}>DATA AYAH KANDUNG</div>
-                                                <Field label="NAMA AYAH" value={reg.fatherName || '-'} />
-                                                <Field label="NIK AYAH" value={reg.nikAyah || '-'} />
-                                                <Field label="TTL AYAH" value={reg.fatherBirthInfo || '-'} />
-                                                <Field label="PENDIDIKAN AYAH" value={reg.fatherEducation || '-'} />
-                                                <Field label="PEKERJAAN AYAH" value={reg.fatherJob || '-'} />
-                                                <Field label="PENGHASILAN AYAH" value={reg.fatherIncome || '-'} />
-                                                <Field label="NO. TLP AYAH" value={reg.fatherPhone || '-'} />
-                                                <Field label="STATUS AYAH" value={reg.fatherStatus || '-'} />
-
-                                                <div style={{ gridColumn: 'span 2', borderTop: '1px solid #ece4d8', paddingTop: '15px', fontSize: '0.7rem', fontWeight: 600, color: '#d4820a', letterSpacing: '1px' }}>DATA IBU KANDUNG</div>
-                                                <Field label="NAMA IBU" value={reg.motherName || '-'} />
-                                                <Field label="NIK IBU" value={reg.nikIbu || '-'} />
-                                                <Field label="TTL IBU" value={reg.motherBirthInfo || '-'} />
-                                                <Field label="PENDIDIKAN IBU" value={reg.motherEducation || '-'} />
-                                                <Field label="PEKERJAAN IBU" value={reg.motherJob || '-'} />
-                                                <Field label="PENGHASILAN IBU" value={reg.motherIncome || '-'} />
-                                                <Field label="NO. TLP IBU" value={reg.motherPhone || '-'} />
-                                                <Field label="STATUS IBU" value={reg.motherStatus || '-'} />
-                                            </div>
-
-                                            <div style={{ display: 'flex', gap: '15px', position: 'relative', zIndex: 1 }}>
-                                                {reg.paymentProof ? (
-                                                    <motion.button 
-                                                        whileHover={{ scale: 1.02 }}
-                                                        onClick={() => {
-                                                            let pUrl = reg.paymentProof;
-                                                            if (pUrl && !pUrl.startsWith('http://') && !pUrl.startsWith('https://')) {
-                                                                pUrl = 'https://' + pUrl;
-                                                            }
-                                                            window.open(pUrl, '_blank');
-                                                        }} 
-                                                        style={{ flex: 1, padding: '16px', background: '#d4820a', color: '#fffdf9', border: 'none', borderRadius: '14px', fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}
-                                                    >
-                                                        <Eye size={20} /> <span>LIHAT BUKTI BAYAR</span>
-                                                    </motion.button>
-                                                ) : (
-                                                    <div style={{ flex: 1, padding: '16px', background: '#c0392b15', color: '#c0392b', borderRadius: '14px', fontSize: '0.85rem', fontWeight: 700, textAlign: 'center', border: '1px solid #c0392b30' }}>BUKTI BAYAR BELUM ADA</div>
-                                                )}
-                                                <motion.button 
-                                                    whileHover={{ scale: 1.05, background: '#c0392b', color: '#fff' }}
-                                                    onClick={async () => { 
-                                                        if (window.confirm('Hapus data pendaftaran ini?')) { 
-                                                            try {
-                                                                setIsLoading(true);
-                                                                await adminMutate({ deletes: [{ type: 'student', id: reg._id }] });
-                                                                setSuccess('Data registrasi berhasil dihapus dari Cloud!');
-                                                                setTimeout(() => setSuccess(''), 3000);
-                                                                fetchAllData(); 
-                                                            } catch (errDel) {
-                                                                console.error("Delete Error:", errDel);
-                                                                setError('Gagal menghapus: ' + (errDel.message || 'Akses ditolak. Pastikan Token Sanity memiliki izin Write/Editor dan CORS Allow Credentials aktif.'));
-                                                            } finally {
-                                                                setIsLoading(false);
-                                                            }
-                                                        } 
-                                                    }} 
-                                                    style={{ padding: '16px', background: '#fffdf9', border: '1px solid #ece4d8', color: '#c0392b', borderRadius: '14px', cursor: 'pointer', transition: '0.2s' }}
-                                                >
-                                                    <Trash2 size={22} />
-                                                </motion.button>
-                                            </div>
-                                        </motion.div>
-                                    ))}
-                                    {students.filter(s => s.registrationDate).length === 0 && (
-                                        <div style={{ textAlign: 'center', padding: '6rem', color: '#9a8c82', fontWeight: 600, gridColumn: 'span 2' }}>
-                                            <BookOpen size={60} style={{ opacity: 0.2, marginBottom: '20px', margin: '0 auto' }} />
-                                            <p>Belum ada pendaftaran online yang masuk.</p>
+                                    return (
+                                        <div style={{ overflowX: 'auto', border: '1px solid #ece4d8', borderRadius: '14px' }}>
+                                            <table style={{ borderCollapse: 'collapse', width: 'max-content', minWidth: '100%' }}>
+                                                <thead>
+                                                    <tr>
+                                                        <th style={{ position: 'sticky', left: 0, zIndex: 2, padding: '14px 16px', background: '#1a1612', color: '#fffdf9', fontSize: '0.7rem', fontWeight: 700, textTransform: 'uppercase', textAlign: 'left', whiteSpace: 'nowrap' }}>#</th>
+                                                        {REG_COLUMNS.map(col => (
+                                                            <th key={col.label} style={{ padding: '14px 16px', background: '#1a1612', color: '#fffdf9', fontSize: '0.7rem', fontWeight: 700, textTransform: 'uppercase', textAlign: 'left', whiteSpace: 'nowrap' }}>{col.label}</th>
+                                                        ))}
+                                                        <th style={{ padding: '14px 16px', background: '#1a1612', color: '#fffdf9', fontSize: '0.7rem', fontWeight: 700, textTransform: 'uppercase', textAlign: 'left', whiteSpace: 'nowrap' }}>AKSI</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {rows.map((reg, idx) => (
+                                                        <tr key={reg._id || idx} style={{ background: idx % 2 === 0 ? '#fffdf9' : '#faf7f2' }}>
+                                                            <td style={{ position: 'sticky', left: 0, background: idx % 2 === 0 ? '#fffdf9' : '#faf7f2', padding: '12px 16px', fontSize: '0.8rem', fontWeight: 700, color: '#d4820a', borderBottom: '1px solid #ece4d8', whiteSpace: 'nowrap' }}>{idx + 1}</td>
+                                                            {REG_COLUMNS.map(col => (
+                                                                <td key={col.label} style={{ padding: '12px 16px', fontSize: '0.8rem', color: '#1a1612', borderBottom: '1px solid #ece4d8', whiteSpace: 'nowrap' }}>{col.get(reg)}</td>
+                                                            ))}
+                                                            <td style={{ padding: '12px 16px', borderBottom: '1px solid #ece4d8', whiteSpace: 'nowrap' }}>
+                                                                <div style={{ display: 'flex', gap: '8px' }}>
+                                                                    {reg.paymentProof ? (
+                                                                        <button
+                                                                            onClick={() => {
+                                                                                let pUrl = reg.paymentProof;
+                                                                                if (pUrl && !pUrl.startsWith('http://') && !pUrl.startsWith('https://')) pUrl = 'https://' + pUrl;
+                                                                                window.open(pUrl, '_blank');
+                                                                            }}
+                                                                            style={{ padding: '8px 12px', background: '#d4820a', color: '#fffdf9', border: 'none', borderRadius: '10px', fontWeight: 700, fontSize: '0.75rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}
+                                                                        >
+                                                                            <Eye size={14} /> BUKTI
+                                                                        </button>
+                                                                    ) : (
+                                                                        <span style={{ padding: '8px 12px', background: '#c0392b15', color: '#c0392b', borderRadius: '10px', fontSize: '0.75rem', fontWeight: 700, border: '1px solid #c0392b30' }}>BELUM ADA</span>
+                                                                    )}
+                                                                    <button
+                                                                        onClick={async () => {
+                                                                            if (window.confirm('Hapus data pendaftaran ini?')) {
+                                                                                try {
+                                                                                    setIsLoading(true);
+                                                                                    await adminMutate({ deletes: [{ type: 'student', id: reg._id }] });
+                                                                                    setSuccess('Data registrasi berhasil dihapus dari Cloud!');
+                                                                                    setTimeout(() => setSuccess(''), 3000);
+                                                                                    fetchAllData();
+                                                                                } catch (errDel) {
+                                                                                    console.error("Delete Error:", errDel);
+                                                                                    setError('Gagal menghapus: ' + (errDel.message || 'Akses ditolak. Pastikan Token Sanity memiliki izin Write/Editor dan CORS Allow Credentials aktif.'));
+                                                                                } finally {
+                                                                                    setIsLoading(false);
+                                                                                }
+                                                                            }
+                                                                        }}
+                                                                        style={{ padding: '8px', background: '#fffdf9', border: '1px solid #ece4d8', color: '#c0392b', borderRadius: '10px', cursor: 'pointer' }}
+                                                                    >
+                                                                        <Trash2 size={16} />
+                                                                    </button>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    ))}
+                                                </tbody>
+                                            </table>
                                         </div>
-                                    )}
-                                </div>
+                                    );
+                                })()}
                             </div>
                         ) : activeTab === 'gallery' ? (
                             <div style={{ padding: '40px', background: '#fffdf9' }}>

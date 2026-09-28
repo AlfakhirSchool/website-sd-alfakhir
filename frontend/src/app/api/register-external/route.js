@@ -76,8 +76,11 @@ export async function POST(req) {
             school: fields.schoolName,
             ...fields,
             registrationType,
-            status: 'Lolos',
-            score: 'B',
+            // Not a pass/fail result yet — just a form submission. Admin marks
+            // it "Passed Selection" manually after the actual observation, which
+            // is what makes it show up under Pengumuman Observasi.
+            status: 'Not Yet Passed',
+            score: '',
             paymentProof: driveLink,
             externalImage: driveLink,
             registrationDate: new Date().toISOString(),
