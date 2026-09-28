@@ -8,14 +8,19 @@ import { motion, AnimatePresence } from 'framer-motion';
 import RegistrationForm from '@/components/Registration';
 import LoadingSpinner from '@/components/Loading/LoadingSpinner';
 import { useLanguage } from '@/context/LanguageContext';
+import { apiFetch } from '@/lib/api';
 
 const RegistrationPage = () => {
     const { t } = useLanguage();
     const [registeredData, setRegisteredData] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [registrationClosed, setRegistrationClosed] = useState(false);
 
     useEffect(() => {
         const timer = setTimeout(() => setLoading(false), 800);
+        apiFetch('/api/settings').then(settings => {
+            if (settings?.registrationEnabled === false) setRegistrationClosed(true);
+        });
         return () => clearTimeout(timer);
     }, []);
 
@@ -31,7 +36,14 @@ const RegistrationPage = () => {
             
             <main style={{ padding: '140px 0 60px' }}>
                 <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px' }}>
-                    {!registeredData ? (
+                    {registrationClosed ? (
+                        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} style={{ maxWidth: '600px', margin: '0 auto', textAlign: 'center', padding: '80px 40px', background: 'white', borderRadius: '24px', border: '1px solid #e2e8f0' }}>
+                            <h2 style={{ fontSize: '2rem', fontWeight: 700, color: '#0f172a', marginBottom: '15px' }}>Pendaftaran Online Ditutup</h2>
+                            <p style={{ color: '#64748b', fontSize: '1rem', lineHeight: 1.6 }}>
+                                Mohon maaf, pendaftaran online untuk saat ini sedang ditutup. Silakan hubungi kami langsung untuk informasi lebih lanjut.
+                            </p>
+                        </motion.div>
+                    ) : !registeredData ? (
                         <div className="registration-grid">
                             <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}>
                                 <div style={{ background: 'white', padding: '40px', borderRadius: '16px', border: '1px solid #e2e8f0', boxShadow: '0 4px 20px rgba(0,0,0,0.02)' }}>

@@ -47,6 +47,8 @@ export default function AdminPage() {
     const [adminEmail, setAdminEmail] = useState('');
     const [activeTab, setActiveTab] = useState('overview');
     const [registrationFilter, setRegistrationFilter] = useState('all');
+    const [siteSettings, setSiteSettings] = useState({});
+    const [isSavingSettings, setIsSavingSettings] = useState(false);
     const [students, setStudents] = useState([]);
     const [gallery, setGallery] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -139,6 +141,7 @@ export default function AdminPage() {
             setStaff(data.staff || []);
             setMessages(data.messages || []);
             setYearConfigs(data.yearConfigs || []);
+            setSiteSettings(data.settings || {});
             
             // Set registrations as a subset of students who have a registrationDate
             setRegistrations((data.students || []).filter(s => s.registrationDate));
@@ -1328,6 +1331,46 @@ export default function AdminPage() {
                             </>
                         ) : activeTab === 'registrations' ? (
                             <div style={{ padding: '40px', background: '#fffdf9' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '15px', padding: '20px 24px', background: siteSettings.registrationEnabled === false ? '#fee2e2' : '#dcfce7', border: `1px solid ${siteSettings.registrationEnabled === false ? '#fca5a5' : '#86efac'}`, borderRadius: '14px', marginBottom: '20px', flexWrap: 'wrap' }}>
+                                    <div>
+                                        <div style={{ fontSize: '0.9rem', fontWeight: 700, color: siteSettings.registrationEnabled === false ? '#991b1b' : '#166534' }}>
+                                            Pendaftaran Online: {siteSettings.registrationEnabled === false ? 'DITUTUP' : 'DIBUKA'}
+                                        </div>
+                                        <div style={{ fontSize: '0.75rem', color: '#6b5f53', marginTop: '4px' }}>
+                                            {siteSettings.registrationEnabled === false ? 'Halaman /pendaftaran menampilkan pesan pendaftaran ditutup.' : 'Formulir pendaftaran online tampil normal di /pendaftaran.'}
+                                        </div>
+                                    </div>
+                                    <button
+                                        disabled={isSavingSettings}
+                                        onClick={async () => {
+                                            const next = siteSettings.registrationEnabled === false;
+                                            try {
+                                                setIsSavingSettings(true);
+                                                const res = await fetch('/api/admin/settings', {
+                                                    method: 'POST',
+                                                    headers: { 'Content-Type': 'application/json' },
+                                                    body: JSON.stringify({ registrationEnabled: next }),
+                                                });
+                                                const data = await res.json();
+                                                if (!data.success) throw new Error(data.error || 'Gagal menyimpan.');
+                                                setSiteSettings(prev => ({ ...prev, registrationEnabled: next }));
+                                                setSuccess(next ? 'Pendaftaran online dibuka!' : 'Pendaftaran online ditutup!');
+                                                setTimeout(() => setSuccess(''), 3000);
+                                            } catch (errToggle) {
+                                                setError('Gagal mengubah status pendaftaran: ' + (errToggle.message || 'Terjadi kesalahan.'));
+                                            } finally {
+                                                setIsSavingSettings(false);
+                                            }
+                                        }}
+                                        style={{
+                                            padding: '12px 22px', borderRadius: '10px', border: 'none', fontWeight: 700, fontSize: '0.8rem', cursor: isSavingSettings ? 'default' : 'pointer', whiteSpace: 'nowrap',
+                                            background: siteSettings.registrationEnabled === false ? '#166534' : '#991b1b', color: '#fffdf9',
+                                            opacity: isSavingSettings ? 0.6 : 1,
+                                        }}
+                                    >
+                                        {siteSettings.registrationEnabled === false ? 'Buka Pendaftaran' : 'Tutup Pendaftaran'}
+                                    </button>
+                                </div>
                                 {(() => {
                                     const legacyLeaked = students.filter(s => s.registrationDate && s.status === 'Lolos');
                                     if (legacyLeaked.length === 0) return null;

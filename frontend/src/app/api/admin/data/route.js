@@ -12,7 +12,8 @@ const MEGA_QUERY = `{
     "gallery": *[_type == "gallery"] | order(date desc) {"_id": _id, title, category, "imageUrl": select(defined(image.asset) => image.asset->url + "?fm=webp&q=90", externalImage), externalImage, image, date, agenda},
     "staff": *[_type == "teacher"] | order(order asc) {"_id": _id, name, role, vision, education, email, "imageUrl": select(defined(image.asset) => image.asset->url + "?fm=webp&q=90", externalImage), externalImage, image},
     "messages": *[_type == "contactMessage"] | order(receivedAt desc),
-    "yearConfigs": *[_type == "yearConfig"]
+    "yearConfigs": *[_type == "yearConfig"],
+    "settings": *[_id == "website-settings"][0]
 }`;
 
 export async function GET() {
