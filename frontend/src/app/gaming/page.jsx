@@ -1358,6 +1358,43 @@ export default function AdminPage() {
                                                     <div style={{ fontSize: '0.65rem', fontWeight: 700, color: '#9a8c82', textTransform: 'uppercase', marginBottom: '8px', letterSpacing: '1px' }}>ASAL SEKOLAH</div>
                                                     <div style={{ fontSize: '0.95rem', fontWeight: 800, color: '#1a1612' }}>{reg.school || reg.schoolName || '-'}</div>
                                                 </div>
+
+                                                <div style={{ gridColumn: 'span 2', borderTop: '1px solid #ece4d8', paddingTop: '15px' }}>
+                                                    <div style={{ fontSize: '0.65rem', fontWeight: 700, color: '#9a8c82', textTransform: 'uppercase', marginBottom: '8px', letterSpacing: '1px' }}>TEMPAT, TANGGAL LAHIR</div>
+                                                    <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#1a1612' }}>{reg.birthPlace || '-'}{reg.birthDate ? `, ${new Date(reg.birthDate).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}` : ''}</div>
+                                                </div>
+
+                                                <div>
+                                                    <div style={{ fontSize: '0.65rem', fontWeight: 700, color: '#9a8c82', textTransform: 'uppercase', marginBottom: '8px', letterSpacing: '1px' }}>NIK</div>
+                                                    <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#1a1612' }}>{reg.nik || '-'}</div>
+                                                </div>
+                                                <div>
+                                                    <div style={{ fontSize: '0.65rem', fontWeight: 700, color: '#9a8c82', textTransform: 'uppercase', marginBottom: '8px', letterSpacing: '1px' }}>NISN</div>
+                                                    <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#1a1612' }}>{reg.nisn || '-'}</div>
+                                                </div>
+
+                                                <div style={{ gridColumn: 'span 2' }}>
+                                                    <div style={{ fontSize: '0.65rem', fontWeight: 700, color: '#9a8c82', textTransform: 'uppercase', marginBottom: '8px', letterSpacing: '1px' }}>ALAMAT</div>
+                                                    <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#1a1612' }}>{reg.address || '-'}{reg.city ? `, ${reg.city}` : ''}{reg.province ? `, ${reg.province}` : ''}</div>
+                                                </div>
+
+                                                <div>
+                                                    <div style={{ fontSize: '0.65rem', fontWeight: 700, color: '#9a8c82', textTransform: 'uppercase', marginBottom: '8px', letterSpacing: '1px' }}>PEKERJAAN ORANG TUA</div>
+                                                    <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#1a1612' }}>{reg.parentJob || '-'}</div>
+                                                </div>
+                                                <div>
+                                                    <div style={{ fontSize: '0.65rem', fontWeight: 700, color: '#9a8c82', textTransform: 'uppercase', marginBottom: '8px', letterSpacing: '1px' }}>GELOMBANG</div>
+                                                    <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#1a1612' }}>{reg.wave || '-'}</div>
+                                                </div>
+
+                                                <div>
+                                                    <div style={{ fontSize: '0.65rem', fontWeight: 700, color: '#9a8c82', textTransform: 'uppercase', marginBottom: '8px', letterSpacing: '1px' }}>NIK AYAH</div>
+                                                    <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#1a1612' }}>{reg.nikAyah || '-'}</div>
+                                                </div>
+                                                <div>
+                                                    <div style={{ fontSize: '0.65rem', fontWeight: 700, color: '#9a8c82', textTransform: 'uppercase', marginBottom: '8px', letterSpacing: '1px' }}>NIK IBU</div>
+                                                    <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#1a1612' }}>{reg.nikIbu || '-'}</div>
+                                                </div>
                                             </div>
 
                                             <div style={{ display: 'flex', gap: '15px', position: 'relative', zIndex: 1 }}>
