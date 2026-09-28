@@ -61,7 +61,7 @@ const NEW_COLUMNS = ['religion', 'kip', 'childOrder', 'siblingOf', 'siblingsCoun
     'height', 'weight', 'studentPhone', 'schoolAddress', 'schoolNpsn', 'graduationYear', 'fatherName', 'fatherBirthInfo',
     'fatherEducation', 'fatherJob', 'fatherIncome', 'fatherPhone', 'fatherStatus',
     'motherName', 'motherBirthInfo', 'motherEducation', 'motherJob', 'motherIncome',
-    'motherPhone', 'motherStatus'];
+    'motherPhone', 'motherStatus', 'registrationType'];
 const existingColumns = new Set(db.prepare('PRAGMA table_info(students)').all().map(c => c.name));
 for (const col of NEW_COLUMNS) {
     if (!existingColumns.has(col)) db.exec(`ALTER TABLE students ADD COLUMN ${col} TEXT`);

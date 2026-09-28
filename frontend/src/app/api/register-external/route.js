@@ -38,6 +38,7 @@ export async function POST(req) {
         const studentName = formData.get('name') || '';
         const nik = formData.get('nik') || '';
         const file = formData.get('paymentProof');
+        const registrationType = formData.get('registrationType') === 'formulir' ? 'formulir' : 'booking_fee';
         const fields = Object.fromEntries(FORM_FIELDS.map(f => [f, formData.get(f) || '']));
 
         // Duplicate-submission guard: parents re-submitting the whole form
@@ -74,6 +75,7 @@ export async function POST(req) {
             nik,
             school: fields.schoolName,
             ...fields,
+            registrationType,
             status: 'Lolos',
             score: 'B',
             paymentProof: driveLink,

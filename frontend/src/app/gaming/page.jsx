@@ -46,6 +46,7 @@ export default function AdminPage() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [adminEmail, setAdminEmail] = useState('');
     const [activeTab, setActiveTab] = useState('overview');
+    const [registrationFilter, setRegistrationFilter] = useState('all');
     const [students, setStudents] = useState([]);
     const [gallery, setGallery] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -1327,8 +1328,31 @@ export default function AdminPage() {
                             </>
                         ) : activeTab === 'registrations' ? (
                             <div style={{ padding: '40px', background: '#fffdf9' }}>
+                                <div style={{ display: 'flex', gap: '10px', marginBottom: '30px', flexWrap: 'wrap' }}>
+                                    {[
+                                        { key: 'all', label: 'Semua' },
+                                        { key: 'booking_fee', label: 'Sudah Booking Fee' },
+                                        { key: 'formulir', label: 'Ambil Formulir Saja' },
+                                    ].map(f => (
+                                        <button
+                                            key={f.key}
+                                            onClick={() => setRegistrationFilter(f.key)}
+                                            style={{
+                                                padding: '10px 20px', borderRadius: '100px', border: '1px solid #ece4d8', cursor: 'pointer',
+                                                fontSize: '0.8rem', fontWeight: 700,
+                                                background: registrationFilter === f.key ? '#1a1612' : '#fffdf9',
+                                                color: registrationFilter === f.key ? '#fffdf9' : '#6b5f53',
+                                            }}
+                                        >
+                                            {f.label}
+                                        </button>
+                                    ))}
+                                </div>
                                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(420px, 1fr))', gap: '30px' }}>
-                                    {students.filter(s => s.registrationDate).map((reg, idx) => (
+                                    {students.filter(s => s.registrationDate).filter(s => {
+                                        const type = s.registrationType || (s.paymentProof ? 'booking_fee' : 'formulir');
+                                        return registrationFilter === 'all' || type === registrationFilter;
+                                    }).map((reg, idx) => (
                                         <motion.div 
                                             key={reg._id || idx}
                                             whileHover={{ y: -5, borderColor: '#d4820a' }}
@@ -1352,6 +1376,11 @@ export default function AdminPage() {
                                                 <div style={{ display: 'flex', gap: '12px' }}>
                                                     <span style={{ padding: '6px 14px', background: '#fffdf9', color: '#1a1612', borderRadius: '14px', border: '1px solid #ece4d8', fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase' }}>{reg.gender === 'L' || reg.gender === 'Laki-laki' ? 'Laki-laki' : 'Perempuan'}</span>
                                                     <span style={{ padding: '6px 14px', background: '#d4820a10', color: '#d4820a', borderRadius: '14px', border: '1px solid #d4820a30', fontSize: '0.75rem', fontWeight: 700 }}>TAHUN {reg.year || '-'}</span>
+                                                    {(reg.registrationType || (reg.paymentProof ? 'booking_fee' : 'formulir')) === 'booking_fee' ? (
+                                                        <span style={{ padding: '6px 14px', background: '#0d7c6e15', color: '#0d7c6e', borderRadius: '14px', border: '1px solid #0d7c6e30', fontSize: '0.75rem', fontWeight: 700 }}>BOOKING FEE</span>
+                                                    ) : (
+                                                        <span style={{ padding: '6px 14px', background: '#c0392b15', color: '#c0392b', borderRadius: '14px', border: '1px solid #c0392b30', fontSize: '0.75rem', fontWeight: 700 }}>AMBIL FORMULIR</span>
+                                                    )}
                                                 </div>
                                             </div>
 
