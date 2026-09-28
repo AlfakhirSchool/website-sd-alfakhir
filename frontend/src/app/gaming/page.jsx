@@ -129,10 +129,13 @@ export default function AdminPage() {
             const data = await res.json();
             if (data.error) throw new Error(data.error);
 
-            // YEAR SYNC: Update list based on existing state and what's in the DB
+            // YEAR SYNC: years with student records, plus years explicitly added
+            // via yearConfig (so a future year set up ahead of time survives
+            // a reload even before any student has that year yet).
             const combinedYears = Array.from(new Set([
                 ...availableYears,
-                ...(data.students || []).map(s => s.year).filter(Boolean)
+                ...(data.students || []).map(s => s.year).filter(Boolean),
+                ...(data.yearConfigs || []).map(c => c.year).filter(Boolean),
             ])).sort((a,b) => b.localeCompare(a));
             setAvailableYears(combinedYears.length > 0 ? combinedYears : ['2026/2027']);
 
@@ -259,19 +262,36 @@ export default function AdminPage() {
     }, [isLoggedIn]);
 
     // --- Configuration Handlers ---
-    const handleAddYear = () => {
-        if (newYearInput && !availableYears.includes(newYearInput)) {
-            setAvailableYears([...availableYears, newYearInput].sort((a,b) => b.localeCompare(a)));
-            setNewYearInput('');
+    const handleAddYear = async () => {
+        if (!newYearInput || availableYears.includes(newYearInput)) return;
+        const year = newYearInput;
+        setNewYearInput('');
+        try {
+            // Persisted immediately as a yearConfig doc — otherwise this only
+            // lived in React state and vanished on the next reload/refetch.
+            await adminMutate({ creates: [{ _type: 'yearConfig', year, videoUrl: '' }] });
+            setAvailableYears([...availableYears, year].sort((a,b) => b.localeCompare(a)));
+            setYearConfigs([...yearConfigs, { year, videoUrl: '', _type: 'yearConfig' }]);
             setSuccess('Tahun ajaran berhasil ditambahkan!');
             setTimeout(() => setSuccess(''), 2000);
+        } catch (errYear) {
+            setError('Gagal menambahkan tahun: ' + (errYear.message || 'Terjadi kesalahan.'));
         }
     };
 
-    const handleDeleteYear = (year) => {
-        setAvailableYears(availableYears.filter(y => y !== year));
-        setSuccess(`Tahun ${year} dihapus dari daftar.`);
-        setTimeout(() => setSuccess(''), 2000);
+    const handleDeleteYear = async (year) => {
+        try {
+            const config = yearConfigs.find(c => c.year === year);
+            if (config?._id) {
+                await adminMutate({ deletes: [{ type: 'yearConfig', id: config._id }] });
+            }
+            setAvailableYears(availableYears.filter(y => y !== year));
+            setYearConfigs(yearConfigs.filter(c => c.year !== year));
+            setSuccess(`Tahun ${year} dihapus dari daftar.`);
+            setTimeout(() => setSuccess(''), 2000);
+        } catch (errYear) {
+            setError('Gagal menghapus tahun: ' + (errYear.message || 'Terjadi kesalahan.'));
+        }
     };
 
     const handleUpdateYearConfig = (year, field, value) => {
@@ -1428,6 +1448,18 @@ export default function AdminPage() {
                                         <option value="Semua">Semua Tahun</option>
                                         {availableYears.map(y => <option key={`reg-y-${y}`} value={y}>{y}</option>)}
                                     </select>
+                                    <input
+                                        placeholder="Tambah tahun, mis. 2027/2028"
+                                        value={newYearInput}
+                                        onChange={e => setNewYearInput(e.target.value)}
+                                        style={{ padding: '10px 16px', borderRadius: '100px', border: '1px solid #ece4d8', background: '#fffdf9', color: '#1a1612', fontSize: '0.8rem', fontWeight: 700, outline: 'none', width: '200px' }}
+                                    />
+                                    <button
+                                        onClick={handleAddYear}
+                                        style={{ padding: '10px 16px', borderRadius: '100px', border: 'none', background: '#d4820a', color: '#fffdf9', fontSize: '0.8rem', fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}
+                                    >
+                                        <Plus size={16} /> Tahun
+                                    </button>
                                 </div>
                                 {(() => {
                                     const REG_COLUMNS = [
