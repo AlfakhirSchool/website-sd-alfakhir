@@ -606,7 +606,6 @@ export default function AdminPage() {
                         { tab: 'overview', label: 'Beranda', icon: LayoutDashboard },
                         { tab: 'registrations', label: 'Pendaftaran', icon: BookOpen },
                         { tab: 'students', label: 'Seleksi', icon: Search },
-                        { tab: 'active-students', label: 'Basis Data', icon: UserCheck },
                         { tab: 'gallery', label: 'Galeri', icon: ImageIcon },
                         { tab: 'staff', label: 'Staf', icon: Users },
                         { tab: 'messages', label: 'Pesan', icon: Mail, badge: messages.filter(m => m.status === 'unread').length }
