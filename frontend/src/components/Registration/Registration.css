@@ -98,6 +98,15 @@
   color: #ef4444;
 }
 
+.form-section-title {
+  margin: 10px 0 -6px;
+  font-weight: 800;
+  color: #4c1d95;
+  font-size: 0.9rem;
+  border-top: 1px solid #e9d5ff;
+  padding-top: 20px;
+}
+
 .form-input-primary {
   width: 100%;
   padding: 14px 20px;

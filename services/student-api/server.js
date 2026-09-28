@@ -55,6 +55,18 @@ CREATE TABLE IF NOT EXISTS students (
 );
 `);
 
+// Fields added after the table already had rows in production — plain
+// ALTER TABLE ADD COLUMN, one per field not yet present. Safe to re-run.
+const NEW_COLUMNS = ['religion', 'kip', 'childOrder', 'siblingOf', 'siblingsCount', 'dailyLanguage',
+    'height', 'weight', 'studentPhone', 'schoolAddress', 'schoolNpsn', 'graduationYear', 'fatherName', 'fatherBirthInfo',
+    'fatherEducation', 'fatherJob', 'fatherIncome', 'fatherPhone', 'fatherStatus',
+    'motherName', 'motherBirthInfo', 'motherEducation', 'motherJob', 'motherIncome',
+    'motherPhone', 'motherStatus'];
+const existingColumns = new Set(db.prepare('PRAGMA table_info(students)').all().map(c => c.name));
+for (const col of NEW_COLUMNS) {
+    if (!existingColumns.has(col)) db.exec(`ALTER TABLE students ADD COLUMN ${col} TEXT`);
+}
+
 const app = express();
 app.use(express.json({ limit: '1mb' }));
 
@@ -78,7 +90,8 @@ app.use((req, res, next) => {
 
 const ALL_COLUMNS = ['_id', 'id', 'name', 'gender', 'birthPlace', 'birthDate', 'nik', 'nisn', 'school',
     'schoolName', 'address', 'city', 'province', 'parentName', 'whatsapp', 'parentJob', 'nikAyah', 'nikIbu',
-    'year', 'wave', 'status', 'score', 'pdfLink', 'paymentProof', 'externalImage', 'note', 'registrationDate'];
+    'year', 'wave', 'status', 'score', 'pdfLink', 'paymentProof', 'externalImage', 'note', 'registrationDate',
+    ...NEW_COLUMNS];
 
 const PUBLIC_COLUMNS = ['_id', 'id', 'name', 'year', 'wave', 'status', 'school', 'schoolName', 'pdfLink'];
 const PASSED_STATUSES = ['Lolos', 'Diterima', 'Lolos Seleksi', 'Lulus Seleksi', 'Passed Selection'];

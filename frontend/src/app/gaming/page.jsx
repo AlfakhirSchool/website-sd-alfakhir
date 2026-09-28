@@ -1374,11 +1374,35 @@ export default function AdminPage() {
                                                 </div>
                                                 <Field label="NIK" value={reg.nik || '-'} />
                                                 <Field label="NISN" value={reg.nisn || '-'} />
+                                                <Field label="AGAMA" value={reg.religion || '-'} />
+                                                <Field label="ANAK KE / DARI SAUDARA" value={`${reg.childOrder || '-'} dari ${reg.siblingOf || '-'}`} />
+                                                <Field label="TINGGI / BERAT BADAN" value={`${reg.height || '-'} cm / ${reg.weight || '-'} kg`} />
+                                                <Field label="BAHASA SEHARI-HARI" value={reg.dailyLanguage || '-'} />
+                                                <Field label="NO. KIP/KIS/KKS/KPS" value={reg.kip || '-'} />
+                                                <Field label="NO. HP SISWA" value={reg.studentPhone || '-'} />
                                                 <Field span label="ALAMAT" value={`${reg.address || '-'}${reg.city ? `, ${reg.city}` : ''}${reg.province ? `, ${reg.province}` : ''}`} />
-                                                <Field label="PEKERJAAN ORANG TUA" value={reg.parentJob || '-'} />
+                                                <Field label="TAHUN LULUS SEKOLAH ASAL" value={reg.graduationYear || '-'} />
                                                 <Field label="GELOMBANG" value={reg.wave || '-'} />
+
+                                                <div style={{ gridColumn: 'span 2', borderTop: '1px solid #ece4d8', paddingTop: '15px', fontSize: '0.7rem', fontWeight: 800, color: '#d4820a', letterSpacing: '1px' }}>DATA AYAH KANDUNG</div>
+                                                <Field label="NAMA AYAH" value={reg.fatherName || '-'} />
                                                 <Field label="NIK AYAH" value={reg.nikAyah || '-'} />
+                                                <Field label="TTL AYAH" value={reg.fatherBirthInfo || '-'} />
+                                                <Field label="PENDIDIKAN AYAH" value={reg.fatherEducation || '-'} />
+                                                <Field label="PEKERJAAN AYAH" value={reg.fatherJob || '-'} />
+                                                <Field label="PENGHASILAN AYAH" value={reg.fatherIncome || '-'} />
+                                                <Field label="NO. TLP AYAH" value={reg.fatherPhone || '-'} />
+                                                <Field label="STATUS AYAH" value={reg.fatherStatus || '-'} />
+
+                                                <div style={{ gridColumn: 'span 2', borderTop: '1px solid #ece4d8', paddingTop: '15px', fontSize: '0.7rem', fontWeight: 800, color: '#d4820a', letterSpacing: '1px' }}>DATA IBU KANDUNG</div>
+                                                <Field label="NAMA IBU" value={reg.motherName || '-'} />
                                                 <Field label="NIK IBU" value={reg.nikIbu || '-'} />
+                                                <Field label="TTL IBU" value={reg.motherBirthInfo || '-'} />
+                                                <Field label="PENDIDIKAN IBU" value={reg.motherEducation || '-'} />
+                                                <Field label="PEKERJAAN IBU" value={reg.motherJob || '-'} />
+                                                <Field label="PENGHASILAN IBU" value={reg.motherIncome || '-'} />
+                                                <Field label="NO. TLP IBU" value={reg.motherPhone || '-'} />
+                                                <Field label="STATUS IBU" value={reg.motherStatus || '-'} />
                                             </div>
 
                                             <div style={{ display: 'flex', gap: '15px', position: 'relative', zIndex: 1 }}>

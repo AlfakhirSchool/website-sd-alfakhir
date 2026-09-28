@@ -7,7 +7,7 @@ export const runtime = 'nodejs';
 
 const SPREADSHEET_ID = '1Z-cBQ1D8uQQ0lKga-EEj00tnvIdtiByU6VtTgsBCWG0';
 const DRIVE_FOLDER_ID = '1Oi0PKnmcT_y0fcAJeFT9hSlkG7YAjV1-';
-const SHEET_RANGE = 'Data!A:R';
+const SHEET_RANGE = 'Data!A:AZ';
 
 const sanitize = (s) => String(s || '').trim().replace(/[^a-zA-Z0-9]+/g, '_').replace(/^_+|_+$/g, '') || 'unknown';
 
@@ -15,6 +15,20 @@ const MAX_FILE_BYTES = 5 * 1024 * 1024;
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'application/pdf'];
 
 const isRateLimited = createRateLimiter(10 * 60 * 1000, 5);
+
+// Matches the fields in components/Registration/index.jsx's emptyFormData(),
+// minus name/nik (handled separately above) — read once, reused for both
+// the Sheets row and the student-api record.
+const FORM_FIELDS = [
+    'gender', 'birthPlace', 'birthDate', 'nisn', 'religion', 'kip', 'childOrder', 'siblingOf',
+    'siblingsCount', 'dailyLanguage', 'height', 'weight', 'studentPhone',
+    'schoolName', 'schoolAddress', 'schoolNpsn', 'graduationYear',
+    'address', 'city', 'province',
+    'parentName', 'whatsapp', 'parentJob',
+    'nikAyah', 'fatherName', 'fatherBirthInfo', 'fatherEducation', 'fatherJob', 'fatherIncome', 'fatherPhone', 'fatherStatus',
+    'nikIbu', 'motherName', 'motherBirthInfo', 'motherEducation', 'motherJob', 'motherIncome', 'motherPhone', 'motherStatus',
+    'year', 'wave',
+];
 
 export async function POST(req) {
     try {
@@ -25,9 +39,9 @@ export async function POST(req) {
 
         const formData = await req.formData();
         const studentName = formData.get('name') || '';
-        const parentName = formData.get('parentName') || '';
         const nik = formData.get('nik') || '';
         const file = formData.get('paymentProof');
+        const fields = Object.fromEntries(FORM_FIELDS.map(f => [f, formData.get(f) || '']));
 
         // Duplicate-submission guard: parents re-submitting the whole form
         // after a slow/unclear response created repeat records (same child,
@@ -50,7 +64,7 @@ export async function POST(req) {
             }
             const buffer = Buffer.from(await file.arrayBuffer());
             const ext = (file.name || '').split('.').pop() || 'jpg';
-            const filename = `${sanitize(studentName)}_${sanitize(parentName)}_${Date.now()}.${ext}`;
+            const filename = `${sanitize(studentName)}_${sanitize(fields.parentName)}_${Date.now()}.${ext}`;
             const uploaded = await uploadFileToDrive(DRIVE_FOLDER_ID, filename, file.type || 'application/octet-stream', buffer);
             driveLink = uploaded.webViewLink || `https://drive.google.com/file/d/${uploaded.id}/view`;
         }
@@ -58,20 +72,8 @@ export async function POST(req) {
         const row = [
             new Date().toISOString(),
             studentName,
-            formData.get('gender') || '',
-            formData.get('birthPlace') || '',
-            formData.get('birthDate') || '',
             nik,
-            formData.get('nisn') || '',
-            formData.get('schoolName') || '',
-            formData.get('address') || '',
-            formData.get('city') || '',
-            formData.get('province') || '',
-            parentName,
-            formData.get('whatsapp') || '',
-            formData.get('parentJob') || '',
-            formData.get('year') || '',
-            formData.get('wave') || '',
+            ...FORM_FIELDS.map(f => fields[f]),
             driveLink,
             driveLink ? 'Terverifikasi' : 'Pending',
         ];
@@ -82,22 +84,9 @@ export async function POST(req) {
         await studentApi.create({
             id: studentId,
             name: studentName,
-            gender: formData.get('gender') || '',
-            birthPlace: formData.get('birthPlace') || '',
-            birthDate: formData.get('birthDate') || '',
-            nik: nik,
-            nisn: formData.get('nisn') || '',
-            school: formData.get('schoolName') || '',
-            address: formData.get('address') || '',
-            city: formData.get('city') || '',
-            province: formData.get('province') || '',
-            parentName,
-            whatsapp: formData.get('whatsapp') || '',
-            parentJob: formData.get('parentJob') || '',
-            nikAyah: formData.get('nikAyah') || '',
-            nikIbu: formData.get('nikIbu') || '',
-            year: formData.get('year') || '',
-            wave: formData.get('wave') || '',
+            nik,
+            school: fields.schoolName,
+            ...fields,
             status: 'Lolos',
             score: 'B',
             paymentProof: driveLink,
