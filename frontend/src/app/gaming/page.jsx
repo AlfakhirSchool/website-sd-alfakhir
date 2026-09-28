@@ -1391,6 +1391,51 @@ export default function AdminPage() {
                                         {siteSettings.registrationEnabled === false ? 'Buka Pendaftaran' : 'Tutup Pendaftaran'}
                                     </button>
                                 </div>
+
+                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '15px', padding: '20px 24px', background: '#fef9e7', border: '1px solid #fde68a', borderRadius: '14px', marginBottom: '20px', flexWrap: 'wrap' }}>
+                                    <div>
+                                        <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#92400e' }}>
+                                            Active Wave: Wave {siteSettings.activeWave || '1'}
+                                        </div>
+                                        <div style={{ fontSize: '0.75rem', color: '#6b5f53', marginTop: '4px' }}>
+                                            New online registrations are automatically assigned to this wave. Move it up once a wave's results are published.
+                                        </div>
+                                    </div>
+                                    <div style={{ display: 'flex', gap: '8px' }}>
+                                        {['1', '2', '3'].map(w => (
+                                            <button
+                                                key={w}
+                                                disabled={isSavingSettings}
+                                                onClick={async () => {
+                                                    try {
+                                                        setIsSavingSettings(true);
+                                                        const res = await fetch('/api/admin/settings', {
+                                                            method: 'POST',
+                                                            headers: { 'Content-Type': 'application/json' },
+                                                            body: JSON.stringify({ activeWave: w }),
+                                                        });
+                                                        const data = await res.json();
+                                                        if (!data.success) throw new Error(data.error || 'Failed to save.');
+                                                        setSiteSettings(prev => ({ ...prev, activeWave: w }));
+                                                        setSuccess(`Active wave set to Wave ${w}!`);
+                                                        setTimeout(() => setSuccess(''), 3000);
+                                                    } catch (errWave) {
+                                                        setError('Failed to change active wave: ' + (errWave.message || 'Unknown error.'));
+                                                    } finally {
+                                                        setIsSavingSettings(false);
+                                                    }
+                                                }}
+                                                style={{
+                                                    padding: '12px 18px', borderRadius: '10px', border: 'none', fontWeight: 700, fontSize: '0.8rem', cursor: isSavingSettings ? 'default' : 'pointer',
+                                                    background: (siteSettings.activeWave || '1') === w ? '#d97706' : 'white', color: (siteSettings.activeWave || '1') === w ? 'white' : '#92400e',
+                                                    opacity: isSavingSettings ? 0.6 : 1,
+                                                }}
+                                            >
+                                                Wave {w}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
                                 {(() => {
                                     const legacyLeaked = students.filter(s => s.registrationDate && s.status === 'Lolos');
                                     if (legacyLeaked.length === 0) return null;

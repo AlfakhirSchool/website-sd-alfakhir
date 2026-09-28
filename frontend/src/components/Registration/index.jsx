@@ -5,6 +5,7 @@ import { FileText, Users2, ArrowRight, MapPin, CreditCard, School, ChevronRight,
 import ReCAPTCHA from "react-google-recaptcha";
 import { useLanguage } from '../../context/LanguageContext';
 import { RECAPTCHA_SITE_KEY } from '../../lib/recaptcha';
+import { apiFetch } from '../../lib/api';
 import "./Registration.css";
 
 const getAutoYear = () => {
@@ -63,6 +64,14 @@ const RegistrationForm = ({ onSuccess }) => {
     useEffect(() => {
         const initial = getInitialData();
         setFormData(initial);
+
+        // Wave isn't a field the parent picks — it's assigned by whichever
+        // wave the school currently has open (set in the admin dashboard).
+        apiFetch('/api/settings').then(settings => {
+            if (settings?.activeWave) {
+                setFormData(prev => ({ ...prev, wave: settings.activeWave }));
+            }
+        });
     }, []);
 
     useEffect(() => {

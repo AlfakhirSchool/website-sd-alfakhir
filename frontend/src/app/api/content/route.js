@@ -17,7 +17,7 @@ const QUERIES = {
     '/api/profile/history': '*[_type == "schoolProfile" && type == "history"][0] {content, "imageUrl": select(defined(founderImage.asset) => founderImage.asset->url, externalImage), externalImage, founderImage, "lqip": founderImage.asset->metadata.lqip}',
     '/api/profile/welcome': '*[_type == "schoolProfile" && type == "welcome"][0] {content, "imageUrl": select(defined(founderImage.asset) => founderImage.asset->url, externalImage), externalImage, founderImage, "lqip": founderImage.asset->metadata.lqip}',
     '/api/profile/visimisi': '*[_type == "schoolProfile" && type == "visimisi"][0] {content}',
-    '/api/settings': '*[_id == "website-settings"][0] {brochureUrl, registrationEnabled}',
+    '/api/settings': '*[_id == "website-settings"][0] {brochureUrl, registrationEnabled, activeWave}',
     '/api/year-configs': '*[_type == "yearConfig"] {year, videoUrl}',
 };
 

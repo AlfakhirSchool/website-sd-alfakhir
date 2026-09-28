@@ -17,7 +17,7 @@ export async function POST(req) {
 
     try {
         const body = await req.json();
-        const allowed = ['registrationEnabled', 'brochureUrl', 'structureUrl'];
+        const allowed = ['registrationEnabled', 'brochureUrl', 'structureUrl', 'activeWave'];
         const set = Object.fromEntries(Object.entries(body).filter(([k]) => allowed.includes(k)));
 
         await serverClient.createIfNotExists({ _id: SETTINGS_ID, _type: 'settings' });
