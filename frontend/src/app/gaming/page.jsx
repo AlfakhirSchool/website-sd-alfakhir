@@ -1401,7 +1401,7 @@ export default function AdminPage() {
                                         </div>
                                     );
                                 })()}
-                                <div style={{ display: 'flex', gap: '10px', marginBottom: '30px', flexWrap: 'wrap' }}>
+                                <div style={{ display: 'flex', gap: '10px', marginBottom: '30px', flexWrap: 'wrap', alignItems: 'center' }}>
                                     {[
                                         { key: 'all', label: 'Semua' },
                                         { key: 'booking_fee', label: 'Sudah Booking Fee' },
@@ -1420,6 +1420,14 @@ export default function AdminPage() {
                                             {f.label}
                                         </button>
                                     ))}
+                                    <select
+                                        value={filterYear}
+                                        onChange={e => setFilterYear(e.target.value)}
+                                        style={{ padding: '10px 20px', borderRadius: '100px', border: '1px solid #ece4d8', background: '#fffdf9', color: '#6b5f53', fontSize: '0.8rem', fontWeight: 700, cursor: 'pointer', marginLeft: 'auto' }}
+                                    >
+                                        <option value="Semua">Semua Tahun</option>
+                                        {availableYears.map(y => <option key={`reg-y-${y}`} value={y}>{y}</option>)}
+                                    </select>
                                 </div>
                                 {(() => {
                                     const REG_COLUMNS = [
@@ -1461,7 +1469,9 @@ export default function AdminPage() {
                                     ];
                                     const rows = students.filter(s => s.registrationDate).filter(s => {
                                         const type = s.registrationType || (s.paymentProof ? 'booking_fee' : 'formulir');
-                                        return registrationFilter === 'all' || type === registrationFilter;
+                                        const typeOk = registrationFilter === 'all' || type === registrationFilter;
+                                        const yearOk = filterYear === 'Semua' || (s.year || '') === filterYear;
+                                        return typeOk && yearOk;
                                     });
 
                                     const patchRegistration = async (id, set) => {
