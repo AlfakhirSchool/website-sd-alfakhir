@@ -1507,11 +1507,15 @@ export default function AdminPage() {
                                     });
 
                                     const patchRegistration = async (id, set) => {
+                                        // Optimistic local update — a full fetchAllData() here would
+                                        // throw up the full-screen "MEMUAT DATA..." overlay for every
+                                        // single checkbox/badge click, which reads as the UI hanging.
+                                        setStudents(prev => prev.map(s => s._id === id ? { ...s, ...set } : s));
                                         try {
                                             await adminMutate({ patches: [{ id, set: { _type: 'student', ...set } }] });
-                                            fetchAllData();
                                         } catch (errPatch) {
                                             setError('Gagal menyimpan: ' + (errPatch.message || 'Terjadi kesalahan.'));
+                                            fetchAllData(); // revert to server truth on failure
                                         }
                                     };
 
