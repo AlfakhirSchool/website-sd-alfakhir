@@ -4,18 +4,12 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useLanguage } from '../../context/LanguageContext';
 import SmartImage from '../SmartImage';
+import { useIsMobile } from '../../hooks/useIsMobile';
 import "./Programs.css";
 
 const Programs = () => {
     const { t } = useLanguage();
-    const [isMobile, setIsMobile] = React.useState(false);
-
-    React.useEffect(() => {
-        setIsMobile(window.innerWidth <= 768);
-        const onResize = () => setIsMobile(window.innerWidth <= 768);
-        window.addEventListener('resize', onResize);
-        return () => window.removeEventListener('resize', onResize);
-    }, []);
+    const isMobile = useIsMobile();
 
     const cards = [
         {

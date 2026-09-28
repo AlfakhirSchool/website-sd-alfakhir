@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
-import { readSession } from '@/lib/adminSession';
+import { requireAdminSession } from '@/lib/adminSession';
 import { serverClient } from '@/lib/sanityServer';
 import { proxifySanityUrls } from '@/lib/imageProxy';
 import { studentApi } from '@/lib/studentApi';
@@ -17,8 +16,7 @@ const MEGA_QUERY = `{
 }`;
 
 export async function GET() {
-    const jar = await cookies();
-    const session = readSession(jar);
+    const session = await requireAdminSession();
     if (!session) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }

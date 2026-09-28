@@ -4,27 +4,22 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useLanguage } from '../../context/LanguageContext';
 import SmartImage from '../SmartImage';
+import { useIsMobile } from "../../hooks/useIsMobile";
 import "./Hero.css";
 
 const Hero = () => {
     const { t } = useLanguage();
 
-    const [isMobile, setIsMobile] = useState(false);
+    const isMobile = useIsMobile();
 
     const videoRef = React.useRef(null);
 
     useEffect(() => {
-        setIsMobile(window.innerWidth <= 768);
-        const onResize = () => setIsMobile(window.innerWidth <= 768);
-        window.addEventListener('resize', onResize);
-        
         if (videoRef.current) {
             videoRef.current.play().catch(error => {
                 console.log("Autoplay prevented", error);
             });
         }
-        
-        return () => window.removeEventListener('resize', onResize);
     }, []);
 
     return (

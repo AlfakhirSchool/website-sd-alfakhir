@@ -1,21 +1,10 @@
 import { NextResponse } from 'next/server';
 import { serverClient } from '@/lib/sanityServer';
+import { createRateLimiter } from '@/lib/rateLimit';
 
 export const runtime = 'nodejs';
 
-// ponytail: in-memory per-IP limiter, same pattern as register-external.
-// Swap for a shared store if this ever runs multi-instance.
-const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
-const RATE_LIMIT_MAX = 8;
-const rateLimitHits = new Map();
-
-function isRateLimited(ip) {
-    const now = Date.now();
-    const hits = (rateLimitHits.get(ip) || []).filter(t => now - t < RATE_LIMIT_WINDOW_MS);
-    hits.push(now);
-    rateLimitHits.set(ip, hits);
-    return hits.length > RATE_LIMIT_MAX;
-}
+const isRateLimited = createRateLimiter(10 * 60 * 1000, 8);
 
 export async function POST(req) {
     try {

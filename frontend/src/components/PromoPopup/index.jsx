@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import SmartImage from '../SmartImage';
 import './PromoPopup.css';
 
@@ -45,7 +45,7 @@ const PromoPopup = () => {
               <SmartImage srcBase="/popup-banner" alt="Special Promo" className="promo-image" />
             </div>
             <div className="promo-content">
-              <Link to="/pendaftaran" onClick={handleClose}>
+              <Link href="/pendaftaran" onClick={handleClose}>
                 <button className="promo-action-btn">Registrasi Now</button>
               </Link>
             </div>

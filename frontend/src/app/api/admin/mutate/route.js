@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
-import { readSession } from '@/lib/adminSession';
+import { requireAdminSession } from '@/lib/adminSession';
 import { serverClient } from '@/lib/sanityServer';
 import { studentApi } from '@/lib/studentApi';
 
@@ -14,8 +13,7 @@ export const runtime = 'nodejs';
 const SANITY_TYPES = new Set(['gallery', 'teacher', 'yearConfig', 'contactMessage']);
 
 export async function POST(req) {
-    const jar = await cookies();
-    const session = readSession(jar);
+    const session = await requireAdminSession();
     if (!session) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }

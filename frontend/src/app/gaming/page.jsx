@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Plus, Trash2, UserCheck, User, AlertCircle, Image as ImageIcon, LayoutDashboard, Download, Upload, Search, Settings, X, ChevronRight, Save, Eye, EyeOff, Users, BookOpen, RefreshCw, Mail, Phone, ShieldCheck, Clock } from 'lucide-react'; // Core icons
+import { Plus, Trash2, UserCheck, User, AlertCircle, Image as ImageIcon, LayoutDashboard, Download, Upload, Search, Settings, X, ChevronRight, Save, Eye, Users, BookOpen, RefreshCw, Mail, Phone, ShieldCheck, Clock } from 'lucide-react'; // Core icons
 import { motion, AnimatePresence } from 'framer-motion';
 import * as XLSX from 'xlsx';
 import { templateData } from './templateData';
@@ -16,6 +16,16 @@ async function adminUploadImage(file) {
     if (!data.success) throw new Error(data.error || 'Gagal upload gambar.');
     return data.asset; // { _id, url }
 }
+
+const PASSED_STATUSES = ['Lolos', 'Diterima', 'Lolos Seleksi', 'Lulus Seleksi', 'Passed Selection'];
+const isPassed = (status) => PASSED_STATUSES.includes(status);
+
+const Field = ({ label, value, span, color = '#1a1612' }) => (
+    <div style={span ? { gridColumn: 'span 2' } : undefined}>
+        <div style={{ fontSize: '0.65rem', fontWeight: 700, color: '#9a8c82', textTransform: 'uppercase', marginBottom: '8px', letterSpacing: '1px' }}>{label}</div>
+        <div style={{ fontSize: '0.9rem', fontWeight: 700, color }}>{value}</div>
+    </div>
+);
 
 async function adminMutate({ deletes = [], creates = [], patches = [] }) {
     const res = await fetch('/api/admin/mutate', {
@@ -775,7 +785,7 @@ export default function AdminPage() {
                                             </div>
                                             <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#9a8c82', letterSpacing: '3px', marginBottom: '5px' }}>TOTAL SISWA DITERIMA</div>
                                             <div style={{ fontSize: '4.5rem', fontWeight: 800, color: '#1a1612', lineHeight: '1', letterSpacing: '-2px', margin: '10px 0 25px 0' }}>
-                                                {students.filter(s => s.status === 'Lolos' || s.status === 'Diterima' || s.status === 'Lolos Seleksi' || s.status === 'Lulus Seleksi' || s.status === 'Passed Selection').length}
+                                                {students.filter(s => isPassed(s.status)).length}
                                             </div>
                                         </div>
                                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: '1px solid #ece4d8', paddingTop: '20px', marginTop: '10px' }}>
@@ -867,7 +877,7 @@ export default function AdminPage() {
 
                                     {/* Building Quota Indicator */}
                                     {(() => {
-                                        const activeCount = students.filter(s => s.status === 'Lolos' || s.status === 'Diterima' || s.status === 'Lolos Seleksi' || s.status === 'Lulus Seleksi' || s.status === 'Passed Selection').length;
+                                        const activeCount = students.filter(s => isPassed(s.status)).length;
                                         const pct = Math.min(100, Math.round((activeCount / 320) * 100));
                                         const fraction = pct / 100;
                                         return (
@@ -1167,7 +1177,7 @@ export default function AdminPage() {
                                                             <select 
                                                                 value={s.status || 'Not Yet Passed'} 
                                                                 onChange={e => handleStudentChange(originalIndex, 'status', e.target.value)}
-                                                                style={{ background: 'transparent', border: 'none', fontWeight: 800, fontSize: '0.75rem', color: s.status === 'Lolos' || s.status === 'Diterima' || s.status === 'Lolos Seleksi' || s.status === 'Lulus Seleksi' || s.status === 'Passed Selection' ? '#0d7c6e' : '#d4820a', cursor: 'pointer', outline: 'none', textAlign: 'center' }}
+                                                                style={{ background: 'transparent', border: 'none', fontWeight: 800, fontSize: '0.75rem', color: isPassed(s.status) ? '#0d7c6e' : '#d4820a', cursor: 'pointer', outline: 'none', textAlign: 'center' }}
                                                             >
                                                                 <option value="Passed Selection" style={{ background: '#fffdf9' }}>Lolos Seleksi</option>
                                                                 <option value="Not Yet Passed" style={{ background: '#fffdf9' }}>Belum Lolos</option>
@@ -1225,7 +1235,7 @@ export default function AdminPage() {
                                         {students.filter(s => {
                                             const matchYear = filterYear === 'Semua' || (s.year || '2026/2027') === filterYear;
                                             const matchSearch = (s.name || '').toLowerCase().includes(searchQuery.toLowerCase()) || (s.id || '').toLowerCase().includes(searchQuery.toLowerCase());
-                                            const isActive = s.status === 'Lolos' || s.status === 'Diterima' || s.status === 'Lolos Seleksi' || s.status === 'Lulus Seleksi' || s.status === 'Passed Selection';
+                                            const isActive = isPassed(s.status);
                                             return matchYear && matchSearch && isActive;
                                         }).map((s, idx) => {
                                             const originalIndex = students.indexOf(s);
@@ -1360,41 +1370,15 @@ export default function AdminPage() {
                                                 </div>
 
                                                 <div style={{ gridColumn: 'span 2', borderTop: '1px solid #ece4d8', paddingTop: '15px' }}>
-                                                    <div style={{ fontSize: '0.65rem', fontWeight: 700, color: '#9a8c82', textTransform: 'uppercase', marginBottom: '8px', letterSpacing: '1px' }}>TEMPAT, TANGGAL LAHIR</div>
-                                                    <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#1a1612' }}>{reg.birthPlace || '-'}{reg.birthDate ? `, ${new Date(reg.birthDate).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}` : ''}</div>
+                                                    <Field label="TEMPAT, TANGGAL LAHIR" value={`${reg.birthPlace || '-'}${reg.birthDate ? `, ${new Date(reg.birthDate).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}` : ''}`} />
                                                 </div>
-
-                                                <div>
-                                                    <div style={{ fontSize: '0.65rem', fontWeight: 700, color: '#9a8c82', textTransform: 'uppercase', marginBottom: '8px', letterSpacing: '1px' }}>NIK</div>
-                                                    <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#1a1612' }}>{reg.nik || '-'}</div>
-                                                </div>
-                                                <div>
-                                                    <div style={{ fontSize: '0.65rem', fontWeight: 700, color: '#9a8c82', textTransform: 'uppercase', marginBottom: '8px', letterSpacing: '1px' }}>NISN</div>
-                                                    <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#1a1612' }}>{reg.nisn || '-'}</div>
-                                                </div>
-
-                                                <div style={{ gridColumn: 'span 2' }}>
-                                                    <div style={{ fontSize: '0.65rem', fontWeight: 700, color: '#9a8c82', textTransform: 'uppercase', marginBottom: '8px', letterSpacing: '1px' }}>ALAMAT</div>
-                                                    <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#1a1612' }}>{reg.address || '-'}{reg.city ? `, ${reg.city}` : ''}{reg.province ? `, ${reg.province}` : ''}</div>
-                                                </div>
-
-                                                <div>
-                                                    <div style={{ fontSize: '0.65rem', fontWeight: 700, color: '#9a8c82', textTransform: 'uppercase', marginBottom: '8px', letterSpacing: '1px' }}>PEKERJAAN ORANG TUA</div>
-                                                    <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#1a1612' }}>{reg.parentJob || '-'}</div>
-                                                </div>
-                                                <div>
-                                                    <div style={{ fontSize: '0.65rem', fontWeight: 700, color: '#9a8c82', textTransform: 'uppercase', marginBottom: '8px', letterSpacing: '1px' }}>GELOMBANG</div>
-                                                    <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#1a1612' }}>{reg.wave || '-'}</div>
-                                                </div>
-
-                                                <div>
-                                                    <div style={{ fontSize: '0.65rem', fontWeight: 700, color: '#9a8c82', textTransform: 'uppercase', marginBottom: '8px', letterSpacing: '1px' }}>NIK AYAH</div>
-                                                    <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#1a1612' }}>{reg.nikAyah || '-'}</div>
-                                                </div>
-                                                <div>
-                                                    <div style={{ fontSize: '0.65rem', fontWeight: 700, color: '#9a8c82', textTransform: 'uppercase', marginBottom: '8px', letterSpacing: '1px' }}>NIK IBU</div>
-                                                    <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#1a1612' }}>{reg.nikIbu || '-'}</div>
-                                                </div>
+                                                <Field label="NIK" value={reg.nik || '-'} />
+                                                <Field label="NISN" value={reg.nisn || '-'} />
+                                                <Field span label="ALAMAT" value={`${reg.address || '-'}${reg.city ? `, ${reg.city}` : ''}${reg.province ? `, ${reg.province}` : ''}`} />
+                                                <Field label="PEKERJAAN ORANG TUA" value={reg.parentJob || '-'} />
+                                                <Field label="GELOMBANG" value={reg.wave || '-'} />
+                                                <Field label="NIK AYAH" value={reg.nikAyah || '-'} />
+                                                <Field label="NIK IBU" value={reg.nikIbu || '-'} />
                                             </div>
 
                                             <div style={{ display: 'flex', gap: '15px', position: 'relative', zIndex: 1 }}>

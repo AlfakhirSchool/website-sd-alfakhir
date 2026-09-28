@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { appendRow, uploadFileToDrive } from '@/lib/googleService';
 import { studentApi } from '@/lib/studentApi';
+import { createRateLimiter } from '@/lib/rateLimit';
 
 export const runtime = 'nodejs';
 
@@ -13,19 +14,7 @@ const sanitize = (s) => String(s || '').trim().replace(/[^a-zA-Z0-9]+/g, '_').re
 const MAX_FILE_BYTES = 5 * 1024 * 1024;
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'application/pdf'];
 
-// ponytail: in-memory per-IP limiter, good enough for a single-instance school
-// site; swap for a shared store (Redis/Upstash) if this ever runs multi-instance.
-const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
-const RATE_LIMIT_MAX = 5;
-const rateLimitHits = new Map();
-
-function isRateLimited(ip) {
-    const now = Date.now();
-    const hits = (rateLimitHits.get(ip) || []).filter(t => now - t < RATE_LIMIT_WINDOW_MS);
-    hits.push(now);
-    rateLimitHits.set(ip, hits);
-    return hits.length > RATE_LIMIT_MAX;
-}
+const isRateLimited = createRateLimiter(10 * 60 * 1000, 5);
 
 export async function POST(req) {
     try {

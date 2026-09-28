@@ -4,7 +4,22 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { FileText, Users2, ArrowRight, MapPin, CreditCard, School, ChevronRight, ChevronLeft, CheckCircle2, Upload, AlertCircle, ShieldCheck } from 'lucide-react'
 import ReCAPTCHA from "react-google-recaptcha";
 import { useLanguage } from '../../context/LanguageContext';
+import { RECAPTCHA_SITE_KEY } from '../../lib/recaptcha';
 import "./Registration.css";
+
+const getAutoYear = () => {
+    const now = new Date();
+    const startYear = now.getMonth() >= 9 ? now.getFullYear() + 1 : now.getFullYear();
+    return `${startYear}/${startYear + 1}`;
+};
+
+const emptyFormData = () => ({
+    name: '', gender: 'Laki-laki', birthPlace: '', birthDate: '', nik: '', nisn: '',
+    schoolName: '', schoolAddress: '', schoolNpsn: '', address: '', city: '', province: '',
+    zipCode: '', parentName: '', whatsapp: '', parentPhone: '', nikAyah: '', nikIbu: '',
+    parentJob: '', parentIncome: '', paymentMethod: 'Transfer Bank (BRI/BSI/BCA)',
+    year: getAutoYear(), wave: '1',
+});
 
 const RegistrationForm = ({ onSuccess }) => {
     const { t } = useLanguage();
@@ -17,15 +32,6 @@ const RegistrationForm = ({ onSuccess }) => {
     const fileInputRef = useRef(null);
     const captchaRef = useRef(null);
 
-    // Auto-detect Academic Year
-    const getAutoYear = () => {
-        const now = new Date();
-        const year = now.getFullYear();
-        const month = now.getMonth(); // 0-11
-        const startYear = month >= 9 ? year + 1 : year;
-        return `${startYear}/${startYear + 1}`;
-    };
-
     const getInitialData = () => {
         if (typeof window !== 'undefined') {
             const saved = localStorage.getItem('alfakhir_registration_draft');
@@ -37,40 +43,10 @@ const RegistrationForm = ({ onSuccess }) => {
                 }
             }
         }
-        return {
-            name: '',
-            gender: 'Laki-laki',
-            birthPlace: '',
-            birthDate: '',
-            nik: '',
-            nisn: '',
-            schoolName: '',
-            schoolAddress: '',
-            schoolNpsn: '',
-            address: '',
-            city: '',
-            province: '',
-            zipCode: '',
-            parentName: '',
-            whatsapp: '',
-            parentPhone: '',
-            nikAyah: '',
-            nikIbu: '',
-            parentJob: '',
-            parentIncome: '',
-            paymentMethod: 'Transfer Bank (BRI/BSI/BCA)',
-            year: getAutoYear(),
-            wave: '1'
-        };
+        return emptyFormData();
     };
 
-    const [formData, setFormData] = useState({
-        name: '', gender: 'Laki-laki', birthPlace: '', birthDate: '', nik: '', nisn: '', 
-        schoolName: '', schoolAddress: '', schoolNpsn: '', address: '', city: '', province: '', 
-        zipCode: '', parentName: '', whatsapp: '', parentPhone: '', nikAyah: '', nikIbu: '', 
-        parentJob: '', parentIncome: '', paymentMethod: 'Transfer Bank (BRI/BSI/BCA)', 
-        year: getAutoYear(), wave: '1'
-    });
+    const [formData, setFormData] = useState(emptyFormData);
 
     useEffect(() => {
         const initial = getInitialData();
@@ -378,7 +354,7 @@ const RegistrationForm = ({ onSuccess }) => {
 
                                 <div className={`security-card ${errors.captcha ? 'has-error' : ''}`}>
                                     <label className="form-label">{t('reg', 'form.labelSecurity')}</label>
-                                    <ReCAPTCHA ref={captchaRef} sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"} onChange={(token) => { setCaptchaToken(token); setErrors(prev => ({ ...prev, captcha: null })); }} />
+                                    <ReCAPTCHA ref={captchaRef} sitekey={RECAPTCHA_SITE_KEY} onChange={(token) => { setCaptchaToken(token); setErrors(prev => ({ ...prev, captcha: null })); }} />
                                     {errors.captcha && <p className="error-text">{errors.captcha}</p>}
                                 </div>
                             </div>

@@ -1,4 +1,5 @@
 import crypto from 'crypto';
+import { cookies } from 'next/headers';
 
 // Server-only. Real admin auth: Google ID token verified against Google's
 // own tokeninfo endpoint (checks signature, expiry, audience), then a
@@ -61,6 +62,12 @@ export function createSessionCookieValue(email) {
 export function readSession(cookieStore) {
     const raw = cookieStore.get(COOKIE_NAME)?.value;
     return verify(raw);
+}
+
+// Shared by every admin API route: `const session = await requireAdminSession();
+// if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });`
+export async function requireAdminSession() {
+    return readSession(await cookies());
 }
 
 export const ADMIN_COOKIE_NAME = COOKIE_NAME;

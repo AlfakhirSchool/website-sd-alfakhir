@@ -2,9 +2,9 @@
 
 import React from 'react';
 import Navbar from '@/components/Navbar';
+import AmbientBlobs from '@/components/AmbientBlobs';
 import Gallery from '@/components/Gallery';
 import Footer from '@/components/Footer';
-import { motion } from 'framer-motion';
 import { useLanguage } from '@/context/LanguageContext';
 
 const GalleryPage = () => {
@@ -14,16 +14,7 @@ const GalleryPage = () => {
         <div style={{ background: '#ffffff', minHeight: '100vh', overflowX: 'hidden', position: 'relative' }}>
             <Navbar theme="light" />
             
-            <motion.div 
-                animate={{ y: [0, 15, 0], x: [0, -5, 0] }}
-                transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-                style={{ position: 'absolute', top: '20%', right: '-5%', width: '300px', height: '300px', background: 'rgba(249, 140, 29, 0.02)', filter: 'blur(100px)', borderRadius: '50%', pointerEvents: 'none' }} 
-            />
-            <motion.div 
-                animate={{ y: [0, -20, 0], x: [0, 10, 0] }}
-                transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
-                style={{ position: 'absolute', bottom: '10%', left: '-5%', width: '400px', height: '400px', background: 'rgba(15, 23, 42, 0.01)', filter: 'blur(120px)', borderRadius: '50%', pointerEvents: 'none' }} 
-            />
+            <AmbientBlobs />
 
             <div style={{ background: 'transparent', padding: '140px 0 30px', color: '#0f172a', textAlign: 'center', position: 'relative', zIndex: 1 }}>
                 <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px' }}>

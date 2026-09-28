@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Mail, Phone, MapPin, Send, ShieldCheck } from 'lucide-react';
 import ReCAPTCHA from "react-google-recaptcha";
 import { useLanguage } from '../../context/LanguageContext';
+import { RECAPTCHA_SITE_KEY } from '../../lib/recaptcha';
 import "./Contact.css";
 
 const Contact = () => {
@@ -106,7 +107,7 @@ const Contact = () => {
                                 <ShieldCheck size={16} /> SECURITY VERIFICATION
                             </div>
                             <ReCAPTCHA
-                                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || process.env.VITE_RECAPTCHA_SITE_KEY || (typeof import.meta !== 'undefined' && import.meta.env ? import.meta.env.VITE_RECAPTCHA_SITE_KEY : null) || "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"}
+                                sitekey={RECAPTCHA_SITE_KEY}
                                 onChange={(token) => setCaptchaToken(token)}
                             />
                         </div>

@@ -3,18 +3,12 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Stars, Zap, Target, Award } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
+import { useIsMobile } from '../../hooks/useIsMobile';
 import "./VisiMisi.css";
 
 const VisiMisi = () => {
     const { t } = useLanguage();
-    const [isMobile, setIsMobile] = React.useState(false);
-
-    React.useEffect(() => {
-        setIsMobile(window.innerWidth <= 768);
-        const onResize = () => setIsMobile(window.innerWidth <= 768);
-        window.addEventListener('resize', onResize);
-        return () => window.removeEventListener('resize', onResize);
-    }, []);
+    const isMobile = useIsMobile();
 
     // Helper to get Misi items
     const getMisiItems = () => {

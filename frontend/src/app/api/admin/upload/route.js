@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
-import { readSession } from '@/lib/adminSession';
+import { requireAdminSession } from '@/lib/adminSession';
 import { serverClient } from '@/lib/sanityServer';
 import { proxyImageUrl } from '@/lib/imageProxy';
 
@@ -10,8 +9,7 @@ const MAX_FILE_BYTES = 8 * 1024 * 1024;
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
 
 export async function POST(req) {
-    const jar = await cookies();
-    const session = readSession(jar);
+    const session = await requireAdminSession();
     if (!session) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }

@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Navbar from '@/components/Navbar';
+import AmbientBlobs from '@/components/AmbientBlobs';
 import Footer from '@/components/Footer';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, User, Sparkles, CheckCircle, Star } from 'lucide-react';
@@ -61,16 +62,7 @@ const StaffPage = () => {
         <div style={{ background: '#ffffff', minHeight: '100vh', overflowX: 'hidden', position: 'relative' }}>
             <Navbar theme="light" />
             
-            <motion.div 
-                animate={{ y: [0, 15, 0], x: [0, -5, 0] }}
-                transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-                style={{ position: 'absolute', top: '20%', right: '-5%', width: '300px', height: '300px', background: 'rgba(249, 140, 29, 0.02)', filter: 'blur(100px)', borderRadius: '50%', pointerEvents: 'none' }} 
-            />
-            <motion.div 
-                animate={{ y: [0, -20, 0], x: [0, 10, 0] }}
-                transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
-                style={{ position: 'absolute', bottom: '10%', left: '-5%', width: '400px', height: '400px', background: 'rgba(15, 23, 42, 0.01)', filter: 'blur(120px)', borderRadius: '50%', pointerEvents: 'none' }} 
-            />
+            <AmbientBlobs />
 
             <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '600px', backgroundImage: 'radial-gradient(#f1f5f9 1.2px, transparent 1.2px)', backgroundSize: '24px 24px', opacity: 0.6, pointerEvents: 'none' }}></div>
 

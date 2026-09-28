@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { apiFetch, urlFor } from '../../lib/api';
 import { useLanguage } from '../../context/LanguageContext';
 import SmartImage from '../SmartImage';
+import { useIsMobile } from '../../hooks/useIsMobile';
 import "./Gallery.css";
 
 const Gallery = ({ isSlider = false, defaultCategory = 'ALL' }) => {
@@ -16,7 +17,7 @@ const Gallery = ({ isSlider = false, defaultCategory = 'ALL' }) => {
     const [selectedImg, setSelectedImg] = useState(null);
     const [isAutoPlaying, setIsAutoPlaying] = useState(true);
     const [isLoading, setIsLoading] = useState(true);
-    const [isMobile, setIsMobile] = useState(false);
+    const isMobile = useIsMobile();
     const autoPlayRef = useRef(null);
 
     const categories = ['ALL', 'EVENTS', 'NEWS', 'AWARDS', 'OTHERS'];
@@ -26,13 +27,6 @@ const Gallery = ({ isSlider = false, defaultCategory = 'ALL' }) => {
         const filtered = images.filter(img => img.category === activeCategory);
         return filtered.length > 0 ? filtered : images;
     }, [images, activeCategory]);
-
-    useEffect(() => {
-        setIsMobile(window.innerWidth <= 768);
-        const onResize = () => setIsMobile(window.innerWidth <= 768);
-        window.addEventListener('resize', onResize);
-        return () => window.removeEventListener('resize', onResize);
-    }, []);
 
     useEffect(() => {
         const fetchGallery = async () => {

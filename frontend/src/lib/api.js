@@ -5,21 +5,10 @@ import { proxyImageUrl } from './imageProxy';
 // talking to Sanity directly — works whether the dataset is public or
 // private, and keeps the query allowlist server-side (see
 // src/app/api/content/route.js).
-export const apiFetch = async (endpoint, options = {}) => {
-    if (!options.method || options.method === 'GET') {
-        const res = await fetch(`/api/content?endpoint=${encodeURIComponent(endpoint)}`);
-        if (!res.ok) return endpoint.includes('/students') || endpoint.includes('/gallery') || endpoint.includes('/facilities') || endpoint.includes('/staff') || endpoint.includes('/news') || endpoint.includes('year-configs') ? [] : null;
-        return await res.json();
-    }
-
-    // For POST (Registration), we might need more setup later,
-    // but for now we return empty to avoid breaking the UI
-    if (endpoint.includes('/apply')) {
-        console.warn("PPDB Apply via Sanity needs write token/backend proxy.");
-        return { status: 'success', message: 'Menerima pendaftaran...' };
-    }
-
-    return [];
+export const apiFetch = async (endpoint) => {
+    const res = await fetch(`/api/content?endpoint=${encodeURIComponent(endpoint)}`);
+    if (!res.ok) return endpoint.includes('/students') || endpoint.includes('/gallery') || endpoint.includes('/facilities') || endpoint.includes('/staff') || endpoint.includes('/news') || endpoint.includes('year-configs') ? [] : null;
+    return await res.json();
 };
 
 // Chainable like the real Sanity image builder (`.width().height().auto().url()`),

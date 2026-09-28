@@ -4,6 +4,7 @@ import { X, Menu, ChevronRight, Home, MessageSquare, BookOpen, Target, Building2
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { useLanguage } from "../../context/LanguageContext";
+import { useIsMobile } from "../../hooks/useIsMobile";
 import "./Navbar.css";
 
 
@@ -31,16 +32,7 @@ const FlagGB = () => (
 const Navbar = () => {
   const { t, langCode, changeLanguage } = useLanguage();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    setIsMobile(window.innerWidth <= 1024);
-    const onResize = () => setIsMobile(window.innerWidth <= 1024);
-    window.addEventListener("resize", onResize);
-    return () => {
-        window.removeEventListener("resize", onResize);
-    };
-  }, []);
+  const isMobile = useIsMobile(1024);
 
   /* Lock body scroll when menu open */
   useEffect(() => {

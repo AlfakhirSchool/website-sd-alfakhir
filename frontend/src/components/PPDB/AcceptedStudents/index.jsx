@@ -12,6 +12,9 @@ import { apiFetch } from "../../../lib/api";
 import { useLanguage } from "../../../context/LanguageContext";
 import "./AcceptedStudents.css";
 
+const PASSED_STATUSES = ["Lolos", "Diterima", "Lolos Seleksi", "Lulus Seleksi", "Passed Selection"];
+const isAcceptedStatus = (status) => PASSED_STATUSES.includes(status);
+
 const AcceptedStudents = ({
   selectedYear,
   selectedWave,
@@ -53,13 +56,7 @@ const AcceptedStudents = ({
     .replace(/\s+/g, "");
   const lolosStudents = students
     .filter(
-      (s) =>
-        s.status === "Lolos" ||
-        s.status === "Diterima" ||
-        s.status === "Lolos Seleksi" ||
-        s.status === "Lulus Seleksi" ||
-        s.status === "Passed Selection" ||
-        (s.score && s.score !== ""),
+      (s) => isAcceptedStatus(s.status) || (s.score && s.score !== ""),
     )
     .filter((s) => {
       const nameMatch = (s.name || "")
@@ -184,12 +181,7 @@ const AcceptedStudents = ({
 
                 <td className="accepted-cell status-cell" data-label={t("ppdb_results", "table.status")}>
                   {(() => {
-                    const isPassed =
-                      student.status === "Lulus Seleksi" ||
-                      student.status === "Lolos Seleksi" ||
-                      student.status === "Lolos" ||
-                      student.status === "Diterima" ||
-                      student.status === "Passed Selection";
+                    const isPassed = isAcceptedStatus(student.status);
                     const isFailed =
                       student.status === "Belum Lolos" ||
                       student.status === "Not Yet Passed" ||
