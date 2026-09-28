@@ -1355,7 +1355,6 @@ export default function AdminPage() {
                                         { label: 'JENIS KELAMIN', get: r => r.gender === 'L' || r.gender === 'Laki-laki' ? 'Laki-laki' : 'Perempuan' },
                                         { label: 'TAHUN', get: r => r.year || '-' },
                                         { label: 'GELOMBANG', get: r => r.wave || '-' },
-                                        { label: 'TIPE', get: r => (r.registrationType || (r.paymentProof ? 'booking_fee' : 'formulir')) === 'booking_fee' ? 'BOOKING FEE' : 'AMBIL FORMULIR' },
                                         { label: 'NAMA ORANG TUA', get: r => r.parentName || '-' },
                                         { label: 'KONTAK WA', get: r => r.whatsapp || '-' },
                                         { label: 'ASAL SEKOLAH', get: r => r.school || r.schoolName || '-' },
@@ -1392,6 +1391,15 @@ export default function AdminPage() {
                                         return registrationFilter === 'all' || type === registrationFilter;
                                     });
 
+                                    const patchRegistration = async (id, set) => {
+                                        try {
+                                            await adminMutate({ patches: [{ id, set: { _type: 'student', ...set } }] });
+                                            fetchAllData();
+                                        } catch (errPatch) {
+                                            setError('Gagal menyimpan: ' + (errPatch.message || 'Terjadi kesalahan.'));
+                                        }
+                                    };
+
                                     if (rows.length === 0) {
                                         return (
                                             <div style={{ textAlign: 'center', padding: '6rem', color: '#9a8c82', fontWeight: 600 }}>
@@ -1407,6 +1415,8 @@ export default function AdminPage() {
                                                 <thead>
                                                     <tr>
                                                         <th style={{ position: 'sticky', left: 0, zIndex: 2, padding: '14px 16px', background: '#1a1612', color: '#fffdf9', fontSize: '0.7rem', fontWeight: 700, textTransform: 'uppercase', textAlign: 'left', whiteSpace: 'nowrap' }}>#</th>
+                                                        <th style={{ padding: '14px 16px', background: '#1a1612', color: '#fffdf9', fontSize: '0.7rem', fontWeight: 700, textTransform: 'uppercase', textAlign: 'left', whiteSpace: 'nowrap' }}>TIPE</th>
+                                                        <th style={{ padding: '14px 16px', background: '#1a1612', color: '#fffdf9', fontSize: '0.7rem', fontWeight: 700, textTransform: 'uppercase', textAlign: 'left', whiteSpace: 'nowrap' }}>DAPAT KURSI</th>
                                                         {REG_COLUMNS.map(col => (
                                                             <th key={col.label} style={{ padding: '14px 16px', background: '#1a1612', color: '#fffdf9', fontSize: '0.7rem', fontWeight: 700, textTransform: 'uppercase', textAlign: 'left', whiteSpace: 'nowrap' }}>{col.label}</th>
                                                         ))}
@@ -1417,6 +1427,33 @@ export default function AdminPage() {
                                                     {rows.map((reg, idx) => (
                                                         <tr key={reg._id || idx} style={{ background: idx % 2 === 0 ? '#fffdf9' : '#faf7f2' }}>
                                                             <td style={{ position: 'sticky', left: 0, background: idx % 2 === 0 ? '#fffdf9' : '#faf7f2', padding: '12px 16px', fontSize: '0.8rem', fontWeight: 700, color: '#d4820a', borderBottom: '1px solid #ece4d8', whiteSpace: 'nowrap' }}>{idx + 1}</td>
+                                                            <td style={{ padding: '12px 16px', borderBottom: '1px solid #ece4d8', whiteSpace: 'nowrap' }}>
+                                                                {(() => {
+                                                                    const type = reg.registrationType || (reg.paymentProof ? 'booking_fee' : 'formulir');
+                                                                    const isBookingFee = type === 'booking_fee';
+                                                                    return (
+                                                                        <button
+                                                                            onClick={() => patchRegistration(reg._id, { registrationType: isBookingFee ? 'formulir' : 'booking_fee' })}
+                                                                            style={{
+                                                                                padding: '8px 12px', borderRadius: '10px', border: '1px solid', cursor: 'pointer', fontSize: '0.7rem', fontWeight: 700,
+                                                                                background: isBookingFee ? '#0d7c6e15' : '#c0392b15',
+                                                                                color: isBookingFee ? '#0d7c6e' : '#c0392b',
+                                                                                borderColor: isBookingFee ? '#0d7c6e30' : '#c0392b30',
+                                                                            }}
+                                                                        >
+                                                                            {isBookingFee ? 'BOOKING FEE' : 'AMBIL FORMULIR'}
+                                                                        </button>
+                                                                    );
+                                                                })()}
+                                                            </td>
+                                                            <td style={{ padding: '12px 16px', borderBottom: '1px solid #ece4d8', whiteSpace: 'nowrap', textAlign: 'center' }}>
+                                                                <input
+                                                                    type="checkbox"
+                                                                    checked={reg.seatConfirmed === 'true' || reg.seatConfirmed === true}
+                                                                    onChange={(e) => patchRegistration(reg._id, { seatConfirmed: e.target.checked ? 'true' : 'false' })}
+                                                                    style={{ width: '20px', height: '20px', cursor: 'pointer', accentColor: '#0d7c6e' }}
+                                                                />
+                                                            </td>
                                                             {REG_COLUMNS.map(col => (
                                                                 <td key={col.label} style={{ padding: '12px 16px', fontSize: '0.8rem', color: '#1a1612', borderBottom: '1px solid #ece4d8', whiteSpace: 'nowrap' }}>{col.get(reg)}</td>
                                                             ))}

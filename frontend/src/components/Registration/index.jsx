@@ -38,7 +38,6 @@ const RegistrationForm = ({ onSuccess }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [step, setStep] = useState(1);
     const [selectedFile, setSelectedFile] = useState(null);
-    const [formOnly, setFormOnly] = useState(false);
     const [previewUrl, setPreviewUrl] = useState(null);
     const [captchaToken, setCaptchaToken] = useState(null);
     const [errors, setErrors] = useState({});
@@ -86,7 +85,6 @@ const RegistrationForm = ({ onSuccess }) => {
             if (!formData.parentName) newErrors.parentName = t('reg', 'form.errors.parentName');
             if (!formData.whatsapp || formData.whatsapp.length < 10) newErrors.whatsapp = t('reg', 'form.errors.whatsapp');
         } else if (step === 6) {
-            if (!formOnly && !selectedFile) newErrors.paymentProof = t('reg', 'form.errors.paymentProof');
             if (!captchaToken) newErrors.captcha = t('reg', 'form.errors.captcha');
         }
 
@@ -132,7 +130,7 @@ const RegistrationForm = ({ onSuccess }) => {
             // call — the browser never touches a Sanity write token.
             const extForm = new FormData();
             Object.entries(formData).forEach(([key, value]) => extForm.append(key, value ?? ''));
-            extForm.append('registrationType', formOnly ? 'formulir' : 'booking_fee');
+            extForm.append('registrationType', 'formulir');
             if (selectedFile) extForm.append('paymentProof', selectedFile);
 
             const res = await fetch('/api/register-external', { method: 'POST', body: extForm });
@@ -471,48 +469,29 @@ const RegistrationForm = ({ onSuccess }) => {
                                     </div>
                                 </div>
 
-                                <div className="payment-toggle-row">
-                                    <button
-                                        type="button"
-                                        className={`payment-toggle-btn ${!formOnly ? 'active' : ''}`}
-                                        onClick={() => { setFormOnly(false); setErrors(prev => ({ ...prev, paymentProof: null })); }}
-                                    >
-                                        {t('reg', 'form.labelPayNow')}
-                                    </button>
-                                    <button
-                                        type="button"
-                                        className={`payment-toggle-btn ${formOnly ? 'active' : ''}`}
-                                        onClick={() => { setFormOnly(true); setSelectedFile(null); setPreviewUrl(null); setErrors(prev => ({ ...prev, paymentProof: null })); }}
-                                    >
-                                        {t('reg', 'form.labelFormOnly')}
-                                    </button>
-                                </div>
+                                <p className="formonly-note">{t('reg', 'form.labelFormOnlyNote')}</p>
 
-                                {formOnly ? (
-                                    <p className="formonly-note">{t('reg', 'form.labelFormOnlyNote')}</p>
-                                ) : (
-                                    <div onClick={() => fileInputRef.current.click()} className={`upload-dropzone ${errors.paymentProof ? 'has-error' : ''}`}>
-                                        <input id="paymentProof-input" type="file" accept="image/*" onChange={handleFileChange} ref={fileInputRef} style={{ display: 'none' }} aria-label={t('reg', 'form.labelUploadProof')} />
-                                        {!selectedFile ? (
-                                            <div>
-                                                <div className="upload-icon-circle">
-                                                    <Upload size={24} />
-                                                </div>
-                                                <label htmlFor="paymentProof-input" style={{ cursor: 'pointer', textAlign: 'center' }}>
-                                                    <p className="upload-label-main">{t('reg', 'form.labelUploadProof')} <span className="required-star">*</span></p>
-                                                    <p style={{ color: '#94a3b8', fontSize: '0.8rem', textTransform: 'none', letterSpacing: 'normal' }}>{t('reg', 'form.labelLimit')}</p>
-                                                </label>
+                                <div onClick={() => fileInputRef.current.click()} className={`upload-dropzone ${errors.paymentProof ? 'has-error' : ''}`}>
+                                    <input id="paymentProof-input" type="file" accept="image/*" onChange={handleFileChange} ref={fileInputRef} style={{ display: 'none' }} aria-label={t('reg', 'form.labelUploadProof')} />
+                                    {!selectedFile ? (
+                                        <div>
+                                            <div className="upload-icon-circle">
+                                                <Upload size={24} />
                                             </div>
-                                        ) : (
-                                            <div style={{ position: 'relative' }}>
-                                                {previewUrl && <img src={previewUrl} alt="Review" className="preview-img" />}
-                                                <p style={{ fontWeight: 700, color: '#059669', fontSize: '0.85rem' }}>{selectedFile.name}</p>
-                                                <button type="button" onClick={(e) => { e.stopPropagation(); setSelectedFile(null); setPreviewUrl(null); }} className="change-file-btn">{t('reg', 'form.labelBtnChange')}</button>
-                                            </div>
-                                        )}
-                                        {errors.paymentProof && <p className="error-text" style={{ marginTop: '15px' }}>{errors.paymentProof}</p>}
-                                    </div>
-                                )}
+                                            <label htmlFor="paymentProof-input" style={{ cursor: 'pointer', textAlign: 'center' }}>
+                                                <p className="upload-label-main">{t('reg', 'form.labelUploadProof')}</p>
+                                                <p style={{ color: '#94a3b8', fontSize: '0.8rem', textTransform: 'none', letterSpacing: 'normal' }}>{t('reg', 'form.labelLimit')}</p>
+                                            </label>
+                                        </div>
+                                    ) : (
+                                        <div style={{ position: 'relative' }}>
+                                            {previewUrl && <img src={previewUrl} alt="Review" className="preview-img" />}
+                                            <p style={{ fontWeight: 700, color: '#059669', fontSize: '0.85rem' }}>{selectedFile.name}</p>
+                                            <button type="button" onClick={(e) => { e.stopPropagation(); setSelectedFile(null); setPreviewUrl(null); }} className="change-file-btn">{t('reg', 'form.labelBtnChange')}</button>
+                                        </div>
+                                    )}
+                                    {errors.paymentProof && <p className="error-text" style={{ marginTop: '15px' }}>{errors.paymentProof}</p>}
+                                </div>
 
                                 <div className={`security-card ${errors.captcha ? 'has-error' : ''}`}>
                                     <label className="form-label">{t('reg', 'form.labelSecurity')}</label>
