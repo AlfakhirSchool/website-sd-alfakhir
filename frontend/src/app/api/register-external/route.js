@@ -1,13 +1,11 @@
 import { NextResponse } from 'next/server';
-import { appendRow, uploadFileToDrive } from '@/lib/googleService';
+import { uploadFileToDrive } from '@/lib/googleService';
 import { studentApi } from '@/lib/studentApi';
 import { createRateLimiter } from '@/lib/rateLimit';
 
 export const runtime = 'nodejs';
 
-const SPREADSHEET_ID = '1Z-cBQ1D8uQQ0lKga-EEj00tnvIdtiByU6VtTgsBCWG0';
 const DRIVE_FOLDER_ID = '1Oi0PKnmcT_y0fcAJeFT9hSlkG7YAjV1-';
-const SHEET_RANGE = 'Data!A:AZ';
 
 const sanitize = (s) => String(s || '').trim().replace(/[^a-zA-Z0-9]+/g, '_').replace(/^_+|_+$/g, '') || 'unknown';
 
@@ -17,8 +15,7 @@ const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'application/pdf'];
 const isRateLimited = createRateLimiter(10 * 60 * 1000, 5);
 
 // Matches the fields in components/Registration/index.jsx's emptyFormData(),
-// minus name/nik (handled separately above) — read once, reused for both
-// the Sheets row and the student-api record.
+// minus name/nik (handled separately above).
 const FORM_FIELDS = [
     'gender', 'birthPlace', 'birthDate', 'nisn', 'religion', 'kip', 'childOrder', 'siblingOf',
     'siblingsCount', 'dailyLanguage', 'height', 'weight', 'studentPhone',
@@ -45,7 +42,7 @@ export async function POST(req) {
 
         // Duplicate-submission guard: parents re-submitting the whole form
         // after a slow/unclear response created repeat records (same child,
-        // same NIK, minutes apart) in both Sheets and the database. Treat a
+        // same NIK, minutes apart) created repeat records. Treat a
         // resubmission as a no-op success instead of creating another one.
         if (nik) {
             const existing = await studentApi.findByNik(nik).catch(() => null);
@@ -69,16 +66,6 @@ export async function POST(req) {
             driveLink = uploaded.webViewLink || `https://drive.google.com/file/d/${uploaded.id}/view`;
         }
 
-        const row = [
-            new Date().toISOString(),
-            studentName,
-            nik,
-            ...FORM_FIELDS.map(f => fields[f]),
-            driveLink,
-            driveLink ? 'Terverifikasi' : 'Pending',
-        ];
-        await appendRow(SPREADSHEET_ID, SHEET_RANGE, row);
-
         const studentId = `REG-${Date.now().toString().slice(-6)}`;
         // PII lives only here — the school's own self-hosted store, never Sanity.
         await studentApi.create({
@@ -97,6 +84,6 @@ export async function POST(req) {
         return NextResponse.json({ success: true, driveLink, studentId });
     } catch (err) {
         console.error('register-external error:', err);
-        return NextResponse.json({ success: false, error: 'Gagal menyimpan data ke Sheets/Drive.' }, { status: 500 });
+        return NextResponse.json({ success: false, error: 'Gagal menyimpan data pendaftaran.' }, { status: 500 });
     }
 }
