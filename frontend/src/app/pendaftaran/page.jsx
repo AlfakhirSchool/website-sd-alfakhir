@@ -102,89 +102,52 @@ const RegistrationPage = () => {
                                 </div>
                             </div>
 
-                            <div id="pendaftaran-certificate" style={{ background: 'white', border: '1px solid #e2e8f0', padding: '80px', borderRadius: '40px', textAlign: 'left', position: 'relative', overflow: 'hidden', boxShadow: '0 80px 150px -40px rgba(15,23,42,0.1)' }}>
-                                <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%) rotate(-30deg)', opacity: 0.03, fontSize: '10rem', fontWeight: 950, pointerEvents: 'none', whiteSpace: 'nowrap' }}>AL-FAKHIR MODERN</div>
-                                
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '30px', borderBottom: '2px solid #0f172a', paddingBottom: '30px', marginBottom: '40px' }}>
-                                    <img src="/logo_new.webp" alt="SD Islam Modern Al-Fakhir Official Logo" style={{ width: '80px', height: '80px', objectFit: 'contain' }} />
-                                    <div>
-                                        <h1 style={{ fontSize: '2rem', fontWeight: 950, color: '#0f172a', margin: 0, letterSpacing: '-1px' }}>SD ISLAM MODERN AL-FAKHIR</h1>
-                                        <p style={{ fontSize: '0.85rem', color: 'var(--primary)', margin: '5px 0 0', textTransform: 'uppercase', letterSpacing: '4px', fontWeight: 800 }}>{t('reg', 'success.labelRegistry')}</p>
-                                    </div>
-                                </div>
-                                
-                                <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '60px' }}>
-                                    <div>
-                                        <h4 style={{ color: '#94a3b8', fontSize: '0.8rem', fontWeight: 900, textTransform: 'uppercase', marginBottom: '25px', letterSpacing: '2px' }}>{t('reg', 'success.labelProfile')}</h4>
-                                        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                                            <div>
-                                                <span style={{ display: 'block', fontSize: '0.75rem', color: '#94a3b8', marginBottom: '5px', textTransform: 'uppercase' }}>{t('reg', 'success.labelName')}</span>
-                                                <span style={{ fontSize: '1.2rem', fontWeight: 950, color: '#0f172a' }}>{registeredData?.name}</span>
-                                            </div>
-                                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '30px' }}>
-                                                <div>
-                                                    <span style={{ display: 'block', fontSize: '0.75rem', color: '#94a3b8', marginBottom: '5px', textTransform: 'uppercase' }}>{t('reg', 'success.labelBirth')}</span>
-                                                    <span style={{ fontSize: '1rem', fontWeight: 800, color: '#475569' }}>{registeredData?.birthPlace}, {registeredData?.birthDate}</span>
-                                                </div>
-                                                <div>
-                                                    <span style={{ display: 'block', fontSize: '0.75rem', color: '#94a3b8', marginBottom: '5px', textTransform: 'uppercase' }}>{t('reg', 'success.labelGender')}</span>
-                                                    <span style={{ fontSize: '1rem', fontWeight: 800, color: '#475569' }}>{registeredData?.gender}</span>
-                                                </div>
-                                            </div>
-                                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '30px' }}>
-                                                <div>
-                                                    <span style={{ display: 'block', fontSize: '0.75rem', color: '#94a3b8', marginBottom: '5px', textTransform: 'uppercase' }}>NIK</span>
-                                                    <span style={{ fontSize: '1rem', fontWeight: 800, color: '#475569' }}>{registeredData?.nik || '-'}</span>
-                                                </div>
-                                                <div>
-                                                    <span style={{ display: 'block', fontSize: '0.75rem', color: '#94a3b8', marginBottom: '5px', textTransform: 'uppercase' }}>{t('reg', 'form.labelReligion')}</span>
-                                                    <span style={{ fontSize: '1rem', fontWeight: 800, color: '#475569' }}>{registeredData?.religion || '-'}</span>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <span style={{ display: 'block', fontSize: '0.75rem', color: '#94a3b8', marginBottom: '5px', textTransform: 'uppercase' }}>{t('reg', 'success.labelAddress')}</span>
-                                                <span style={{ fontSize: '1rem', fontWeight: 800, color: '#475569', lineHeight: 1.5 }}>{registeredData?.address}{registeredData?.city ? `, ${registeredData.city}` : ''}</span>
-                                            </div>
-                                            <div>
-                                                <span style={{ display: 'block', fontSize: '0.75rem', color: '#94a3b8', marginBottom: '5px', textTransform: 'uppercase' }}>{t('reg', 'form.labelPrevSchool')}</span>
-                                                <span style={{ fontSize: '1rem', fontWeight: 800, color: '#475569' }}>{registeredData?.schoolName || '-'}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <h4 style={{ color: '#94a3b8', fontSize: '0.8rem', fontWeight: 900, textTransform: 'uppercase', marginBottom: '25px', letterSpacing: '2px' }}>{t('reg', 'success.labelGuardian')}</h4>
-                                        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                                            <div>
-                                                <span style={{ display: 'block', fontSize: '0.75rem', color: '#94a3b8', marginBottom: '5px', textTransform: 'uppercase' }}>{t('reg', 'success.labelGuardian')}</span>
-                                                <span style={{ fontSize: '1.1rem', fontWeight: 950, color: '#0f172a' }}>{registeredData?.parentName}</span>
-                                            </div>
-                                            <div>
-                                                <span style={{ display: 'block', fontSize: '0.75rem', color: '#94a3b8', marginBottom: '5px', textTransform: 'uppercase' }}>{t('reg', 'success.labelContact')}</span>
-                                                <span style={{ fontSize: '1.1rem', fontWeight: 950, color: '#0f172a' }}>{registeredData?.whatsapp}</span>
-                                            </div>
-                                            <div>
-                                                <span style={{ display: 'block', fontSize: '0.75rem', color: '#94a3b8', marginBottom: '5px', textTransform: 'uppercase' }}>{t('reg', 'form.labelKip')}</span>
-                                                <span style={{ fontSize: '1.1rem', fontWeight: 950, color: '#0f172a' }}>{registeredData?.kip || '-'}</span>
-                                            </div>
-                                            <div>
-                                                <span style={{ display: 'block', fontSize: '0.75rem', color: '#94a3b8', marginBottom: '5px', textTransform: 'uppercase' }}>{t('reg', 'success.labelYear')}</span>
-                                                <span style={{ fontSize: '1.1rem', fontWeight: 950, color: 'var(--primary)' }}>{registeredData?.year}</span>
-                                            </div>
-                                        </div>
-                                    </div>
+                            <div id="pendaftaran-certificate" className="receipt-card">
+                                <div className="receipt-header">
+                                    <img src="/logo_new.webp" alt="SD Islam Modern Al-Fakhir Official Logo" style={{ width: '56px', height: '56px', objectFit: 'contain', margin: '0 auto 12px' }} />
+                                    <h1 style={{ fontSize: '1.15rem', fontWeight: 950, color: '#0f172a', margin: 0, letterSpacing: '-0.5px' }}>SD ISLAM MODERN AL-FAKHIR</h1>
+                                    <p style={{ fontSize: '0.7rem', color: 'var(--primary)', margin: '4px 0 0', textTransform: 'uppercase', letterSpacing: '2px', fontWeight: 800 }}>{t('reg', 'success.labelRegistry')}</p>
                                 </div>
 
-                                <div style={{ marginTop: '80px', paddingTop: '40px', borderTop: '1px dashed #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
-                                    <div style={{ maxWidth: '450px' }}>
-                                        <p style={{ fontSize: '0.85rem', color: '#94a3b8', fontStyle: 'italic', lineHeight: 1.6 }}>{t('reg', 'success.footerNote')}</p>
+                                <div className="receipt-divider" />
+
+                                {[
+                                    [t('reg', 'success.labelName'), registeredData?.name],
+                                    [t('reg', 'success.labelBirth'), `${registeredData?.birthPlace}, ${registeredData?.birthDate}`],
+                                    [t('reg', 'success.labelGender'), registeredData?.gender],
+                                    ['NIK', registeredData?.nik || '-'],
+                                    [t('reg', 'form.labelReligion'), registeredData?.religion || '-'],
+                                    [t('reg', 'success.labelAddress'), `${registeredData?.address || ''}${registeredData?.city ? `, ${registeredData.city}` : ''}`],
+                                    [t('reg', 'form.labelPrevSchool'), registeredData?.schoolName || '-'],
+                                ].map(([label, value], i) => (
+                                    <div className="receipt-row" key={i}>
+                                        <span className="receipt-label">{label}</span>
+                                        <span className="receipt-value">{value}</span>
                                     </div>
-                                    <div style={{ textAlign: 'center' }}>
-                                        <p style={{ fontSize: '0.9rem', marginBottom: '80px', fontWeight: 900, color: '#0f172a' }}>{t('reg', 'success.labelAuthority')}</p>
-                                        <div style={{ width: '120px', height: '120px', background: '#f8fafc', borderRadius: '15px', border: '1px solid #e2e8f0', marginBottom: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                            <CheckCircle2 size={40} color="#cbd5e1" opacity={0.5} />
-                                        </div>
-                                        <p style={{ fontSize: '0.7rem', color: '#94a3b8', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '1px' }}>{t('reg', 'success.labelRegistry')}</p>
+                                ))}
+
+                                <div className="receipt-divider" />
+
+                                {[
+                                    [t('reg', 'success.labelGuardian'), registeredData?.parentName],
+                                    [t('reg', 'success.labelContact'), registeredData?.whatsapp],
+                                    [t('reg', 'form.labelKip'), registeredData?.kip || '-'],
+                                    [t('reg', 'success.labelYear'), registeredData?.year],
+                                ].map(([label, value], i) => (
+                                    <div className="receipt-row" key={i}>
+                                        <span className="receipt-label">{label}</span>
+                                        <span className="receipt-value">{value}</span>
                                     </div>
+                                ))}
+
+                                <div className="receipt-divider" />
+
+                                <p style={{ fontSize: '0.75rem', color: '#94a3b8', fontStyle: 'italic', lineHeight: 1.6, textAlign: 'center', margin: '20px 0' }}>{t('reg', 'success.footerNote')}</p>
+
+                                <div style={{ textAlign: 'center', marginTop: '20px' }}>
+                                    <CheckCircle2 size={32} color="var(--primary)" style={{ marginBottom: '8px' }} />
+                                    <p style={{ fontSize: '0.9rem', fontWeight: 900, color: '#0f172a', margin: 0 }}>{t('reg', 'success.labelAuthority')}</p>
+                                    <p style={{ fontSize: '0.65rem', color: '#94a3b8', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '1px', margin: '4px 0 0' }}>{t('reg', 'success.labelRegistry')}</p>
                                 </div>
                             </div>
                         </motion.div>
@@ -201,11 +164,47 @@ const RegistrationPage = () => {
                     gap: 40px;
                     align-items: start;
                 }
+                .receipt-card {
+                    background: white;
+                    max-width: 420px;
+                    margin: 0 auto;
+                    padding: 36px 32px;
+                    border-radius: 4px;
+                    text-align: left;
+                    box-shadow: 0 30px 60px -20px rgba(15,23,42,0.15);
+                    background-image: radial-gradient(circle at 0 0, transparent 10px, white 10px), radial-gradient(circle at 100% 0, transparent 10px, white 10px);
+                }
+                .receipt-header { text-align: center; }
+                .receipt-divider {
+                    border-top: 1px dashed #cbd5e1;
+                    margin: 16px 0;
+                }
+                .receipt-row {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: baseline;
+                    gap: 16px;
+                    padding: 6px 0;
+                }
+                .receipt-label {
+                    font-size: 0.7rem;
+                    color: #94a3b8;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                    flex-shrink: 0;
+                }
+                .receipt-value {
+                    font-family: 'Courier New', monospace;
+                    font-size: 0.85rem;
+                    font-weight: 700;
+                    color: #0f172a;
+                    text-align: right;
+                }
                 @media print {
                     .hide-print { display: none !important; }
                     body { background: white !important; }
                     main { padding: 0 !important; }
-                    #pendaftaran-certificate { box-shadow: none !important; border: 2px solid #1e1b4b !important; }
+                    .receipt-card { box-shadow: none !important; border: 1px dashed #94a3b8 !important; }
                 }
                 @media (max-width: 991px) {
                     .registration-grid { grid-template-columns: 1fr !important; }
