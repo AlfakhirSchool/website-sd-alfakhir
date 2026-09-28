@@ -351,7 +351,8 @@ export const translations = {
           whatsapp: "Nomor WhatsApp tidak valid (Min. 10 digit)",
           paymentProof: "Silakan upload bukti pembayaran",
           captcha: "Silakan verifikasi bahwa Anda bukan robot",
-          fileSize: "Ukuran file maksimal 5MB!"
+          fileSize: "Ukuran file maksimal 5MB!",
+          submitFailed: "Gagal mengirim pendaftaran."
         }
       }
     },
@@ -436,6 +437,8 @@ export const translations = {
     visimisi: {
       badge: "Visi & Misi",
       title: "PANDANGAN MASA DEPAN",
+      pageTitle: "Visi & Misi Sekolah",
+      pageQuote: "Setiap Anak adalah Bintang, Setiap Hari adalah Petualangan, Setiap Langkah adalah Ibadah.",
       modern: "KURIKULUM",
       curriculum: "MODERN",
       academic: "IMPLEMENTASI",
@@ -447,7 +450,18 @@ export const translations = {
     },
     facilities: {
       badge: "Infrastruktur Kampus",
-      title: "FASILITAS SEKOLAH"
+      title: "FASILITAS SEKOLAH",
+      comingSoon: "Segera Hadir",
+      list: {
+        ruangKelas: { name: "Ruang Kelas", desc: "Ruang belajar modern dengan fasilitas multimedia lengkap." },
+        mushola: { name: "Mushola", desc: "Sarana ibadah yang bersih dan tenang dengan karpet berkualitas." },
+        labKomputer: { name: "Lab Komputer", desc: "Perangkat teknologi terbaru untuk menunjang literasi digital." },
+        perpustakaan: { name: "Perpustakaan", desc: "Koleksi buku beragam untuk menumbuhkan minat baca siswa." },
+        lapangan: { name: "Lapangan", desc: "Area olahraga yang luas untuk aktivitas fisik dan kreativitas." },
+        aula: { name: "Aula", desc: "Gedung serbaguna modern untuk acara dan presentasi siswa." },
+        saung: { name: "Saung", desc: "Gazebo bambu tradisional untuk area belajar luar ruangan." },
+        kolamRenang: { name: "Kolam Renang", desc: "Fasilitas renang yang bersih untuk kesehatan dan rekreasi." },
+      }
     },
     struktur: {
       badge: "Sistem Manajemen",
@@ -890,7 +904,8 @@ export const translations = {
           whatsapp: "Invalid WhatsApp number (Min. 10 digits)",
           paymentProof: "Please upload payment proof",
           captcha: "Please verify that you are not a robot",
-          fileSize: "Maximum file size is 5MB!"
+          fileSize: "Maximum file size is 5MB!",
+          submitFailed: "Failed to submit registration."
         }
       }
     },
@@ -975,6 +990,8 @@ export const translations = {
     visimisi: {
       badge: "Philosophy & Goal",
       title: "VISION & MISSION",
+      pageTitle: "Vision & Mission",
+      pageQuote: "Every Child is a Star, Every Day is an Adventure, Every Step is an Ibadah.",
       modern: "MODERN",
       curriculum: "CURRICULUM",
       academic: "ACADEMIC",
@@ -986,7 +1003,18 @@ export const translations = {
     },
     facilities: {
       badge: "Campus Infrastructure",
-      title: "SCHOOL FACILITIES"
+      title: "SCHOOL FACILITIES",
+      comingSoon: "Coming Soon",
+      list: {
+        ruangKelas: { name: "Classrooms", desc: "Modern learning spaces equipped with complete multimedia facilities." },
+        mushola: { name: "Prayer Room", desc: "A clean, calm place of worship with quality carpeting." },
+        labKomputer: { name: "Computer Lab", desc: "The latest technology to support digital literacy." },
+        perpustakaan: { name: "Library", desc: "A diverse book collection to foster students' love of reading." },
+        lapangan: { name: "Sports Field", desc: "A spacious field for physical activity and creativity." },
+        aula: { name: "Hall", desc: "A modern multipurpose building for events and student presentations." },
+        saung: { name: "Gazebo", desc: "A traditional bamboo gazebo for outdoor learning." },
+        kolamRenang: { name: "Swimming Pool", desc: "A clean swimming facility for health and recreation." },
+      }
     },
     struktur: {
       badge: "Management System",

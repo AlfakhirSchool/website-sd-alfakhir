@@ -14,8 +14,10 @@ import {
     Plus
 } from 'lucide-react';
 import SmartImage from '@/components/SmartImage';
+import { useLanguage } from '@/context/LanguageContext';
 
 const FacilityCard = ({ fac, hasImage, primaryColor, gridImage, index }) => {
+    const { t } = useLanguage();
     const x = useMotionValue(0);
     const y = useMotionValue(0);
 
@@ -84,7 +86,7 @@ const FacilityCard = ({ fac, hasImage, primaryColor, gridImage, index }) => {
                         <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', transform: "translateZ(30px)" }}>
                             <motion.div animate={{ y: [0, -10, 0] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }} style={{ color: primaryColor, opacity: 0.6 }}>{fac.icon}</motion.div>
                             <div style={{ marginTop: '15px', padding: '6px 12px', background: 'rgba(249, 140, 29, 0.05)', borderRadius: '8px', border: '1px solid rgba(249, 140, 29, 0.1)' }}>
-                                <span style={{ fontSize: '0.6rem', fontWeight: 700, color: primaryColor, letterSpacing: '1px', textTransform: 'uppercase' }}>Coming Soon</span>
+                                <span style={{ fontSize: '0.6rem', fontWeight: 700, color: primaryColor, letterSpacing: '1px', textTransform: 'uppercase' }}>{t('facilities', 'comingSoon')}</span>
                             </div>
                         </div>
                     )}
@@ -107,28 +109,29 @@ const FacilityCard = ({ fac, hasImage, primaryColor, gridImage, index }) => {
 };
 
 const FacilitiesPage = () => {
+    const { t } = useLanguage();
     const primaryColor = '#f98c1d';
 
     const mainFacilities = [
-        { icon: <School size={30} />, name: 'Ruang Kelas', desc: 'Ruang belajar modern dengan fasilitas multimedia lengkap.' },
-        { icon: <Waves size={30} />, name: 'Mushola', desc: 'Sarana ibadah yang bersih dan tenang dengan karpet berkualitas.' },
-        { icon: <Monitor size={30} />, name: 'Lab Komputer', desc: 'Perangkat teknologi terbaru untuk menunjang literasi digital.' },
-        { icon: <BookOpen size={30} />, name: 'Perpustakaan', desc: 'Koleksi buku beragam untuk menumbuhkan minat baca siswa.' },
-        { icon: <Dribbble size={30} />, name: 'Lapangan', desc: 'Area olahraga yang luas untuk aktivitas fisik dan kreativitas.' },
-        { icon: <Waves size={30} />, name: 'Aula', desc: 'Gedung serbaguna modern untuk acara dan presentasi siswa.' },
-        { icon: <Wind size={30} />, name: 'Saung', desc: 'Gazebo bambu tradisional untuk area belajar luar ruangan.' },
-        { icon: <Waves size={30} />, name: 'Kolam Renang', desc: 'Fasilitas renang yang bersih untuk kesehatan dan rekreasi.' },
-    ];
+        { key: 'ruangKelas', icon: <School size={30} /> },
+        { key: 'mushola', icon: <Waves size={30} /> },
+        { key: 'labKomputer', icon: <Monitor size={30} /> },
+        { key: 'perpustakaan', icon: <BookOpen size={30} /> },
+        { key: 'lapangan', icon: <Dribbble size={30} /> },
+        { key: 'aula', icon: <Waves size={30} /> },
+        { key: 'saung', icon: <Wind size={30} /> },
+        { key: 'kolamRenang', icon: <Waves size={30} /> },
+    ].map(f => ({ ...f, name: t('facilities', `list.${f.key}.name`), desc: t('facilities', `list.${f.key}.desc`) }));
 
     // Routed through /api/image: a direct <img src> to lh3.googleusercontent.com
     // gets rejected by Chrome's Opaque Response Blocking once the request
     // carries our site's Referer header, so the server fetches it instead.
     const proxied = (id) => `/api/image?url=${encodeURIComponent(`https://lh3.googleusercontent.com/d/${id}=w1000`)}`;
     const gridImages = {
-        'Mushola': proxied('10etl3hmil68_s_xYBytVfRCSAQohnKLS'),
-        'Aula': proxied('1i97Pi9UPMce3Y-IeBF4khkY-fuT2iBsq'),
-        'Saung': proxied('1iCCLVqOERSE72t8cgPnO8xQmxp9TJm-9'),
-        'Kolam Renang': proxied('10NnVjW1RywTIo40fMvTmpQhKh72HIq2-')
+        mushola: proxied('10etl3hmil68_s_xYBytVfRCSAQohnKLS'),
+        aula: proxied('1i97Pi9UPMce3Y-IeBF4khkY-fuT2iBsq'),
+        saung: proxied('1iCCLVqOERSE72t8cgPnO8xQmxp9TJm-9'),
+        kolamRenang: proxied('10NnVjW1RywTIo40fMvTmpQhKh72HIq2-')
     };
 
     return (
@@ -146,15 +149,15 @@ const FacilitiesPage = () => {
             <header style={{ padding: '140px 20px 30px', textAlign: 'center', position: 'relative', zIndex: 1 }}>
                 <div style={{ maxWidth: '800px', margin: '0 auto' }}>
                     <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} style={{ color: primaryColor, fontSize: '0.7rem', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase', display: 'block', marginBottom: '12px' }}>
-                        Campus Infrastructure
+                        {t('facilities', 'badge')}
                     </motion.span>
-                    <motion.h1 
+                    <motion.h1
                         initial={{ opacity: 0, y: -20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8 }}
                         style={{ fontSize: '2.5rem', fontWeight: 800, color: '#0f172a', marginBottom: '15px', letterSpacing: '-1.5px', lineHeight: 1.1 }}
                     >
-                        Fasilitas Sekolah
+                        {t('facilities', 'title')}
                     </motion.h1>
                     <div style={{ width: '40px', height: '4px', background: primaryColor, margin: '0 auto', borderRadius: '10px' }} />
                 </div>
@@ -168,9 +171,9 @@ const FacilitiesPage = () => {
                                 key={i} 
                                 index={i}
                                 fac={fac} 
-                                hasImage={gridImages[fac.name]} 
-                                primaryColor={primaryColor} 
-                                gridImage={gridImages[fac.name]}
+                                hasImage={gridImages[fac.key]}
+                                primaryColor={primaryColor}
+                                gridImage={gridImages[fac.key]}
                             />
                         ))}
                     </div>

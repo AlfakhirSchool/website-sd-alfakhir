@@ -136,7 +136,7 @@ const RegistrationForm = ({ onSuccess }) => {
 
             const res = await fetch('/api/register-external', { method: 'POST', body: extForm });
             const data = await res.json();
-            if (!data.success) throw new Error(data.error || 'Gagal mengirim pendaftaran.');
+            if (!data.success) throw new Error(data.error || t('reg', 'form.errors.submitFailed'));
 
             localStorage.removeItem('alfakhir_registration_draft');
             onSuccess({ ...formData, id: data.studentId });

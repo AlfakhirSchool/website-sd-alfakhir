@@ -27,24 +27,8 @@ const VisiMisiPage = () => {
     const orangePrimary = '#f98c1d';
     const deepSlate = '#0f172a';
 
-    const fallbackMission = [
-        "Beribadah dengan benar",
-        "Berakhlak mulia",
-        "Berbadan sehat",
-        "Berpengetahuan luas",
-        "Berfikir kritis & kreatif",
-        "Cinta Al-Qur'an"
-    ];
-
-    const fallbackGoals = [
-        'To produce students who are devoted in worship and possess noble character',
-        'To cultivate healthy and disciplined habits',
-        'To develop critical, creative, and communicative thinking skills',
-        'To instill a love for knowledge and technology',
-        'To encourage students to interact in accordance with Islamic values'
-    ];
-
-    const missionList = Array.isArray(t('visimisi', 'missionList')) ? t('visimisi', 'missionList') : fallbackMission;
+    const missionList = t('about', 'misiList');
+    const goalsList = t('about', 'goalsList');
 
     return (
         <div style={{ background: '#ffffff', minHeight: '100vh', overflowX: 'hidden' }}>
@@ -60,10 +44,10 @@ const VisiMisiPage = () => {
                         </span>
                     </motion.div>
                     <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} style={{ fontSize: '3rem', fontWeight: 800, color: deepSlate, marginBottom: '25px', letterSpacing: '-2px' }}>
-                        Visi & Misi <span style={{ color: orangePrimary }}>Sekolah</span>
+                        {t('visimisi', 'pageTitle')}
                     </motion.h1>
                     <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} style={{ fontSize: '1.2rem', color: '#64748b', fontWeight: 500, maxWidth: '700px', margin: '0 auto', fontStyle: 'italic' }}>
-                        "Every Child is a Star, Every Day is an Adventure, Every Step is an Ibadah."
+                        "{t('visimisi', 'pageQuote')}"
                     </motion.p>
                 </div>
             </header>
@@ -77,7 +61,7 @@ const VisiMisiPage = () => {
                         <div style={{ width: '50px', height: '50px', background: 'rgba(255,255,255,0.2)', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '40px' }}>
                             <Target size={26} />
                         </div>
-                        <h2 style={{ fontSize: '1.8rem', fontWeight: 700, textTransform: 'uppercase', marginBottom: '30px', letterSpacing: '1px' }}>School Vision</h2>
+                        <h2 style={{ fontSize: '1.8rem', fontWeight: 700, textTransform: 'uppercase', marginBottom: '30px', letterSpacing: '1px' }}>{t('about', 'visiTitle')}</h2>
                         <div style={{ width: '40px', height: '2px', background: 'rgba(255,255,255,0.4)', marginBottom: '30px' }} />
                         <p style={{ fontSize: '1.25rem', fontWeight: 600, lineHeight: 1.5, opacity: 0.95 }}>
                             "{t('about', 'visiText')}"
@@ -91,7 +75,7 @@ const VisiMisiPage = () => {
                         <div style={{ width: '50px', height: '50px', background: 'rgba(255,255,255,0.2)', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '40px' }}>
                             <Sparkles size={26} />
                         </div>
-                        <h2 style={{ fontSize: '1.8rem', fontWeight: 700, textTransform: 'uppercase', marginBottom: '30px', letterSpacing: '1px' }}>School Mission</h2>
+                        <h2 style={{ fontSize: '1.8rem', fontWeight: 700, textTransform: 'uppercase', marginBottom: '30px', letterSpacing: '1px' }}>{t('about', 'misiTitle')}</h2>
                         <div style={{ width: '40px', height: '2px', background: 'rgba(255,255,255,0.4)', marginBottom: '30px' }} />
                         <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '15px' }}>
                             {missionList.map((item, i) => (
@@ -110,10 +94,10 @@ const VisiMisiPage = () => {
                         <div style={{ width: '50px', height: '50px', background: 'rgba(255,255,255,0.2)', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '40px' }}>
                             <Star size={26} />
                         </div>
-                        <h2 style={{ fontSize: '1.8rem', fontWeight: 700, textTransform: 'uppercase', marginBottom: '30px', letterSpacing: '1px' }}>School Goals</h2>
+                        <h2 style={{ fontSize: '1.8rem', fontWeight: 700, textTransform: 'uppercase', marginBottom: '30px', letterSpacing: '1px' }}>{t('about', 'goalsTitle')}</h2>
                         <div style={{ width: '40px', height: '2px', background: 'rgba(255,255,255,0.4)', marginBottom: '30px' }} />
                         <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '15px' }}>
-                            {fallbackGoals.map((item, i) => (
+                            {goalsList.map((item, i) => (
                                 <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '15px', fontWeight: 600, fontSize: '1.05rem', opacity: 0.95, lineHeight: 1.4 }}>
                                     <div style={{ minWidth: '6px', height: '6px', borderRadius: '50%', background: 'white', marginTop: '8px' }} />
                                     {item}

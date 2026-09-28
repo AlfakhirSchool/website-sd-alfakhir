@@ -29,7 +29,7 @@ const Contact = () => {
                 body: JSON.stringify({ name, email, subject, message }),
             });
             const data = await res.json();
-            if (!data.success) throw new Error(data.error || 'Gagal mengirim pesan.');
+            if (!data.success) throw new Error(data.error || t('contact', 'errorMsg'));
 
             await fetch('https://formspree.io/f/sdialfakhir@gmail.com', {
                 method: 'POST',
