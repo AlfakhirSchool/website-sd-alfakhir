@@ -48,8 +48,13 @@ export async function GET(req) {
 
     try {
         const data = await serverClient.fetch(query);
+        // /api/settings gates the public registration on/off toggle — must
+        // reflect immediately, not up to ~5 minutes late via stale-while-revalidate.
+        const cacheControl = endpoint === '/api/settings'
+            ? 'no-store'
+            : 'public, max-age=60, stale-while-revalidate=300';
         return NextResponse.json(proxifySanityUrls(data), {
-            headers: { 'Cache-Control': 'public, max-age=60, stale-while-revalidate=300' },
+            headers: { 'Cache-Control': cacheControl },
         });
     } catch (err) {
         console.error('Content fetch error:', endpoint, err);
