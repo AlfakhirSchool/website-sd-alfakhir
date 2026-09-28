@@ -1328,6 +1328,36 @@ export default function AdminPage() {
                             </>
                         ) : activeTab === 'registrations' ? (
                             <div style={{ padding: '40px', background: '#fffdf9' }}>
+                                {(() => {
+                                    const legacyLeaked = students.filter(s => s.registrationDate && s.status === 'Lolos');
+                                    if (legacyLeaked.length === 0) return null;
+                                    return (
+                                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '15px', padding: '18px 22px', background: '#fff1e6', border: '1px solid #f0c9a0', borderRadius: '14px', marginBottom: '20px', flexWrap: 'wrap' }}>
+                                            <div style={{ fontSize: '0.85rem', color: '#8a4a12', fontWeight: 600 }}>
+                                                {legacyLeaked.length} pendaftaran lama otomatis masuk Pengumuman Observasi (bug status "Lolos" sebelum diperbaiki), padahal belum diobservasi.
+                                            </div>
+                                            <button
+                                                onClick={async () => {
+                                                    if (!window.confirm(`Reset status ${legacyLeaked.length} pendaftaran ini kembali ke "Belum Lolos" (belum diobservasi)?`)) return;
+                                                    try {
+                                                        setIsLoading(true);
+                                                        await adminMutate({ patches: legacyLeaked.map(s => ({ id: s._id, set: { _type: 'student', status: 'Not Yet Passed' } })) });
+                                                        setSuccess('Status pendaftaran lama berhasil direset!');
+                                                        setTimeout(() => setSuccess(''), 3000);
+                                                        fetchAllData();
+                                                    } catch (errFix) {
+                                                        setError('Gagal reset: ' + (errFix.message || 'Terjadi kesalahan.'));
+                                                    } finally {
+                                                        setIsLoading(false);
+                                                    }
+                                                }}
+                                                style={{ padding: '12px 20px', background: '#8a4a12', color: '#fffdf9', border: 'none', borderRadius: '10px', fontWeight: 700, fontSize: '0.8rem', cursor: 'pointer', whiteSpace: 'nowrap' }}
+                                            >
+                                                Perbaiki {legacyLeaked.length} Data Lama
+                                            </button>
+                                        </div>
+                                    );
+                                })()}
                                 <div style={{ display: 'flex', gap: '10px', marginBottom: '30px', flexWrap: 'wrap' }}>
                                     {[
                                         { key: 'all', label: 'Semua' },
