@@ -14,7 +14,7 @@ async function adminUploadImage(file) {
     form.append('file', file);
     const res = await fetch('/api/admin/upload', { method: 'POST', body: form });
     const data = await res.json();
-    if (!data.success) throw new Error(data.error || 'Gagal upload gambar.');
+    if (!data.success) throw new Error(data.error || 'Failed to upload image.');
     return data.asset; // { _id, url }
 }
 
@@ -35,7 +35,7 @@ async function adminMutate({ deletes = [], creates = [], patches = [] }) {
         body: JSON.stringify({ deletes, creates, patches }),
     });
     const data = await res.json();
-    if (!data.success) throw new Error(data.error || 'Gagal menyimpan perubahan.');
+    if (!data.success) throw new Error(data.error || 'Failed to save changes.');
     return data.result;
 }
 
@@ -82,18 +82,18 @@ export default function AdminPage() {
         const errors = [];
         
         students.forEach((s, i) => {
-            if (!s.name || s.name.trim() === '') errors.push({ tab: 'students', index: i, field: 'name', msg: `Nama siswa di baris ${i+1} masih kosong.` });
-            if (!s.id || s.id.trim() === '') errors.push({ tab: 'students', index: i, field: 'id', msg: `No. Registrasi di baris ${i+1} belum diisi.` });
+            if (!s.name || s.name.trim() === '') errors.push({ tab: 'students', index: i, field: 'name', msg: `Student name on row ${i+1} is empty.` });
+            if (!s.id || s.id.trim() === '') errors.push({ tab: 'students', index: i, field: 'id', msg: `Registration No. on row ${i+1} is not filled in.` });
         });
 
         gallery.forEach((g, i) => {
-            if (!g.title || g.title.trim() === '') errors.push({ tab: 'gallery', index: i, field: 'title', msg: `Judul Galeri #${i+1} kosong.` });
-            if (!g.imageUrl) errors.push({ tab: 'gallery', index: i, field: 'image', msg: `Konten "${g.title || 'Tanpa Judul'}" belum memiliki gambar.` });
+            if (!g.title || g.title.trim() === '') errors.push({ tab: 'gallery', index: i, field: 'title', msg: `Gallery Title #${i+1} is empty.` });
+            if (!g.imageUrl) errors.push({ tab: 'gallery', index: i, field: 'image', msg: `Content "${g.title || 'Untitled'}" has no image yet.` });
         });
 
         staff.forEach((st, i) => {
-            if (!st.name || st.name.trim() === '') errors.push({ tab: 'staff', index: i, field: 'name', msg: `Nama Guru #${i+1} kosong.` });
-            if (!st.imageUrl) errors.push({ tab: 'staff', index: i, field: 'image', msg: `Guru "${st.name || 'Tanpa Nama'}" belum ada foto profil.` });
+            if (!st.name || st.name.trim() === '') errors.push({ tab: 'staff', index: i, field: 'name', msg: `Teacher Name #${i+1} is empty.` });
+            if (!st.imageUrl) errors.push({ tab: 'staff', index: i, field: 'image', msg: `Teacher "${st.name || 'No Name'}" has no profile photo yet.` });
         });
 
         setValidationErrors(errors);
@@ -124,7 +124,7 @@ export default function AdminPage() {
             const res = await fetch('/api/admin/data');
             if (res.status === 401) {
                 setIsLoggedIn(false);
-                throw new Error('Sesi berakhir, silakan login ulang.');
+                throw new Error('Session expired, please log in again.');
             }
             const data = await res.json();
             if (data.error) throw new Error(data.error);
@@ -154,15 +154,15 @@ export default function AdminPage() {
             setDeletedStaff([]);
         } catch (err) {
             console.error('Data Sync Full Error:', err);
-            let userFriendlyMsg = err.message || 'Kesalahan tidak diketahui';
-            
+            let userFriendlyMsg = err.message || 'Unknown error';
+
             if (err.message?.includes('Failed to fetch') || err.message?.includes('reach')) {
-                userFriendlyMsg = 'Gagal menjangkau server Sanity. Pastikan CORS sudah diatur di Dashboard Sanity dan Token benar.';
+                userFriendlyMsg = 'Failed to reach the Sanity server. Make sure CORS is configured in the Sanity Dashboard and the Token is correct.';
             } else if (err.message?.includes('403')) {
-                userFriendlyMsg = 'Akses ditolak (403). Cek Izin Token di Sanity Dashboard.';
+                userFriendlyMsg = 'Access denied (403). Check the Token permissions in the Sanity Dashboard.';
             }
 
-            setError(`Gagal Sinkronisasi Cloud: ${userFriendlyMsg}`);
+            setError(`Cloud Sync Failed: ${userFriendlyMsg}`);
         } finally {
             setIsLoading(false);
         }
@@ -197,14 +197,14 @@ export default function AdminPage() {
                 setError('');
                 fetchAllData();
             } else {
-                setError(data.error || 'Akses ditolak.');
+                setError(data.error || 'Access denied.');
                 // Best-effort — some GSI library states don't expose this
                 // method; never let a UI cleanup call mask the real error.
                 try { window.google?.accounts?.id?.disableAutoselect?.(); } catch {}
             }
         } catch (err) {
             console.error("Admin login error:", err);
-            setError("Gagal memproses otentikasi Google Cloud.");
+            setError("Failed to process Google Cloud authentication.");
         }
     };
 
@@ -272,10 +272,10 @@ export default function AdminPage() {
             await adminMutate({ creates: [{ _type: 'yearConfig', year, videoUrl: '' }] });
             setAvailableYears([...availableYears, year].sort((a,b) => b.localeCompare(a)));
             setYearConfigs([...yearConfigs, { year, videoUrl: '', _type: 'yearConfig' }]);
-            setSuccess('Tahun ajaran berhasil ditambahkan!');
+            setSuccess('Academic year added successfully!');
             setTimeout(() => setSuccess(''), 2000);
         } catch (errYear) {
-            setError('Gagal menambahkan tahun: ' + (errYear.message || 'Terjadi kesalahan.'));
+            setError('Failed to add year: ' + (errYear.message || 'An error occurred.'));
         }
     };
 
@@ -287,10 +287,10 @@ export default function AdminPage() {
             }
             setAvailableYears(availableYears.filter(y => y !== year));
             setYearConfigs(yearConfigs.filter(c => c.year !== year));
-            setSuccess(`Tahun ${year} dihapus dari daftar.`);
+            setSuccess(`Year ${year} removed from the list.`);
             setTimeout(() => setSuccess(''), 2000);
         } catch (errYear) {
-            setError('Gagal menghapus tahun: ' + (errYear.message || 'Terjadi kesalahan.'));
+            setError('Failed to delete year: ' + (errYear.message || 'An error occurred.'));
         }
     };
 
@@ -377,11 +377,11 @@ export default function AdminPage() {
                 n[index].imageUrl = asset.url;
                 n[index].externalImage = undefined; // Sanity prioritised
                 setStaff(n);
-                setSuccess('Foto staff berhasil diunggah ke Sanity!');
+                setSuccess('Staff photo uploaded to Sanity successfully!');
                 setTimeout(() => setSuccess(''), 2000);
             }
         } catch (err) {
-            setError('Gagal upload gambar staff ke Sanity: ' + err.message);
+            setError('Failed to upload staff image to Sanity: ' + err.message);
         } finally {
             setIsLoading(false);
         }
@@ -404,11 +404,11 @@ export default function AdminPage() {
                 n[index].imageUrl = asset.url;
                 n[index].externalImage = undefined; // Sanity prioritised
                 setGallery(n);
-                setSuccess('Foto gallery berhasil diunggah ke Sanity!');
+                setSuccess('Gallery photo uploaded to Sanity successfully!');
                 setTimeout(() => setSuccess(''), 2000);
             }
         } catch (err) {
-            setError('Gagal upload gambar gallery ke Sanity: ' + err.message);
+            setError('Failed to upload gallery image to Sanity: ' + err.message);
         } finally {
             setIsLoading(false);
         }
@@ -439,7 +439,7 @@ export default function AdminPage() {
             students.forEach(std => upsert({
                 _type: 'student',
                 id: std.id || `REG-${Date.now()}`,
-                name: std.name || 'Tanpa Nama',
+                name: std.name || 'No Name',
                 school: std.school || std.schoolName || '',
                 score: std.score || '-',
                 status: std.status || 'Passed Selection',
@@ -451,7 +451,7 @@ export default function AdminPage() {
             // 2. Gallery
             gallery.forEach(item => upsert({
                 _type: 'gallery',
-                title: item.title || 'Tanpa Judul',
+                title: item.title || 'Untitled',
                 category: item.category || 'acara',
                 date: item.date || new Date().toLocaleDateString('en-GB'),
                 agenda: item.agenda || '',
@@ -462,8 +462,8 @@ export default function AdminPage() {
             // 3. Staff
             staff.forEach(stf => upsert({
                 _type: 'teacher',
-                name: stf.name || 'Anggota Staf',
-                role: stf.role || 'Guru',
+                name: stf.name || 'Staff Member',
+                role: stf.role || 'Teacher',
                 vision: stf.vision || '',
                 education: stf.education || '',
                 email: stf.email || '',
@@ -485,12 +485,12 @@ export default function AdminPage() {
             setDeletedGallery([]);
             setDeletedStaff([]);
 
-            setSuccess('Database berhasil disinkronkan!');
+            setSuccess('Database synced successfully!');
             setTimeout(() => setSuccess(''), 3000);
             fetchAllData();
-        } catch (err) { 
+        } catch (err) {
             console.error(err);
-            setError('Gagal menyimpan ke cloud: ' + err.message); 
+            setError('Failed to save to cloud: ' + err.message);
         } finally { 
             setIsSaving(false); 
         }
@@ -514,7 +514,7 @@ export default function AdminPage() {
         worksheet["!cols"] = colWidths;
 
         XLSX.writeFile(workbook, "AlFakhir_Student_Data_Template.xlsx");
-        setSuccess('Template berhasil diunduh!');
+        setSuccess('Template downloaded successfully!');
         setTimeout(() => setSuccess(''), 2000);
     };
 
@@ -544,11 +544,11 @@ export default function AdminPage() {
                 }));
                 
                 setStudents([...students, ...newStudents]);
-                setSuccess(`${newStudents.length} data berhasil diimpor! Jangan lupa klik SIMPAN.`);
+                setSuccess(`${newStudents.length} records imported successfully! Don't forget to click SAVE.`);
                 setTimeout(() => setSuccess(''), 3000);
-            } catch (errImport) { 
+            } catch (errImport) {
                 console.error(errImport);
-                setError('Gagal membaca file Excel. Pastikan format kolom sesuai.'); 
+                setError('Failed to read Excel file. Make sure the column format matches.');
             }
         };
         reader.readAsBinaryString(file);
@@ -574,8 +574,8 @@ export default function AdminPage() {
                         >
                             <img src="/logo_new.webp" alt="SD Islam Modern Al-Fakhir Official Logo" style={{ width: '80%', height: '80%', objectFit: 'contain' }} />
                         </motion.div>
-                        <div style={{ fontSize: '0.65rem', fontWeight: 600, color: '#d4820a', letterSpacing: '2px', marginBottom: '10px' }}>PORTAL ADMIN</div>
-                        <h2 style={{ fontWeight: 600, color: '#1a1612', fontSize: '2rem', letterSpacing: '-0.5px', lineHeight: 1.15, margin: 0 }}>Selamat Datang<br/><span style={{ color: '#d4820a' }}>Kembali</span></h2>
+                        <div style={{ fontSize: '0.65rem', fontWeight: 600, color: '#d4820a', letterSpacing: '2px', marginBottom: '10px' }}>ADMIN PORTAL</div>
+                        <h2 style={{ fontWeight: 600, color: '#1a1612', fontSize: '2rem', letterSpacing: '-0.5px', lineHeight: 1.15, margin: 0 }}>Welcome<br/><span style={{ color: '#d4820a' }}>Back</span></h2>
                         <p style={{ color: '#4a3f35', fontSize: '0.9rem', fontWeight: 500, marginTop: '12px' }}>SD Islam Modern Al-Fakhir</p>
                     </div>
 
@@ -591,7 +591,7 @@ export default function AdminPage() {
 
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', alignItems: 'center' }}>
                         <div style={{ background: '#faf7f2', border: '1px solid #ece4d8', borderRadius: '14px', padding: '30px 20px', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '15px' }}>
-                            <p style={{ fontSize: '0.75rem', fontWeight: 600, color: '#4a3f35', textTransform: 'uppercase', letterSpacing: '1px', margin: 0 }}>IDENTITAS GOOGLE</p>
+                            <p style={{ fontSize: '0.75rem', fontWeight: 600, color: '#4a3f35', textTransform: 'uppercase', letterSpacing: '1px', margin: 0 }}>GOOGLE IDENTITY</p>
                             <div id="google-signIn-btn-container" style={{ minHeight: '44px', display: 'flex', justifyContent: 'center', width: '100%' }}></div>
                         </div>
                     </div>
@@ -639,12 +639,12 @@ export default function AdminPage() {
                 {/* Nav Menu */}
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', flex: 1, overflowY: 'auto', padding: '4px 16px' }}>
                     {[
-                        { tab: 'overview', label: 'Beranda', icon: LayoutDashboard },
-                        { tab: 'registrations', label: 'Pendaftaran', icon: BookOpen },
-                        { tab: 'students', label: 'Pengumuman Observasi', icon: Search },
-                        { tab: 'gallery', label: 'Galeri', icon: ImageIcon },
-                        { tab: 'staff', label: 'Staf', icon: Users },
-                        { tab: 'messages', label: 'Pesan', icon: Mail, badge: messages.filter(m => m.status === 'unread').length }
+                        { tab: 'overview', label: 'Home', icon: LayoutDashboard },
+                        { tab: 'registrations', label: 'Registrations', icon: BookOpen },
+                        { tab: 'students', label: 'Observation Results', icon: Search },
+                        { tab: 'gallery', label: 'Gallery', icon: ImageIcon },
+                        { tab: 'staff', label: 'Staff', icon: Users },
+                        { tab: 'messages', label: 'Messages', icon: Mail, badge: messages.filter(m => m.status === 'unread').length }
                     ].map((item) => (
                         <motion.button
                             key={item.tab}
@@ -676,7 +676,7 @@ export default function AdminPage() {
                         onMouseOver={(e) => e.currentTarget.style.background = 'rgba(192,57,43,0.1)'}
                         onMouseOut={(e) => e.currentTarget.style.background = 'rgba(192,57,43,0.04)'}
                     >
-                        <AlertCircle size={16} /> <span>Keluar</span>
+                        <AlertCircle size={16} /> <span>Log Out</span>
                     </button>
                 </div>
             </div>
@@ -692,20 +692,20 @@ export default function AdminPage() {
                                     ● LIVE
                                 </div>
                                 <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#9a8c82' }}>
-                                    {currentTime.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })} | {currentTime.toLocaleTimeString('id-ID')}
+                                    {currentTime.toLocaleDateString('en-GB', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })} | {currentTime.toLocaleTimeString('en-GB')}
                                 </div>
                             </div>
                               <h2 style={{ fontSize: '1.75rem', fontWeight: 700, color: '#1a1612', letterSpacing: '-1px', margin: 0 }}>
-                                {activeTab === 'overview' ? 'Sistem Manajemen Al-Fakhir'
-                                    : activeTab === 'students' ? 'Manajemen Observasi & Seleksi'
-                                    : activeTab === 'active-students' ? 'Basis Data Siswa Diterima / Aktif'
-                                    : activeTab === 'registrations' ? 'Data Pendaftaran (Formulir Online)'
-                                    : activeTab === 'gallery' ? 'Konten Multimedia'
-                                    : activeTab === 'staff' ? 'Tim Pengajar'
-                                    : 'Pusat Pesan'}
+                                {activeTab === 'overview' ? 'Al-Fakhir Management System'
+                                    : activeTab === 'students' ? 'Observation & Selection Management'
+                                    : activeTab === 'active-students' ? 'Accepted / Active Student Database'
+                                    : activeTab === 'registrations' ? 'Registration Data (Online Form)'
+                                    : activeTab === 'gallery' ? 'Multimedia Content'
+                                    : activeTab === 'staff' ? 'Teaching Team'
+                                    : 'Message Center'}
                             </h2>
                             <p style={{ color: '#4a3f35', fontWeight: 600, fontSize: '0.9rem', marginTop: '5px' }}>
-                                Selamat datang kembali, Admin. Kelola ekosistem Al-Fakhir secara real-time.
+                                Welcome back, Admin. Manage the Al-Fakhir ecosystem in real time.
                             </p>
                         </div>
                         <div style={{ display: 'flex', gap: '15px' }}>
@@ -722,7 +722,7 @@ export default function AdminPage() {
                                 }}
                             >
                                 {isSaving ? <RefreshCw className="animate-spin" size={18} /> : <Save size={18} />}
-                                <span>{isSaving ? 'MENYIMPAN...' : 'SIMPAN SEMUA'}</span>
+                                <span>{isSaving ? 'SAVING...' : 'SAVE ALL'}</span>
                             </motion.button>
                             
                             {(activeTab === 'students' || activeTab === 'active-students' || activeTab === 'gallery' || activeTab === 'staff') && (
@@ -746,7 +746,7 @@ export default function AdminPage() {
                                         fontSize: '0.85rem', letterSpacing: '1px'
                                     }}
                                 >
-                                    <Plus size={18} style={{ color: '#0d7c6e' }} /> <span>TAMBAH BARU</span>
+                                    <Plus size={18} style={{ color: '#0d7c6e' }} /> <span>ADD NEW</span>
                                 </motion.button>
                             )}
                         </div>
@@ -761,13 +761,13 @@ export default function AdminPage() {
                             >
                                 <AlertCircle size={20} style={{ flexShrink: 0 }} />
                                 <div style={{ fontSize: '0.8rem', fontWeight: 600, letterSpacing: '1px' }}>
-                                    TERDETEKSI {validationErrors.filter(e => e.tab === activeTab).length} DATA YANG PERLU DIPERBAIKI PADA TAB INI.
+                                    {validationErrors.filter(e => e.tab === activeTab).length} ITEMS ON THIS TAB NEED FIXING.
                                 </div>
-                                <button 
+                                <button
                                     onClick={() => setError(validationErrors.filter(e => e.tab === activeTab).map(e => e.msg).join('\n'))}
                                     style={{ marginLeft: 'auto', background: '#d4820a', color: '#fffdf9', border: 'none', padding: '6px 14px', borderRadius: '14px', fontSize: '0.7rem', fontWeight: 600, cursor: 'pointer', letterSpacing: '1px' }}
                                 >
-                                    LIHAT DETAIL
+                                    VIEW DETAILS
                                 </button>
                             </motion.div>
                         )}
@@ -795,7 +795,7 @@ export default function AdminPage() {
                                 <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1, ease: 'linear' }}>
                                     <RefreshCw size={40} color="#d4820a" />
                                 </motion.div>
-                                <p style={{ fontWeight: 700, color: '#d4820a', letterSpacing: '3px', fontSize: '0.8rem' }}>MEMUAT DATA...</p>
+                                <p style={{ fontWeight: 700, color: '#d4820a', letterSpacing: '3px', fontSize: '0.8rem' }}>LOADING DATA...</p>
                             </div>
                         )}
                         {activeTab === 'overview' ? (
@@ -805,11 +805,11 @@ export default function AdminPage() {
                                     <div style={{ background: '#faf7f2', color: '#1a1612', padding: '40px', borderRadius: '20px', position: 'relative', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', borderLeft: '4px solid #d4820a', border: '1px solid #ece4d8', boxShadow: '0 20px 50px rgba(26,22,18,0.06)' }}>
                                         <div>
                                             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '20px' }}>
-                                                <div style={{ padding: '4px 10px', borderRadius: '100px', background: '#fef3dc', color: '#d4820a', fontSize: '0.65rem', fontWeight: 600, letterSpacing: '1px', border: '1px solid #f3d9ab' }}>Data Terbaru</div>
+                                                <div style={{ padding: '4px 10px', borderRadius: '100px', background: '#fef3dc', color: '#d4820a', fontSize: '0.65rem', fontWeight: 600, letterSpacing: '1px', border: '1px solid #f3d9ab' }}>Latest Data</div>
                                                 <span style={{ fontSize: '0.75rem', color: '#4a3f35' }}>|</span>
                                                 <span style={{ fontSize: '0.65rem', color: '#9a8c82', fontWeight: 700, letterSpacing: '0.5px' }}>SD ISLAM MODERN AL-FAKHIR</span>
                                             </div>
-                                            <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#9a8c82', letterSpacing: '3px', marginBottom: '5px' }}>TOTAL SISWA DITERIMA</div>
+                                            <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#9a8c82', letterSpacing: '3px', marginBottom: '5px' }}>TOTAL STUDENTS ACCEPTED</div>
                                             <div style={{ fontSize: '4.5rem', fontWeight: 600, color: '#1a1612', lineHeight: '1', letterSpacing: '-2px', margin: '10px 0 25px 0' }}>
                                                 {students.filter(s => isPassed(s.status)).length}
                                             </div>
@@ -817,10 +817,10 @@ export default function AdminPage() {
                                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: '1px solid #ece4d8', paddingTop: '20px', marginTop: '10px' }}>
                                             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                                                 <ShieldCheck size={20} style={{ color: '#d4820a' }} />
-                                                <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#1a1612', letterSpacing: '1px' }}>AKREDITASI</span>
+                                                <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#1a1612', letterSpacing: '1px' }}>ACCREDITATION</span>
                                             </div>
                                             <div style={{ background: '#d4820a', color: '#fffdf9', padding: '4px 12px', fontWeight: 600, fontSize: '0.75rem', letterSpacing: '1px' }}>
-                                                SANGAT BAIK ⭐
+                                                EXCELLENT ⭐
                                             </div>
                                         </div>
                                     </div>
@@ -828,24 +828,24 @@ export default function AdminPage() {
                                     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
                                         <div style={{ background: '#faf7f2', padding: '30px', borderRadius: '18px', border: '1px solid #ece4d8', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', boxShadow: '0 15px 35px rgba(26,22,18,0.05)', transition: 'transform 0.25s ease' }}>
                                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
-                                                <span style={{ fontSize: '0.7rem', fontWeight: 600, color: '#9a8c82', letterSpacing: '2px' }}>PENDAFTAR CALON SISWA</span>
+                                                <span style={{ fontSize: '0.7rem', fontWeight: 600, color: '#9a8c82', letterSpacing: '2px' }}>PROSPECTIVE STUDENT REGISTRANTS</span>
                                                 <BookOpen size={18} style={{ color: '#d4820a' }} />
                                             </div>
                                             <div style={{ fontSize: '2.5rem', fontWeight: 600, color: '#1a1612' }}>
                                                 {registrations.length}
                                             </div>
-                                            <div style={{ fontSize: '0.7rem', color: '#9a8c82', fontWeight: 600, marginTop: '5px' }}>Menunggu tahap peninjauan awal</div>
+                                            <div style={{ fontSize: '0.7rem', color: '#9a8c82', fontWeight: 600, marginTop: '5px' }}>Awaiting initial review</div>
                                         </div>
 
                                         <div style={{ background: '#faf7f2', padding: '30px', borderRadius: '18px', border: '1px solid #ece4d8', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', boxShadow: '0 15px 35px rgba(26,22,18,0.05)', transition: 'transform 0.25s ease' }}>
                                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
-                                                <span style={{ fontSize: '0.7rem', fontWeight: 600, color: '#9a8c82', letterSpacing: '2px' }}>PESAN BELUM DIBACA</span>
+                                                <span style={{ fontSize: '0.7rem', fontWeight: 600, color: '#9a8c82', letterSpacing: '2px' }}>UNREAD MESSAGES</span>
                                                 <Mail size={18} style={{ color: '#d4820a' }} />
                                             </div>
                                             <div style={{ fontSize: '2.5rem', fontWeight: 600, color: '#1a1612' }}>
                                                 {messages.filter(m => m.status === 'unread').length}
                                             </div>
-                                            <div style={{ fontSize: '0.7rem', color: '#9a8c82', fontWeight: 600, marginTop: '5px' }}>Perlu ditanggapi segera</div>
+                                            <div style={{ fontSize: '0.7rem', color: '#9a8c82', fontWeight: 600, marginTop: '5px' }}>Needs a prompt response</div>
                                         </div>
                                     </div>
                                 </div>
@@ -856,15 +856,15 @@ export default function AdminPage() {
                                     <div style={{ background: '#faf7f2', padding: '30px', borderRadius: '18px', border: '1px solid #ece4d8', boxShadow: '0 15px 35px rgba(26,22,18,0.05)' }}>
                                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '35px' }}>
                                             <div>
-                                                <h3 style={{ margin: 0, fontSize: '1.05rem', fontWeight: 600, color: '#1a1612', letterSpacing: '1px' }}>Distribusi Pendaftaran</h3>
-                                                <div style={{ fontSize: '0.7rem', color: '#9a8c82', fontWeight: 600, marginTop: '4px' }}>Pemetaan waktu real-time dari data pendaftar</div>
+                                                <h3 style={{ margin: 0, fontSize: '1.05rem', fontWeight: 600, color: '#1a1612', letterSpacing: '1px' }}>Registration Distribution</h3>
+                                                <div style={{ fontSize: '0.7rem', color: '#9a8c82', fontWeight: 600, marginTop: '4px' }}>Real-time timeline mapping of registrant data</div>
                                             </div>
                                             <div style={{ display: 'flex', gap: '15px' }}>
                                                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.65rem', fontWeight: 700, color: '#9a8c82', letterSpacing: '1px' }}>
-                                                    <div style={{ width: '8px', height: '8px', background: '#d4820a' }} /> <span>PENDAFTAR</span>
+                                                    <div style={{ width: '8px', height: '8px', background: '#d4820a' }} /> <span>REGISTRANTS</span>
                                                 </div>
                                                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.65rem', fontWeight: 700, color: '#9a8c82', letterSpacing: '1px' }}>
-                                                    <div style={{ width: '8px', height: '8px', background: '#0d7c6e' }} /> <span>DITERIMA</span>
+                                                    <div style={{ width: '8px', height: '8px', background: '#0d7c6e' }} /> <span>ACCEPTED</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -890,8 +890,8 @@ export default function AdminPage() {
                                                     return (
                                                         <div key={i} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
                                                             <div style={{ display: 'flex', gap: '3px', height: '160px', alignItems: 'flex-end', width: '100%', justifyContent: 'center' }}>
-                                                                <motion.div initial={{ height: 0 }} animate={{ height: `${rPct}%` }} style={{ width: '10px', background: '#d4820a' }} title={`Pendaftar: ${regCounts[i]}`} />
-                                                                <motion.div initial={{ height: 0 }} animate={{ height: `${sPct}%` }} style={{ width: '10px', background: '#0d7c6e' }} title={`Diterima: ${counts[i]}`} />
+                                                                <motion.div initial={{ height: 0 }} animate={{ height: `${rPct}%` }} style={{ width: '10px', background: '#d4820a' }} title={`Registrants: ${regCounts[i]}`} />
+                                                                <motion.div initial={{ height: 0 }} animate={{ height: `${sPct}%` }} style={{ width: '10px', background: '#0d7c6e' }} title={`Accepted: ${counts[i]}`} />
                                                             </div>
                                                             <span style={{ fontSize: '0.65rem', fontWeight: 600, color: '#9a8c82', letterSpacing: '1px' }}>{month}</span>
                                                         </div>
@@ -909,8 +909,8 @@ export default function AdminPage() {
                                         return (
                                             <div style={{ background: '#faf7f2', padding: '30px', borderRadius: '18px', border: '1px solid #ece4d8', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', boxShadow: '0 15px 35px rgba(26,22,18,0.05)' }}>
                                                 <div>
-                                                    <h3 style={{ margin: '0 0 5px 0', fontSize: '1.05rem', fontWeight: 600, color: '#1a1612', letterSpacing: '1px' }}>Kuota Daya Tampung</h3>
-                                                    <div style={{ fontSize: '0.7rem', color: '#9a8c82', fontWeight: 600, marginBottom: '25px' }}>Target ambang batas penerimaan</div>
+                                                    <h3 style={{ margin: '0 0 5px 0', fontSize: '1.05rem', fontWeight: 600, color: '#1a1612', letterSpacing: '1px' }}>Capacity Quota</h3>
+                                                    <div style={{ fontSize: '0.7rem', color: '#9a8c82', fontWeight: 600, marginBottom: '25px' }}>Admission threshold target</div>
                                                 </div>
                                                 
                                                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '10px 0' }}>
@@ -935,7 +935,7 @@ export default function AdminPage() {
                                                 <div style={{ borderTop: '1px solid #ece4d8', paddingTop: '15px', marginTop: '10px' }}>
                                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.75rem', fontWeight: 700, letterSpacing: '1px' }}>
                                                         <span style={{ color: '#9a8c82' }}>Status</span>
-                                                        <span style={{ color: pct >= 100 ? '#c0392b' : '#0d7c6e' }}>{pct >= 100 ? 'PENUH' : 'TERSEDIA'}</span>
+                                                        <span style={{ color: pct >= 100 ? '#c0392b' : '#0d7c6e' }}>{pct >= 100 ? 'FULL' : 'AVAILABLE'}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -947,8 +947,8 @@ export default function AdminPage() {
                                 <div style={{ background: '#faf7f2', padding: '30px', borderRadius: '18px', border: '1px solid #ece4d8', boxShadow: '0 15px 35px rgba(26,22,18,0.05)' }}>
                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
                                         <div>
-                                            <h3 style={{ margin: '0 0 4px 0', fontSize: '1.05rem', fontWeight: 600, color: '#1a1612', letterSpacing: '1px' }}>Aktivitas Terkini</h3>
-                                            <div style={{ fontSize: '0.7rem', color: '#9a8c82', fontWeight: 600 }}>Log sinkronisasi otomatis & aktivitas pendaftar terbaru</div>
+                                            <h3 style={{ margin: '0 0 4px 0', fontSize: '1.05rem', fontWeight: 600, color: '#1a1612', letterSpacing: '1px' }}>Recent Activity</h3>
+                                            <div style={{ fontSize: '0.7rem', color: '#9a8c82', fontWeight: 600 }}>Automatic sync log & latest registrant activity</div>
                                         </div>
                                         <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.65rem', fontWeight: 600, color: '#0d7c6e', background: '#fffdf9', padding: '4px 10px', border: '1px solid #0d7c6e', letterSpacing: '1px' }}>
                                             <span style={{ width: '6px', height: '6px', borderRadius: '14px', background: '#0d7c6e', display: 'inline-block' }} /> LIVE
@@ -959,39 +959,39 @@ export default function AdminPage() {
                                         {/* Stream Column 1: Recent Admissions */}
                                         <div style={{ background: '#fffdf9', padding: '20px', border: '1px solid #ece4d8' }}>
                                             <div style={{ fontSize: '0.65rem', fontWeight: 600, color: '#9a8c82', marginBottom: '12px', letterSpacing: '2px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                                                <UserCheck size={12} style={{ color: '#d4820a' }} /> BARU DIKIRIM
+                                                <UserCheck size={12} style={{ color: '#d4820a' }} /> RECENTLY SUBMITTED
                                             </div>
                                             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                                                 {students.slice(0, 3).map((s, idx) => (
                                                     <div key={idx} style={{ background: '#faf7f2', padding: '10px 12px', borderLeft: `3px solid ${s.status?.includes('Lolos') || s.status?.includes('Diterima') ? '#0d7c6e' : '#d4820a'}`, border: '1px solid #ece4d8', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.75rem' }}>
                                                         <div style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '120px', fontWeight: 600, color: '#1a1612' }}>
-                                                            {s.name || 'Tanpa Nama'}
+                                                            {s.name || 'No Name'}
                                                         </div>
                                                         <span style={{ fontSize: '0.65rem', fontWeight: 600, padding: '2px 6px', background: '#fef3dc', color: '#d4820a', border: '1px solid #d4820a' }}>
-                                                            {s.status || 'Menunggu'}
+                                                            {s.status || 'Pending'}
                                                         </span>
                                                     </div>
                                                 ))}
-                                                {students.length === 0 && <div style={{ fontSize: '0.7rem', color: '#4a3f35', fontStyle: 'italic' }}>Belum ada data</div>}
+                                                {students.length === 0 && <div style={{ fontSize: '0.7rem', color: '#4a3f35', fontStyle: 'italic' }}>No data yet</div>}
                                             </div>
                                         </div>
 
                                         {/* Stream Column 2: Recent Inbox Activity */}
                                         <div style={{ background: '#fffdf9', padding: '20px', border: '1px solid #ece4d8' }}>
                                             <div style={{ fontSize: '0.65rem', fontWeight: 600, color: '#9a8c82', marginBottom: '12px', letterSpacing: '2px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                                                <Mail size={12} style={{ color: '#d4820a' }} /> PESAN MASUK TERBARU
+                                                <Mail size={12} style={{ color: '#d4820a' }} /> LATEST INBOX ACTIVITY
                                             </div>
                                             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                                                 {messages.slice(0, 3).map((m, idx) => (
                                                     <div key={idx} style={{ background: '#faf7f2', padding: '10px 12px', borderLeft: `3px solid ${m.status === 'unread' ? '#c0392b' : '#4a3f35'}`, border: '1px solid #ece4d8', display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '0.75rem' }}>
                                                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                                            <span style={{ fontWeight: 600, color: '#1a1612', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '100px' }}>{m.senderName || 'Pengunjung'}</span>
+                                                            <span style={{ fontWeight: 600, color: '#1a1612', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '100px' }}>{m.senderName || 'Visitor'}</span>
                                                             <span style={{ fontSize: '0.6rem', color: '#9a8c82', fontWeight: 700 }}>{m.status}</span>
                                                         </div>
-                                                        <div style={{ fontSize: '0.7rem', color: '#9a8c82', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{m.subject || m.message || 'Tanpa subjek'}</div>
+                                                        <div style={{ fontSize: '0.7rem', color: '#9a8c82', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{m.subject || m.message || 'No subject'}</div>
                                                     </div>
                                                 ))}
-                                                {messages.length === 0 && <div style={{ fontSize: '0.7rem', color: '#4a3f35', fontStyle: 'italic' }}>Belum ada pesan</div>}
+                                                {messages.length === 0 && <div style={{ fontSize: '0.7rem', color: '#4a3f35', fontStyle: 'italic' }}>No messages yet</div>}
                                             </div>
                                         </div>
 
@@ -999,25 +999,25 @@ export default function AdminPage() {
                                         <div style={{ background: '#fffdf9', padding: '20px', border: '1px solid #ece4d8', color: '#1a1612', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                                             <div>
                                                 <div style={{ fontSize: '0.65rem', fontWeight: 600, color: '#9a8c82', marginBottom: '12px', letterSpacing: '2px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                                                    <Clock size={12} style={{ color: '#d4820a' }} /> STATUS SISTEM
+                                                    <Clock size={12} style={{ color: '#d4820a' }} /> SYSTEM STATUS
                                                 </div>
                                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '0.75rem' }}>
                                                     <div style={{ display: 'flex', justifyContent: 'space-between', color: '#9a8c82', fontWeight: 600 }}>
-                                                        <span>Koneksi Database</span>
+                                                        <span>Database Connection</span>
                                                         <span style={{ color: '#0d7c6e', fontWeight: 600 }}>OK 24ms</span>
                                                     </div>
                                                     <div style={{ display: 'flex', justifyContent: 'space-between', color: '#9a8c82', fontWeight: 600 }}>
-                                                        <span>Mesin Sinkronisasi</span>
+                                                        <span>Sync Engine</span>
                                                         <span style={{ color: '#1a1612', fontWeight: 600 }}>Vercel Edge</span>
                                                     </div>
                                                     <div style={{ display: 'flex', justifyContent: 'space-between', color: '#9a8c82', fontWeight: 600 }}>
-                                                        <span>Total Data Aktif</span>
+                                                        <span>Total Active Records</span>
                                                         <span style={{ color: '#d4820a', fontWeight: 600 }}>{students.length + registrations.length}</span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div style={{ fontSize: '0.6rem', color: '#9a8c82', borderTop: '1px solid #ece4d8', paddingTop: '10px', fontWeight: 600, letterSpacing: '1px' }}>
-                                                TERVERIFIKASI AMAN OTOMATIS
+                                                AUTOMATICALLY VERIFIED & SECURE
                                             </div>
                                         </div>
                                     </div>
@@ -1028,7 +1028,7 @@ export default function AdminPage() {
                                 {/* Executive Brutalism Configuration Row */}
                                 <div style={{ background: '#fffdf9', padding: '15px 30px', borderBottom: '1px solid #ece4d8', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                     <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-                                        <div style={{ padding: '6px 12px', background: '#d4820a', color: '#fffdf9', borderRadius: '14px', fontSize: '0.65rem', fontWeight: 1000, letterSpacing: '1px' }}>PENGATURAN:</div>
+                                        <div style={{ padding: '6px 12px', background: '#d4820a', color: '#fffdf9', borderRadius: '14px', fontSize: '0.65rem', fontWeight: 1000, letterSpacing: '1px' }}>SETTINGS:</div>
                                         
                                         <div style={{ position: 'relative' }}>
                                             <motion.button 
@@ -1037,7 +1037,7 @@ export default function AdminPage() {
                                                 whileTap={{ scale: 0.98 }}
                                                 style={{ background: '#faf7f2', border: '1px solid #ece4d8', padding: '10px 20px', borderRadius: '14px', fontSize: '0.85rem', fontWeight: 600, color: '#1a1612', display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', transition: '0.2s' }}
                                             >
-                                                <Settings size={16} /> <span>Pengaturan Formulir</span>
+                                                <Settings size={16} /> <span>Form Settings</span>
                                             </motion.button>
 
                                             <AnimatePresence>
@@ -1051,7 +1051,7 @@ export default function AdminPage() {
                                                         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
                                                             {/* Compact Year Manage */}
                                                             <div>
-                                                                <h5 style={{ margin: '0 0 12px 0', fontSize: '0.75rem', fontWeight: 1000, color: '#d4820a', letterSpacing: '1px' }}>PENGATURAN TAHUN AJARAN</h5>
+                                                                <h5 style={{ margin: '0 0 12px 0', fontSize: '0.75rem', fontWeight: 1000, color: '#d4820a', letterSpacing: '1px' }}>ACADEMIC YEAR SETTINGS</h5>
                                                                 <div style={{ display: 'flex', gap: '6px', marginBottom: '12px' }}>
                                                                     <input placeholder="20xx..." style={{ flex: 1, padding: '8px 12px', background: '#faf7f2', border: '1px solid #ece4d8', borderRadius: '14px', fontSize: '0.8rem', fontWeight: 700, color: '#1a1612', outline: 'none' }} value={newYearInput} onChange={e => setNewYearInput(e.target.value)} />
                                                                     <button onClick={handleAddYear} style={{ background: '#d4820a', color: '#fffdf9', border: 'none', padding: '8px', borderRadius: '14px', cursor: 'pointer', fontWeight: 700 }}><Plus size={16} /></button>
@@ -1066,7 +1066,7 @@ export default function AdminPage() {
                                                                                     <X size={14} style={{ cursor: 'pointer', color: '#c0392b' }} onClick={() => handleDeleteYear(y)} />
                                                                                 </div>
                                                                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-                                                                                    <label style={{ fontSize: '0.6rem', fontWeight: 600, color: '#9a8c82' }}>LINK DOKUMENTASI YOUTUBE</label>
+                                                                                    <label style={{ fontSize: '0.6rem', fontWeight: 600, color: '#9a8c82' }}>YOUTUBE DOCUMENTATION LINK</label>
                                                                                     <input 
                                                                                         placeholder="https://youtube.com/watch?v=..." 
                                                                                         style={{ width: '100%', padding: '8px 12px', background: '#fffdf9', border: '1px solid #ece4d8', borderRadius: '14px', fontSize: '0.75rem', fontWeight: 600, color: '#1a1612', outline: 'none' }}
@@ -1095,7 +1095,7 @@ export default function AdminPage() {
                                                 onChange={(e) => setFilterYear(e.target.value)}
                                                 style={{ padding: '8px 15px', borderRadius: '14px', border: '1px solid #ece4d8', background: '#fffdf9', fontSize: '0.85rem', fontWeight: 700, outline: 'none', color: '#1a1612' }}
                                             >
-                                                <option value="Semua">Semua Tahun</option>
+                                                <option value="Semua">All Years</option>
                                                 {availableYears.map(y => <option key={`f-${y}`} value={y}>{y}</option>)}
                                             </select>
                                             <select 
@@ -1103,20 +1103,20 @@ export default function AdminPage() {
                                                 onChange={(e) => setFilterWave(e.target.value)}
                                                 style={{ padding: '8px 15px', borderRadius: '14px', border: '1px solid #ece4d8', background: '#fffdf9', fontSize: '0.85rem', fontWeight: 700, outline: 'none', color: '#1a1612' }}
                                             >
-                                                <option value="Semua">Semua Gelombang</option>
-                                                <option value="1">Gelombang 1</option>
-                                                <option value="2">Gelombang 2</option>
-                                                <option value="3">Gelombang 3</option>
+                                                <option value="Semua">All Waves</option>
+                                                <option value="1">Wave 1</option>
+                                                <option value="2">Wave 2</option>
+                                                <option value="3">Wave 3</option>
                                             </select>
                                         </div>
                                         <button onClick={handleDownloadTemplate} style={{ background: '#fffdf9', border: '1px solid #ece4d8', color: '#1a1612', padding: '10px 18px', borderRadius: '14px', fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', transition: '0.2s' }} onMouseOver={e => { e.currentTarget.style.background = '#1a1612'; e.currentTarget.style.color = '#fffdf9'; }} onMouseOut={e => { e.currentTarget.style.background = '#fffdf9'; e.currentTarget.style.color = '#1a1612'; }}><Download size={16} /> <span>TEMPLATE</span></button>
-                                        <button onClick={() => fileInputRef.current?.click()} style={{ background: '#1a1612', border: '1px solid #ece4d8', color: '#fffdf9', padding: '10px 18px', borderRadius: '14px', fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', transition: '0.2s' }} onMouseOver={e => { e.currentTarget.style.background = '#d4820a'; }} onMouseOut={e => { e.currentTarget.style.background = '#1a1612'; }}><Upload size={16} /> <span>IMPOR</span></button>
+                                        <button onClick={() => fileInputRef.current?.click()} style={{ background: '#1a1612', border: '1px solid #ece4d8', color: '#fffdf9', padding: '10px 18px', borderRadius: '14px', fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', transition: '0.2s' }} onMouseOver={e => { e.currentTarget.style.background = '#d4820a'; }} onMouseOut={e => { e.currentTarget.style.background = '#1a1612'; }}><Upload size={16} /> <span>IMPORT</span></button>
                                     </div>
                                     <div style={{ position: 'relative', width: '100%', maxWidth: '350px' }}>
                                         <Search size={18} style={{ position: 'absolute', left: '15px', top: '50%', transform: 'translateY(-50%)', color: '#d4820a' }} />
                                         <input 
                                             type="text" 
-                                            placeholder="Cari Nama / No. Registrasi..." 
+                                            placeholder="Search Name / Registration No..." 
                                             value={searchQuery}
                                             onChange={(e) => setSearchQuery(e.target.value)}
                                             style={{ width: '100%', padding: '12px 20px 12px 45px', borderRadius: '14px', border: '1px solid #ece4d8', background: '#fffdf9', fontSize: '0.9rem', fontWeight: 600, outline: 'none', transition: '0.3s', color: '#1a1612' }} 
@@ -1131,13 +1131,13 @@ export default function AdminPage() {
                                             <tr style={{ textAlign: 'left', background: '#faf7f2' }}>
                                                 <th style={{ padding: '15px 10px', width: '50px', fontSize: '0.7rem', fontWeight: 700, color: '#1a1612', textTransform: 'uppercase', letterSpacing: '1px', borderBottom: '1px solid #ece4d8', borderRight: '1px solid #ece4d8', textAlign: 'center' }}>NO</th>
                                                 <th style={{ padding: '15px 10px', width: '160px', fontSize: '0.7rem', fontWeight: 700, color: '#1a1612', textTransform: 'uppercase', letterSpacing: '1px', borderBottom: '1px solid #ece4d8', borderRight: '1px solid #ece4d8', textAlign: 'center' }}>ID / NO REG</th>
-                                                <th style={{ padding: '15px 10px', width: '220px', fontSize: '0.7rem', fontWeight: 700, color: '#1a1612', textTransform: 'uppercase', letterSpacing: '1px', borderBottom: '1px solid #ece4d8', borderRight: '1px solid #ece4d8', textAlign: 'left' }}>NAMA SISWA</th>
-                                                <th style={{ padding: '15px 10px', width: '160px', whiteSpace: 'nowrap', fontSize: '0.7rem', fontWeight: 700, color: '#1a1612', textTransform: 'uppercase', letterSpacing: '1px', borderBottom: '1px solid #ece4d8', borderRight: '1px solid #ece4d8', textAlign: 'left' }}>ASAL SEKOLAH</th>
-                                                <th style={{ padding: '15px 10px', width: '110px', fontSize: '0.7rem', fontWeight: 700, color: '#1a1612', textTransform: 'uppercase', letterSpacing: '1px', borderBottom: '1px solid #ece4d8', borderRight: '1px solid #ece4d8', textAlign: 'center' }}>TAHUN</th>
-                                                <th style={{ padding: '15px 10px', width: '70px', fontSize: '0.7rem', fontWeight: 700, color: '#1a1612', textTransform: 'uppercase', letterSpacing: '1px', borderBottom: '1px solid #ece4d8', borderRight: '1px solid #ece4d8', textAlign: 'center' }}>GEL.</th>
+                                                <th style={{ padding: '15px 10px', width: '220px', fontSize: '0.7rem', fontWeight: 700, color: '#1a1612', textTransform: 'uppercase', letterSpacing: '1px', borderBottom: '1px solid #ece4d8', borderRight: '1px solid #ece4d8', textAlign: 'left' }}>STUDENT NAME</th>
+                                                <th style={{ padding: '15px 10px', width: '160px', whiteSpace: 'nowrap', fontSize: '0.7rem', fontWeight: 700, color: '#1a1612', textTransform: 'uppercase', letterSpacing: '1px', borderBottom: '1px solid #ece4d8', borderRight: '1px solid #ece4d8', textAlign: 'left' }}>PREVIOUS SCHOOL</th>
+                                                <th style={{ padding: '15px 10px', width: '110px', fontSize: '0.7rem', fontWeight: 700, color: '#1a1612', textTransform: 'uppercase', letterSpacing: '1px', borderBottom: '1px solid #ece4d8', borderRight: '1px solid #ece4d8', textAlign: 'center' }}>YEAR</th>
+                                                <th style={{ padding: '15px 10px', width: '70px', fontSize: '0.7rem', fontWeight: 700, color: '#1a1612', textTransform: 'uppercase', letterSpacing: '1px', borderBottom: '1px solid #ece4d8', borderRight: '1px solid #ece4d8', textAlign: 'center' }}>WAVE</th>
                                                 <th style={{ padding: '15px 10px', width: '160px', fontSize: '0.7rem', fontWeight: 700, color: '#1a1612', textTransform: 'uppercase', letterSpacing: '1px', borderBottom: '1px solid #ece4d8', borderRight: '1px solid #ece4d8', textAlign: 'center' }}>STATUS</th>
-                                                <th style={{ padding: '15px 10px', width: '180px', fontSize: '0.7rem', fontWeight: 700, color: '#1a1612', textTransform: 'uppercase', letterSpacing: '1px', borderBottom: '1px solid #ece4d8', borderRight: '1px solid #ece4d8', textAlign: 'left' }}>LINK PDF (DRIVE)</th>
-                                                <th style={{ padding: '15px 10px', width: '70px', textAlign: 'center', fontSize: '0.7rem', fontWeight: 700, color: '#1a1612', textTransform: 'uppercase', borderBottom: '1px solid #ece4d8' }}>AKSI</th>
+                                                <th style={{ padding: '15px 10px', width: '180px', fontSize: '0.7rem', fontWeight: 700, color: '#1a1612', textTransform: 'uppercase', letterSpacing: '1px', borderBottom: '1px solid #ece4d8', borderRight: '1px solid #ece4d8', textAlign: 'left' }}>PDF LINK (DRIVE)</th>
+                                                <th style={{ padding: '15px 10px', width: '70px', textAlign: 'center', fontSize: '0.7rem', fontWeight: 700, color: '#1a1612', textTransform: 'uppercase', borderBottom: '1px solid #ece4d8' }}>ACTION</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -1205,8 +1205,8 @@ export default function AdminPage() {
                                                                 onChange={e => handleStudentChange(originalIndex, 'status', e.target.value)}
                                                                 style={{ background: 'transparent', border: 'none', fontWeight: 600, fontSize: '0.75rem', color: isPassed(s.status) ? '#0d7c6e' : '#d4820a', cursor: 'pointer', outline: 'none', textAlign: 'center' }}
                                                             >
-                                                                <option value="Passed Selection" style={{ background: '#fffdf9' }}>Lolos Seleksi</option>
-                                                                <option value="Not Yet Passed" style={{ background: '#fffdf9' }}>Belum Lolos</option>
+                                                                <option value="Passed Selection" style={{ background: '#fffdf9' }}>Passed Selection</option>
+                                                                <option value="Not Yet Passed" style={{ background: '#fffdf9' }}>Not Yet Passed</option>
                                                             </select>
                                                         </td>
 
@@ -1238,16 +1238,16 @@ export default function AdminPage() {
                                             onChange={(e) => setFilterYear(e.target.value)}
                                             style={{ padding: '8px 15px', borderRadius: '14px', border: '1px solid #ece4d8', background: '#fffdf9', fontSize: '0.85rem', fontWeight: 700, outline: 'none', color: '#1a1612' }}
                                         >
-                                            <option value="Semua">Semua Tahun</option>
+                                            <option value="Semua">All Years</option>
                                             {availableYears.map(y => <option key={`af-${y}`} value={y}>{y}</option>)}
                                         </select>
                                     </div>
-                                    <h3 style={{ margin: 0, fontWeight: 600, fontSize: '1.4rem', color: '#1a1612', letterSpacing: '-0.5px' }}>DATABASE SISWA DITERIMA</h3>
+                                    <h3 style={{ margin: 0, fontWeight: 600, fontSize: '1.4rem', color: '#1a1612', letterSpacing: '-0.5px' }}>ACCEPTED STUDENT DATABASE</h3>
                                     <div style={{ position: 'relative', width: '320px' }}>
                                         <Search size={18} style={{ position: 'absolute', left: '15px', top: '50%', transform: 'translateY(-50%)', color: '#d4820a' }} />
-                                        <input 
-                                            type="text" 
-                                            placeholder="Cari Siswa Aktif..." 
+                                        <input
+                                            type="text"
+                                            placeholder="Search Active Students..."
                                             value={searchQuery}
                                             onChange={(e) => setSearchQuery(e.target.value)}
                                             style={{ width: '100%', padding: '12px 15px 12px 45px', borderRadius: '14px', border: '1px solid #ece4d8', background: '#fffdf9', fontSize: '0.9rem', fontWeight: 600, color: '#1a1612', outline: 'none' }}
@@ -1317,7 +1317,7 @@ export default function AdminPage() {
                                                             letterSpacing: '0.5px'
                                                         }}>
                                                             <div style={{ width: '6px', height: '6px', borderRadius: '14px', background: '#0d7c6e' }} />
-                                                            <span>{s.status?.toUpperCase() || 'DITERIMA'}</span>
+                                                            <span>{s.status?.toUpperCase() || 'ACCEPTED'}</span>
                                                         </div>
                                                     </div>
 
@@ -1327,13 +1327,13 @@ export default function AdminPage() {
                                                             <div style={{ width: '30px', height: '30px', borderRadius: '14px', background: '#fffdf9', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid #ece4d8' }}>
                                                                 <Users size={16} color="#d4820a" />
                                                             </div>
-                                                            <span>{s.school || s.schoolName || 'Asal Sekolah Belum Diisi'}</span>
+                                                            <span>{s.school || s.schoolName || 'Previous School Not Filled In'}</span>
                                                         </div>
                                                     </div>
 
                                                     <div style={{ background: '#fffdf9', padding: '20px 25px', borderRadius: '14px', border: '1px solid #ece4d8', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'relative', zIndex: 2 }}>
                                                         <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                                                            <span style={{ fontSize: '0.6rem', fontWeight: 600, color: '#9a8c82', textTransform: 'uppercase', letterSpacing: '1px' }}>TAHUN AJARAN</span>
+                                                            <span style={{ fontSize: '0.6rem', fontWeight: 600, color: '#9a8c82', textTransform: 'uppercase', letterSpacing: '1px' }}>ACADEMIC YEAR</span>
                                                             <span style={{ fontSize: '1.05rem', fontWeight: 600, color: '#d4820a' }}>{s.year}</span>
                                                         </div>
                                                         <motion.div 
@@ -1354,10 +1354,10 @@ export default function AdminPage() {
                                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '15px', padding: '20px 24px', background: siteSettings.registrationEnabled === false ? '#fee2e2' : '#dcfce7', border: `1px solid ${siteSettings.registrationEnabled === false ? '#fca5a5' : '#86efac'}`, borderRadius: '14px', marginBottom: '20px', flexWrap: 'wrap' }}>
                                     <div>
                                         <div style={{ fontSize: '0.9rem', fontWeight: 700, color: siteSettings.registrationEnabled === false ? '#991b1b' : '#166534' }}>
-                                            Pendaftaran Online: {siteSettings.registrationEnabled === false ? 'DITUTUP' : 'DIBUKA'}
+                                            Online Registration: {siteSettings.registrationEnabled === false ? 'CLOSED' : 'OPEN'}
                                         </div>
                                         <div style={{ fontSize: '0.75rem', color: '#6b5f53', marginTop: '4px' }}>
-                                            {siteSettings.registrationEnabled === false ? 'Halaman /pendaftaran menampilkan pesan pendaftaran ditutup.' : 'Formulir pendaftaran online tampil normal di /pendaftaran.'}
+                                            {siteSettings.registrationEnabled === false ? 'The /pendaftaran page shows a registration-closed message.' : 'The online registration form displays normally at /pendaftaran.'}
                                         </div>
                                     </div>
                                     <button
@@ -1372,12 +1372,12 @@ export default function AdminPage() {
                                                     body: JSON.stringify({ registrationEnabled: next }),
                                                 });
                                                 const data = await res.json();
-                                                if (!data.success) throw new Error(data.error || 'Gagal menyimpan.');
+                                                if (!data.success) throw new Error(data.error || 'Failed to save.');
                                                 setSiteSettings(prev => ({ ...prev, registrationEnabled: next }));
-                                                setSuccess(next ? 'Pendaftaran online dibuka!' : 'Pendaftaran online ditutup!');
+                                                setSuccess(next ? 'Online registration opened!' : 'Online registration closed!');
                                                 setTimeout(() => setSuccess(''), 3000);
                                             } catch (errToggle) {
-                                                setError('Gagal mengubah status pendaftaran: ' + (errToggle.message || 'Terjadi kesalahan.'));
+                                                setError('Failed to change registration status: ' + (errToggle.message || 'An error occurred.'));
                                             } finally {
                                                 setIsSavingSettings(false);
                                             }
@@ -1388,7 +1388,7 @@ export default function AdminPage() {
                                             opacity: isSavingSettings ? 0.6 : 1,
                                         }}
                                     >
-                                        {siteSettings.registrationEnabled === false ? 'Buka Pendaftaran' : 'Tutup Pendaftaran'}
+                                        {siteSettings.registrationEnabled === false ? 'Open Registration' : 'Close Registration'}
                                     </button>
                                 </div>
 
@@ -1442,35 +1442,35 @@ export default function AdminPage() {
                                     return (
                                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '15px', padding: '18px 22px', background: '#fff1e6', border: '1px solid #f0c9a0', borderRadius: '14px', marginBottom: '20px', flexWrap: 'wrap' }}>
                                             <div style={{ fontSize: '0.85rem', color: '#8a4a12', fontWeight: 600 }}>
-                                                {legacyLeaked.length} pendaftaran lama otomatis masuk Pengumuman Observasi (bug status "Lolos" sebelum diperbaiki), padahal belum diobservasi.
+                                                {legacyLeaked.length} old registrations were automatically pulled into Observation Results (the "Lolos" status bug, since fixed), even though they haven't been observed yet.
                                             </div>
                                             <button
                                                 onClick={async () => {
-                                                    if (!window.confirm(`Reset status ${legacyLeaked.length} pendaftaran ini kembali ke "Belum Lolos" (belum diobservasi)?`)) return;
+                                                    if (!window.confirm(`Reset the status of ${legacyLeaked.length} of these registrations back to "Not Yet Passed" (not yet observed)?`)) return;
                                                     try {
                                                         setIsLoading(true);
                                                         await adminMutate({ patches: legacyLeaked.map(s => ({ id: s._id, set: { _type: 'student', status: 'Not Yet Passed' } })) });
-                                                        setSuccess('Status pendaftaran lama berhasil direset!');
+                                                        setSuccess('Old registration statuses reset successfully!');
                                                         setTimeout(() => setSuccess(''), 3000);
                                                         fetchAllData();
                                                     } catch (errFix) {
-                                                        setError('Gagal reset: ' + (errFix.message || 'Terjadi kesalahan.'));
+                                                        setError('Failed to reset: ' + (errFix.message || 'An error occurred.'));
                                                     } finally {
                                                         setIsLoading(false);
                                                     }
                                                 }}
                                                 style={{ padding: '12px 20px', background: '#8a4a12', color: '#fffdf9', border: 'none', borderRadius: '10px', fontWeight: 700, fontSize: '0.8rem', cursor: 'pointer', whiteSpace: 'nowrap' }}
                                             >
-                                                Perbaiki {legacyLeaked.length} Data Lama
+                                                Fix {legacyLeaked.length} Old Records
                                             </button>
                                         </div>
                                     );
                                 })()}
                                 <div style={{ display: 'flex', gap: '10px', marginBottom: '30px', flexWrap: 'wrap', alignItems: 'center' }}>
                                     {[
-                                        { key: 'all', label: 'Semua' },
-                                        { key: 'booking_fee', label: 'Sudah Booking Fee' },
-                                        { key: 'formulir', label: 'Ambil Formulir Saja' },
+                                        { key: 'all', label: 'All' },
+                                        { key: 'booking_fee', label: 'Booking Fee Paid' },
+                                        { key: 'formulir', label: 'Form Only' },
                                     ].map(f => (
                                         <button
                                             key={f.key}
@@ -1490,11 +1490,11 @@ export default function AdminPage() {
                                         onChange={e => setFilterYear(e.target.value)}
                                         style={{ padding: '10px 20px', borderRadius: '100px', border: '1px solid #ece4d8', background: '#fffdf9', color: '#6b5f53', fontSize: '0.8rem', fontWeight: 700, cursor: 'pointer', marginLeft: 'auto' }}
                                     >
-                                        <option value="Semua">Semua Tahun</option>
+                                        <option value="Semua">All Years</option>
                                         {availableYears.map(y => <option key={`reg-y-${y}`} value={y}>{y}</option>)}
                                     </select>
                                     <input
-                                        placeholder="Tambah tahun, mis. 2027/2028"
+                                        placeholder="Add year, e.g. 2027/2028"
                                         value={newYearInput}
                                         onChange={e => setNewYearInput(e.target.value)}
                                         style={{ padding: '10px 16px', borderRadius: '100px', border: '1px solid #ece4d8', background: '#fffdf9', color: '#1a1612', fontSize: '0.8rem', fontWeight: 700, outline: 'none', width: '200px' }}
@@ -1503,46 +1503,46 @@ export default function AdminPage() {
                                         onClick={handleAddYear}
                                         style={{ padding: '10px 16px', borderRadius: '100px', border: 'none', background: '#d4820a', color: '#fffdf9', fontSize: '0.8rem', fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}
                                     >
-                                        <Plus size={16} /> Tahun
+                                        <Plus size={16} /> Year
                                     </button>
                                 </div>
                                 {(() => {
                                     const REG_COLUMNS = [
-                                        { label: 'DAFTAR PADA', get: r => r.registrationDate ? new Date(r.registrationDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : '-' },
-                                        { label: 'NAMA ANAK', get: r => r.name || '-' },
-                                        { label: 'JENIS KELAMIN', get: r => r.gender === 'L' || r.gender === 'Laki-laki' ? 'Laki-laki' : 'Perempuan' },
-                                        { label: 'TAHUN', get: r => r.year || '-' },
-                                        { label: 'GELOMBANG', get: r => r.wave || '-' },
-                                        { label: 'NAMA ORANG TUA', get: r => r.parentName || '-' },
-                                        { label: 'KONTAK WA', get: r => r.whatsapp || '-' },
-                                        { label: 'ASAL SEKOLAH', get: r => r.school || r.schoolName || '-' },
-                                        { label: 'TEMPAT, TGL LAHIR', get: r => `${r.birthPlace || '-'}${r.birthDate ? `, ${new Date(r.birthDate).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}` : ''}` },
+                                        { label: 'REGISTERED ON', get: r => r.registrationDate ? new Date(r.registrationDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : '-' },
+                                        { label: 'CHILD NAME', get: r => r.name || '-' },
+                                        { label: 'GENDER', get: r => r.gender === 'L' || r.gender === 'Laki-laki' ? 'Male' : 'Female' },
+                                        { label: 'YEAR', get: r => r.year || '-' },
+                                        { label: 'WAVE', get: r => r.wave || '-' },
+                                        { label: 'PARENT NAME', get: r => r.parentName || '-' },
+                                        { label: 'WHATSAPP CONTACT', get: r => r.whatsapp || '-' },
+                                        { label: 'PREVIOUS SCHOOL', get: r => r.school || r.schoolName || '-' },
+                                        { label: 'PLACE, DATE OF BIRTH', get: r => `${r.birthPlace || '-'}${r.birthDate ? `, ${new Date(r.birthDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}` : ''}` },
                                         { label: 'NIK', get: r => r.nik || '-' },
                                         { label: 'NISN', get: r => r.nisn || '-' },
-                                        { label: 'AGAMA', get: r => r.religion || '-' },
-                                        { label: 'ANAK KE / DARI SAUDARA', get: r => `${r.childOrder || '-'} dari ${r.siblingOf || '-'}` },
-                                        { label: 'TINGGI / BERAT', get: r => `${r.height || '-'} cm / ${r.weight || '-'} kg` },
-                                        { label: 'BAHASA SEHARI-HARI', get: r => r.dailyLanguage || '-' },
-                                        { label: 'NO. KIP/KIS/KKS/KPS', get: r => r.kip || '-' },
-                                        { label: 'NO. HP SISWA', get: r => r.studentPhone || '-' },
-                                        { label: 'ALAMAT', get: r => `${r.address || '-'}${r.city ? `, ${r.city}` : ''}${r.province ? `, ${r.province}` : ''}` },
-                                        { label: 'TAHUN LULUS ASAL', get: r => r.graduationYear || '-' },
-                                        { label: 'NAMA AYAH', get: r => r.fatherName || '-' },
-                                        { label: 'NIK AYAH', get: r => r.nikAyah || '-' },
-                                        { label: 'TTL AYAH', get: r => r.fatherBirthInfo || '-' },
-                                        { label: 'PENDIDIKAN AYAH', get: r => r.fatherEducation || '-' },
-                                        { label: 'PEKERJAAN AYAH', get: r => r.fatherJob || '-' },
-                                        { label: 'PENGHASILAN AYAH', get: r => r.fatherIncome || '-' },
-                                        { label: 'NO. TLP AYAH', get: r => r.fatherPhone || '-' },
-                                        { label: 'STATUS AYAH', get: r => r.fatherStatus || '-' },
-                                        { label: 'NAMA IBU', get: r => r.motherName || '-' },
-                                        { label: 'NIK IBU', get: r => r.nikIbu || '-' },
-                                        { label: 'TTL IBU', get: r => r.motherBirthInfo || '-' },
-                                        { label: 'PENDIDIKAN IBU', get: r => r.motherEducation || '-' },
-                                        { label: 'PEKERJAAN IBU', get: r => r.motherJob || '-' },
-                                        { label: 'PENGHASILAN IBU', get: r => r.motherIncome || '-' },
-                                        { label: 'NO. TLP IBU', get: r => r.motherPhone || '-' },
-                                        { label: 'STATUS IBU', get: r => r.motherStatus || '-' },
+                                        { label: 'RELIGION', get: r => r.religion || '-' },
+                                        { label: 'CHILD ORDER / OF SIBLINGS', get: r => `${r.childOrder || '-'} of ${r.siblingOf || '-'}` },
+                                        { label: 'HEIGHT / WEIGHT', get: r => `${r.height || '-'} cm / ${r.weight || '-'} kg` },
+                                        { label: 'DAILY LANGUAGE', get: r => r.dailyLanguage || '-' },
+                                        { label: 'KIP/KIS/KKS/KPS NO.', get: r => r.kip || '-' },
+                                        { label: 'STUDENT PHONE NO.', get: r => r.studentPhone || '-' },
+                                        { label: 'ADDRESS', get: r => `${r.address || '-'}${r.city ? `, ${r.city}` : ''}${r.province ? `, ${r.province}` : ''}` },
+                                        { label: 'PREVIOUS SCHOOL GRAD. YEAR', get: r => r.graduationYear || '-' },
+                                        { label: 'FATHER NAME', get: r => r.fatherName || '-' },
+                                        { label: 'FATHER NIK', get: r => r.nikAyah || '-' },
+                                        { label: 'FATHER PLACE/DOB', get: r => r.fatherBirthInfo || '-' },
+                                        { label: 'FATHER EDUCATION', get: r => r.fatherEducation || '-' },
+                                        { label: 'FATHER OCCUPATION', get: r => r.fatherJob || '-' },
+                                        { label: 'FATHER INCOME', get: r => r.fatherIncome || '-' },
+                                        { label: 'FATHER PHONE NO.', get: r => r.fatherPhone || '-' },
+                                        { label: 'FATHER STATUS', get: r => r.fatherStatus || '-' },
+                                        { label: 'MOTHER NAME', get: r => r.motherName || '-' },
+                                        { label: 'MOTHER NIK', get: r => r.nikIbu || '-' },
+                                        { label: 'MOTHER PLACE/DOB', get: r => r.motherBirthInfo || '-' },
+                                        { label: 'MOTHER EDUCATION', get: r => r.motherEducation || '-' },
+                                        { label: 'MOTHER OCCUPATION', get: r => r.motherJob || '-' },
+                                        { label: 'MOTHER INCOME', get: r => r.motherIncome || '-' },
+                                        { label: 'MOTHER PHONE NO.', get: r => r.motherPhone || '-' },
+                                        { label: 'MOTHER STATUS', get: r => r.motherStatus || '-' },
                                     ];
                                     const rows = students.filter(s => s.registrationDate).filter(s => {
                                         const type = s.registrationType || (s.paymentProof ? 'booking_fee' : 'formulir');
@@ -1554,26 +1554,26 @@ export default function AdminPage() {
                                     const downloadRegistrations = () => {
                                         const exportRows = rows.map((r, i) => {
                                             const type = r.registrationType || (r.paymentProof ? 'booking_fee' : 'formulir');
-                                            const row = { '#': i + 1, TIPE: type === 'booking_fee' ? 'BOOKING FEE' : 'AMBIL FORMULIR', 'DAPAT KURSI': (r.seatConfirmed === 'true' || r.seatConfirmed === true) ? 'YA' : 'TIDAK' };
+                                            const row = { '#': i + 1, TYPE: type === 'booking_fee' ? 'BOOKING FEE' : 'FORM ONLY', 'SEAT CONFIRMED': (r.seatConfirmed === 'true' || r.seatConfirmed === true) ? 'YES' : 'NO' };
                                             REG_COLUMNS.forEach(col => { row[col.label] = col.get(r); });
                                             return row;
                                         });
                                         const worksheet = XLSX.utils.json_to_sheet(exportRows);
                                         const workbook = XLSX.utils.book_new();
-                                        XLSX.utils.book_append_sheet(workbook, worksheet, 'Pendaftaran');
-                                        const yearLabel = filterYear === 'Semua' ? 'SemuaTahun' : filterYear.replace('/', '-');
-                                        XLSX.writeFile(workbook, `AlFakhir_Pendaftaran_${yearLabel}.xlsx`);
+                                        XLSX.utils.book_append_sheet(workbook, worksheet, 'Registrations');
+                                        const yearLabel = filterYear === 'Semua' ? 'AllYears' : filterYear.replace('/', '-');
+                                        XLSX.writeFile(workbook, `AlFakhir_Registrations_${yearLabel}.xlsx`);
                                     };
 
                                     const patchRegistration = async (id, set) => {
                                         // Optimistic local update — a full fetchAllData() here would
-                                        // throw up the full-screen "MEMUAT DATA..." overlay for every
+                                        // throw up the full-screen "LOADING DATA..." overlay for every
                                         // single checkbox/badge click, which reads as the UI hanging.
                                         setStudents(prev => prev.map(s => s._id === id ? { ...s, ...set } : s));
                                         try {
                                             await adminMutate({ patches: [{ id, set: { _type: 'student', ...set } }] });
                                         } catch (errPatch) {
-                                            setError('Gagal menyimpan: ' + (errPatch.message || 'Terjadi kesalahan.'));
+                                            setError('Failed to save: ' + (errPatch.message || 'An error occurred.'));
                                             fetchAllData(); // revert to server truth on failure
                                         }
                                     };
@@ -1582,7 +1582,7 @@ export default function AdminPage() {
                                         return (
                                             <div style={{ textAlign: 'center', padding: '6rem', color: '#9a8c82', fontWeight: 600 }}>
                                                 <BookOpen size={60} style={{ opacity: 0.2, marginBottom: '20px', margin: '0 auto' }} />
-                                                <p>Belum ada pendaftaran online yang masuk.</p>
+                                                <p>No online registrations yet.</p>
                                             </div>
                                         );
                                     }
@@ -1602,12 +1602,12 @@ export default function AdminPage() {
                                                 <thead>
                                                     <tr>
                                                         <th style={{ position: 'sticky', left: 0, zIndex: 2, padding: '14px 16px', background: '#1a1612', color: '#fffdf9', fontSize: '0.7rem', fontWeight: 700, textTransform: 'uppercase', textAlign: 'left', whiteSpace: 'nowrap' }}>#</th>
-                                                        <th style={{ padding: '14px 16px', background: '#1a1612', color: '#fffdf9', fontSize: '0.7rem', fontWeight: 700, textTransform: 'uppercase', textAlign: 'left', whiteSpace: 'nowrap' }}>TIPE</th>
-                                                        <th style={{ padding: '14px 16px', background: '#1a1612', color: '#fffdf9', fontSize: '0.7rem', fontWeight: 700, textTransform: 'uppercase', textAlign: 'left', whiteSpace: 'nowrap' }}>DAPAT KURSI</th>
+                                                        <th style={{ padding: '14px 16px', background: '#1a1612', color: '#fffdf9', fontSize: '0.7rem', fontWeight: 700, textTransform: 'uppercase', textAlign: 'left', whiteSpace: 'nowrap' }}>TYPE</th>
+                                                        <th style={{ padding: '14px 16px', background: '#1a1612', color: '#fffdf9', fontSize: '0.7rem', fontWeight: 700, textTransform: 'uppercase', textAlign: 'left', whiteSpace: 'nowrap' }}>SEAT CONFIRMED</th>
                                                         {REG_COLUMNS.map(col => (
                                                             <th key={col.label} style={{ padding: '14px 16px', background: '#1a1612', color: '#fffdf9', fontSize: '0.7rem', fontWeight: 700, textTransform: 'uppercase', textAlign: 'left', whiteSpace: 'nowrap' }}>{col.label}</th>
                                                         ))}
-                                                        <th style={{ padding: '14px 16px', background: '#1a1612', color: '#fffdf9', fontSize: '0.7rem', fontWeight: 700, textTransform: 'uppercase', textAlign: 'left', whiteSpace: 'nowrap' }}>AKSI</th>
+                                                        <th style={{ padding: '14px 16px', background: '#1a1612', color: '#fffdf9', fontSize: '0.7rem', fontWeight: 700, textTransform: 'uppercase', textAlign: 'left', whiteSpace: 'nowrap' }}>ACTION</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -1628,7 +1628,7 @@ export default function AdminPage() {
                                                                                 borderColor: isBookingFee ? '#0d7c6e30' : '#c0392b30',
                                                                             }}
                                                                         >
-                                                                            {isBookingFee ? 'BOOKING FEE' : 'AMBIL FORMULIR'}
+                                                                            {isBookingFee ? 'BOOKING FEE' : 'FORM ONLY'}
                                                                         </button>
                                                                     );
                                                                 })()}
@@ -1655,23 +1655,23 @@ export default function AdminPage() {
                                                                             }}
                                                                             style={{ padding: '8px 12px', background: '#d4820a', color: '#fffdf9', border: 'none', borderRadius: '10px', fontWeight: 700, fontSize: '0.75rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}
                                                                         >
-                                                                            <Eye size={14} /> BUKTI
+                                                                            <Eye size={14} /> PROOF
                                                                         </button>
                                                                     ) : (
-                                                                        <span style={{ padding: '8px 12px', background: '#c0392b15', color: '#c0392b', borderRadius: '10px', fontSize: '0.75rem', fontWeight: 700, border: '1px solid #c0392b30' }}>BELUM ADA</span>
+                                                                        <span style={{ padding: '8px 12px', background: '#c0392b15', color: '#c0392b', borderRadius: '10px', fontSize: '0.75rem', fontWeight: 700, border: '1px solid #c0392b30' }}>NONE YET</span>
                                                                     )}
                                                                     <button
                                                                         onClick={async () => {
-                                                                            if (window.confirm('Hapus data pendaftaran ini?')) {
+                                                                            if (window.confirm('Delete this registration record?')) {
                                                                                 try {
                                                                                     setIsLoading(true);
                                                                                     await adminMutate({ deletes: [{ type: 'student', id: reg._id }] });
-                                                                                    setSuccess('Data registrasi berhasil dihapus dari Cloud!');
+                                                                                    setSuccess('Registration record deleted from Cloud successfully!');
                                                                                     setTimeout(() => setSuccess(''), 3000);
                                                                                     fetchAllData();
                                                                                 } catch (errDel) {
                                                                                     console.error("Delete Error:", errDel);
-                                                                                    setError('Gagal menghapus: ' + (errDel.message || 'Akses ditolak. Pastikan Token Sanity memiliki izin Write/Editor dan CORS Allow Credentials aktif.'));
+                                                                                    setError('Failed to delete: ' + (errDel.message || 'Access denied. Make sure the Sanity Token has Write/Editor permission and CORS Allow Credentials is enabled.'));
                                                                                 } finally {
                                                                                     setIsLoading(false);
                                                                                 }
@@ -1698,38 +1698,38 @@ export default function AdminPage() {
                                     {gallery.map((item, index) => (
                                         <motion.div key={item._id || index} initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} style={{ background: '#faf7f2', padding: '1.5rem', borderRadius: '14px', border: '1px solid #ece4d8' }}>
                                             <div style={{ aspectRatio: '16 / 10', background: '#fffdf9', borderRadius: '14px', marginBottom: '1.5rem', overflow: 'hidden', position: 'relative', border: item.imageUrl ? '1px solid #ece4d8' : '1px solid #c0392b' }}>
-                                                {item.imageUrl ? <img src={item.imageUrl} alt={item.title || "Gallery Item"} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <div style={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: '#c0392b', gap: '10px' }}><ImageIcon size={48} /><span style={{ fontSize: '0.7rem', fontWeight: 600 }}>GAMBAR TIDAK ADA</span></div>}
+                                                {item.imageUrl ? <img src={item.imageUrl} alt={item.title || "Gallery Item"} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <div style={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: '#c0392b', gap: '10px' }}><ImageIcon size={48} /><span style={{ fontSize: '0.7rem', fontWeight: 600 }}>NO IMAGE</span></div>}
                                                 <label style={{ position: 'absolute', bottom: '15px', right: '15px', background: item.imageUrl ? '#d4820a' : '#c0392b', color: '#fffdf9', padding: '10px 20px', borderRadius: '14px', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 600 }}>
-                                                    <span style={{ color: '#fffdf9' }}>{item.imageUrl ? 'GANTI GAMBAR' : 'UNGGAH SEKARANG'}</span>
+                                                    <span style={{ color: '#fffdf9' }}>{item.imageUrl ? 'CHANGE IMAGE' : 'UPLOAD NOW'}</span>
                                                     <input type="file" style={{ display: 'none' }} accept="image/*" onChange={e => handleImageUpload(index, e.target.files[0])} />
                                                 </label>
                                             </div>
                                             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                                                 <div style={{ display: 'flex', gap: '10px' }}>
                                                     <div style={{ flex: 2 }}>
-                                                        <label htmlFor={`gallery-title-${index}`} style={{ display: 'block', fontSize: '0.65rem', fontWeight: 700, color: '#9a8c82', marginBottom: '5px' }}>JUDUL KONTEN</label>
-                                                        <input id={`gallery-title-${index}`} placeholder="Judul Acara" style={{ width: '100%', padding: '12px 15px', border: item.title ? '1px solid #ece4d8' : '1px solid #c0392b', borderRadius: '14px', fontWeight: 600, fontSize: '0.9rem', background: '#fffdf9', color: '#1a1612', outline: 'none' }} onFocus={e => e.target.style.border = '1px solid #d4820a'} onBlur={e => e.target.style.border = item.title ? '1px solid #ece4d8' : '1px solid #c0392b'} value={item.title || ''} onChange={e => handleGalleryChange(index, 'title', e.target.value)} />
+                                                        <label htmlFor={`gallery-title-${index}`} style={{ display: 'block', fontSize: '0.65rem', fontWeight: 700, color: '#9a8c82', marginBottom: '5px' }}>CONTENT TITLE</label>
+                                                        <input id={`gallery-title-${index}`} placeholder="Event Title" style={{ width: '100%', padding: '12px 15px', border: item.title ? '1px solid #ece4d8' : '1px solid #c0392b', borderRadius: '14px', fontWeight: 600, fontSize: '0.9rem', background: '#fffdf9', color: '#1a1612', outline: 'none' }} onFocus={e => e.target.style.border = '1px solid #d4820a'} onBlur={e => e.target.style.border = item.title ? '1px solid #ece4d8' : '1px solid #c0392b'} value={item.title || ''} onChange={e => handleGalleryChange(index, 'title', e.target.value)} />
                                                     </div>
                                                     <div style={{ flex: 1 }}>
-                                                        <label htmlFor={`gallery-cat-${index}`} style={{ display: 'block', fontSize: '0.65rem', fontWeight: 700, color: '#9a8c82', marginBottom: '5px' }}>JENIS</label>
+                                                        <label htmlFor={`gallery-cat-${index}`} style={{ display: 'block', fontSize: '0.65rem', fontWeight: 700, color: '#9a8c82', marginBottom: '5px' }}>TYPE</label>
                                                         <select id={`gallery-cat-${index}`} style={{ width: '100%', padding: '12px', border: '1px solid #ece4d8', borderRadius: '14px', background: '#fffdf9', fontWeight: 700, fontSize: '0.8rem', color: '#1a1612', outline: 'none' }} value={item.category || 'acara'} onChange={e => handleGalleryChange(index, 'category', e.target.value)}>
-                                                            <option value="acara">Acara</option>
-                                                            <option value="berita">Berita</option>
-                                                            <option value="penghargaan">Penghargaan</option>
-                                                            <option value="lain-lain">Lainnya</option>
+                                                            <option value="acara">Event</option>
+                                                            <option value="berita">News</option>
+                                                            <option value="penghargaan">Award</option>
+                                                            <option value="lain-lain">Other</option>
                                                         </select>
                                                     </div>
                                                 </div>
                                                 <div style={{ display: 'flex', gap: '10px' }}>
-                                                    <input placeholder="Tanggal (mis. 12 Mar 2026)" aria-label="Event Date" style={{ flex: 1, padding: '12px 15px', border: '1px solid #ece4d8', borderRadius: '14px', background: '#fffdf9', color: '#1a1612', fontWeight: 700, fontSize: '0.85rem', outline: 'none' }} onFocus={e => e.target.style.border = '1px solid #d4820a'} onBlur={e => e.target.style.border = '1px solid #ece4d8'} value={item.date || ''} onChange={e => handleGalleryChange(index, 'date', e.target.value)} />
+                                                    <input placeholder="Date (e.g. 12 Mar 2026)" aria-label="Event Date" style={{ flex: 1, padding: '12px 15px', border: '1px solid #ece4d8', borderRadius: '14px', background: '#fffdf9', color: '#1a1612', fontWeight: 700, fontSize: '0.85rem', outline: 'none' }} onFocus={e => e.target.style.border = '1px solid #d4820a'} onBlur={e => e.target.style.border = '1px solid #ece4d8'} value={item.date || ''} onChange={e => handleGalleryChange(index, 'date', e.target.value)} />
                                                     <input type="date" aria-label="Pick Date" style={{ width: '45px', padding: '10px', border: '1px solid #ece4d8', borderRadius: '14px', background: '#d4820a', color: '#fffdf9', cursor: 'pointer', outline: 'none' }} onChange={e => {
                                                         const d = new Date(e.target.value);
                                                         const formatted = d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
                                                         handleGalleryChange(index, 'date', formatted);
                                                     }} />
                                                 </div>
-                                                <textarea placeholder="Deskripsi lengkap acara..." style={{ width: '100%', padding: '15px', border: '1px solid #ece4d8', borderRadius: '14px', background: '#fffdf9', height: '100px', resize: 'none', fontSize: '0.85rem', color: '#1a1612', outline: 'none' }} onFocus={e => e.target.style.border = '1px solid #d4820a'} onBlur={e => e.target.style.border = '1px solid #ece4d8'} value={item.agenda || ''} onChange={e => handleGalleryChange(index, 'agenda', e.target.value)} />
-                                                <button onClick={() => handleDeleteGallery(index)} style={{ width: '100%', padding: '12px', border: '1px solid #ece4d8', color: '#c0392b', background: '#fffdf9', borderRadius: '14px', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', transition: '0.2s' }} onMouseOver={e => { e.currentTarget.style.background = '#c0392b'; e.currentTarget.style.color = '#fff'; }} onMouseOut={e => { e.currentTarget.style.background = '#fffdf9'; e.currentTarget.style.color = '#c0392b'; }}><Trash2 size={18} /> <span>HAPUS KONTEN</span></button>
+                                                <textarea placeholder="Full event description..." style={{ width: '100%', padding: '15px', border: '1px solid #ece4d8', borderRadius: '14px', background: '#fffdf9', height: '100px', resize: 'none', fontSize: '0.85rem', color: '#1a1612', outline: 'none' }} onFocus={e => e.target.style.border = '1px solid #d4820a'} onBlur={e => e.target.style.border = '1px solid #ece4d8'} value={item.agenda || ''} onChange={e => handleGalleryChange(index, 'agenda', e.target.value)} />
+                                                <button onClick={() => handleDeleteGallery(index)} style={{ width: '100%', padding: '12px', border: '1px solid #ece4d8', color: '#c0392b', background: '#fffdf9', borderRadius: '14px', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', transition: '0.2s' }} onMouseOver={e => { e.currentTarget.style.background = '#c0392b'; e.currentTarget.style.color = '#fff'; }} onMouseOut={e => { e.currentTarget.style.background = '#fffdf9'; e.currentTarget.style.color = '#c0392b'; }}><Trash2 size={18} /> <span>DELETE CONTENT</span></button>
                                             </div>
                                         </motion.div>
                                     ))}
@@ -1750,33 +1750,33 @@ export default function AdminPage() {
                                                             e.currentTarget.onerror = null;
                                                             e.currentTarget.style.display = 'none';
                                                             if (e.currentTarget.parentElement) {
-                                                                e.currentTarget.parentElement.innerHTML = '<div style="height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #c0392b; gap: 8px;"><span style="font-size: 0.6rem; font-weight: 800;">GAMBAR RUSAK</span></div>';
+                                                                e.currentTarget.parentElement.innerHTML = '<div style="height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #c0392b; gap: 8px;"><span style="font-size: 0.6rem; font-weight: 800;">BROKEN IMAGE</span></div>';
                                                             }
                                                         }}
                                                     />
                                                 ) : (
                                                     <div style={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: '#c0392b', gap: '8px' }}>
                                                         <Users size={48} />
-                                                        <span style={{ fontSize: '0.6rem', fontWeight: 600 }}>BELUM ADA FOTO</span>
+                                                        <span style={{ fontSize: '0.6rem', fontWeight: 600 }}>NO PHOTO YET</span>
                                                     </div>
                                                 )}
                                                 <label style={{ position: 'absolute', bottom: '15px', right: '15px', background: member.imageUrl ? '#d4820a' : '#c0392b', color: '#fffdf9', padding: '10px 20px', borderRadius: '14px', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 600 }}>
-                                                    <span style={{ color: '#fffdf9' }}>{member.imageUrl ? 'GANTI' : 'TAMBAH FOTO'}</span>
+                                                    <span style={{ color: '#fffdf9' }}>{member.imageUrl ? 'CHANGE' : 'ADD PHOTO'}</span>
                                                     <input type="file" style={{ display: 'none' }} accept="image/*" onChange={e => handleStaffImageUpload(index, e.target.files[0])} />
                                                 </label>
                                             </div>
                                             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                                                <input placeholder="Nama Lengkap & Gelar" aria-label="Staff Full Name" style={{ width: '100%', padding: '12px 15px', border: member.name ? '1px solid #ece4d8' : '1px solid #c0392b', borderRadius: '14px', fontWeight: 600, fontSize: '0.9rem', background: '#fffdf9', color: '#1a1612', outline: 'none' }} onFocus={e => e.target.style.border = '1px solid #d4820a'} onBlur={e => e.target.style.border = member.name ? '1px solid #ece4d8' : '1px solid #c0392b'} value={member.name || ''} onChange={e => handleStaffChange(index, 'name', e.target.value)} />
-                                                <input placeholder="Jabatan / Posisi" aria-label="Staff Role" style={{ width: '100%', padding: '12px 15px', border: '1px solid #ece4d8', borderRadius: '14px', fontWeight: 700, fontSize: '0.85rem', background: '#fffdf9', color: '#d4820a', outline: 'none' }} onFocus={e => e.target.style.border = '1px solid #d4820a'} onBlur={e => e.target.style.border = '1px solid #ece4d8'} value={member.role || ''} onChange={e => handleStaffChange(index, 'role', e.target.value)} />
-                                                
+                                                <input placeholder="Full Name & Title" aria-label="Staff Full Name" style={{ width: '100%', padding: '12px 15px', border: member.name ? '1px solid #ece4d8' : '1px solid #c0392b', borderRadius: '14px', fontWeight: 600, fontSize: '0.9rem', background: '#fffdf9', color: '#1a1612', outline: 'none' }} onFocus={e => e.target.style.border = '1px solid #d4820a'} onBlur={e => e.target.style.border = member.name ? '1px solid #ece4d8' : '1px solid #c0392b'} value={member.name || ''} onChange={e => handleStaffChange(index, 'name', e.target.value)} />
+                                                <input placeholder="Position / Role" aria-label="Staff Role" style={{ width: '100%', padding: '12px 15px', border: '1px solid #ece4d8', borderRadius: '14px', fontWeight: 700, fontSize: '0.85rem', background: '#fffdf9', color: '#d4820a', outline: 'none' }} onFocus={e => e.target.style.border = '1px solid #d4820a'} onBlur={e => e.target.style.border = '1px solid #ece4d8'} value={member.role || ''} onChange={e => handleStaffChange(index, 'role', e.target.value)} />
+
                                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', background: '#fffdf9', padding: '15px', borderRadius: '14px', border: '1px solid #ece4d8' }}>
-                                                    <label style={{ fontSize: '0.65rem', fontWeight: 700, color: '#9a8c82' }}>DETAIL PROFESIONAL</label>
-                                                    <input placeholder="Visi Singkat (satu kalimat)" style={{ width: '100%', padding: '10px 12px', border: '1px solid #ece4d8', borderRadius: '14px', background: '#faf7f2', fontSize: '0.75rem', fontWeight: 600, color: '#1a1612', outline: 'none' }} onFocus={e => e.target.style.border = '1px solid #d4820a'} onBlur={e => e.target.style.border = '1px solid #ece4d8'} value={member.vision || ''} onChange={e => handleStaffChange(index, 'vision', e.target.value)} />
-                                                    <input placeholder="Pendidikan Terakhir (mis. S1 TI)" style={{ width: '100%', padding: '10px 12px', border: '1px solid #ece4d8', borderRadius: '14px', background: '#faf7f2', fontSize: '0.75rem', fontWeight: 600, color: '#1a1612', outline: 'none' }} onFocus={e => e.target.style.border = '1px solid #d4820a'} onBlur={e => e.target.style.border = '1px solid #ece4d8'} value={member.education || ''} onChange={e => handleStaffChange(index, 'education', e.target.value)} />
-                                                    <input placeholder="Email Resmi" style={{ width: '100%', padding: '10px 12px', border: '1px solid #ece4d8', borderRadius: '14px', background: '#faf7f2', fontSize: '0.75rem', fontWeight: 600, color: '#1a1612', outline: 'none' }} onFocus={e => e.target.style.border = '1px solid #d4820a'} onBlur={e => e.target.style.border = '1px solid #ece4d8'} value={member.email || ''} onChange={e => handleStaffChange(index, 'email', e.target.value)} />
+                                                    <label style={{ fontSize: '0.65rem', fontWeight: 700, color: '#9a8c82' }}>PROFESSIONAL DETAILS</label>
+                                                    <input placeholder="Short Vision (one sentence)" style={{ width: '100%', padding: '10px 12px', border: '1px solid #ece4d8', borderRadius: '14px', background: '#faf7f2', fontSize: '0.75rem', fontWeight: 600, color: '#1a1612', outline: 'none' }} onFocus={e => e.target.style.border = '1px solid #d4820a'} onBlur={e => e.target.style.border = '1px solid #ece4d8'} value={member.vision || ''} onChange={e => handleStaffChange(index, 'vision', e.target.value)} />
+                                                    <input placeholder="Latest Education (e.g. B.S. IT)" style={{ width: '100%', padding: '10px 12px', border: '1px solid #ece4d8', borderRadius: '14px', background: '#faf7f2', fontSize: '0.75rem', fontWeight: 600, color: '#1a1612', outline: 'none' }} onFocus={e => e.target.style.border = '1px solid #d4820a'} onBlur={e => e.target.style.border = '1px solid #ece4d8'} value={member.education || ''} onChange={e => handleStaffChange(index, 'education', e.target.value)} />
+                                                    <input placeholder="Official Email" style={{ width: '100%', padding: '10px 12px', border: '1px solid #ece4d8', borderRadius: '14px', background: '#faf7f2', fontSize: '0.75rem', fontWeight: 600, color: '#1a1612', outline: 'none' }} onFocus={e => e.target.style.border = '1px solid #d4820a'} onBlur={e => e.target.style.border = '1px solid #ece4d8'} value={member.email || ''} onChange={e => handleStaffChange(index, 'email', e.target.value)} />
                                                 </div>
 
-                                                <button onClick={() => handleDeleteStaff(index)} style={{ width: '100%', padding: '12px', border: '1px solid #ece4d8', color: '#c0392b', background: '#fffdf9', borderRadius: '14px', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', transition: '0.2s' }} onMouseOver={e => { e.currentTarget.style.background = '#c0392b'; e.currentTarget.style.color = '#fff'; }} onMouseOut={e => { e.currentTarget.style.background = '#fffdf9'; e.currentTarget.style.color = '#c0392b'; }}><Trash2 size={18} /> <span>HAPUS</span></button>
+                                                <button onClick={() => handleDeleteStaff(index)} style={{ width: '100%', padding: '12px', border: '1px solid #ece4d8', color: '#c0392b', background: '#fffdf9', borderRadius: '14px', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', transition: '0.2s' }} onMouseOver={e => { e.currentTarget.style.background = '#c0392b'; e.currentTarget.style.color = '#fff'; }} onMouseOut={e => { e.currentTarget.style.background = '#fffdf9'; e.currentTarget.style.color = '#c0392b'; }}><Trash2 size={18} /> <span>DELETE</span></button>
                                             </div>
                                         </motion.div>
                                     ))}
@@ -1806,9 +1806,9 @@ export default function AdminPage() {
                                                     <span style={{ fontSize: '0.75rem', color: '#9a8c82', fontWeight: 700 }}>
                                                         {msg.receivedAt ? new Date(msg.receivedAt).toLocaleString('en-GB') : '-'}
                                                     </span>
-                                                    <button 
+                                                    <button
                                                         onClick={async () => {
-                                                            if (window.confirm('Hapus pesan ini?')) {
+                                                            if (window.confirm('Delete this message?')) {
                                                                 await adminMutate({ deletes: [{ type: 'contactMessage', id: msg._id }] });
                                                                 fetchAllData();
                                                             }
@@ -1822,7 +1822,7 @@ export default function AdminPage() {
                                                 </div>
                                             </div>
                                             <div style={{ background: '#fffdf9', padding: '20px', borderRadius: '14px', border: '1px solid #ece4d8' }}>
-                                                <div style={{ fontWeight: 700, fontSize: '0.8rem', color: '#d4820a', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>Subject: {msg.subject || 'Tanpa Subjek'}</div>
+                                                <div style={{ fontWeight: 700, fontSize: '0.8rem', color: '#d4820a', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>Subject: {msg.subject || 'No Subject'}</div>
                                                 <p style={{ margin: 0, fontSize: '0.95rem', color: '#1a1612', lineHeight: 1.6, whiteSpace: 'pre-wrap' }}>{msg.message}</p>
                                             </div>
                                             <div style={{ marginTop: '15px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -1835,17 +1835,17 @@ export default function AdminPage() {
                                                             }}
                                                             style={{ fontSize: '0.7rem', fontWeight: 700, color: '#fffdf9', background: '#0d7c6e', border: 'none', padding: '6px 14px', borderRadius: '14px', cursor: 'pointer' }}
                                                         >
-                                                            TANDAI DIBACA
+                                                            MARK AS READ
                                                         </button>
                                                     )}
                                                 </div>
                                                 <a href={`mailto:${msg.email}?subject=Reply to: ${msg.subject}`} style={{ fontSize: '0.8rem', fontWeight: 700, color: '#d4820a', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '5px' }}>
-                                                    <span>BALAS VIA EMAIL</span> <ChevronRight size={14} />
+                                                    <span>REPLY VIA EMAIL</span> <ChevronRight size={14} />
                                                 </a>
                                             </div>
                                         </motion.div>
                                     ))}
-                                    {messages.length === 0 && <div style={{ textAlign: 'center', padding: '5rem', color: '#9a8c82', fontWeight: 600 }}>Belum ada pesan.</div>}
+                                    {messages.length === 0 && <div style={{ textAlign: 'center', padding: '5rem', color: '#9a8c82', fontWeight: 600 }}>No messages yet.</div>}
                                 </div>
                             </div>
                         ) : null}
@@ -1857,8 +1857,8 @@ export default function AdminPage() {
                         ) && (
                             <div style={{ padding: '8rem', textAlign: 'center', background: '#fffdf9', border: '1px solid #ece4d8', margin: '40px' }}>
                                 <LayoutDashboard size={80} style={{ opacity: 0.15, margin: '0 auto 1.5rem', color: '#d4820a' }} />
-                                <p style={{ fontWeight: 700, color: '#1a1612', fontSize: '1.1rem' }}>BELUM ADA DATA</p>
-                                <p style={{ fontSize: '0.85rem', color: '#9a8c82', fontWeight: 700 }}>Klik "TAMBAH BARU" di atas untuk menambah data baru.</p>
+                                <p style={{ fontWeight: 700, color: '#1a1612', fontSize: '1.1rem' }}>NO DATA YET</p>
+                                <p style={{ fontSize: '0.85rem', color: '#9a8c82', fontWeight: 700 }}>Click "ADD NEW" above to add new data.</p>
                             </div>
                         )}
 
