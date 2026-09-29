@@ -210,6 +210,24 @@
   will-change: transform;
 }
 
+.menu-link-item-active {
+  background: rgba(249,140,29,0.07);
+  border-color: rgba(249,140,29,0.3);
+}
+
+.menu-link-item-active .menu-link-icon {
+  background: var(--primary);
+  color: white;
+}
+
+.menu-link-item-active .menu-link-label {
+  color: var(--primary);
+}
+
+.menu-link-item-active .menu-chevron {
+  opacity: 1;
+}
+
 .menu-link-icon {
   flex-shrink: 0;
   width: 40px;

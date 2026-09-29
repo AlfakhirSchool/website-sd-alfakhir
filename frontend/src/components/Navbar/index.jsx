@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { X, Menu, ChevronRight, Home, MessageSquare, BookOpen, Target, Building2, Users, LayoutGrid, Image as ImageIcon, ClipboardCheck, UserPlus } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useLanguage } from "../../context/LanguageContext";
 import { useIsMobile } from "../../hooks/useIsMobile";
 import "./Navbar.css";
@@ -33,6 +34,7 @@ const Navbar = () => {
   const { t, langCode, changeLanguage } = useLanguage();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const isMobile = useIsMobile(1024);
+  const pathname = usePathname();
 
   /* Lock body scroll when menu open */
   useEffect(() => {
@@ -205,7 +207,9 @@ const Navbar = () => {
                   { label: t('nav','menu.facilities'), sub: t('nav','menu.facilities_sub'), href: "/fasilitas", Icon: LayoutGrid    },
                   { label: t('nav','menu.gallery'),    sub: t('nav','menu.gallery_sub'),    href: "/galeri",    Icon: ImageIcon     },
                   { label: t('nav','menu.ppdb'),       sub: t('nav','menu.ppdb_sub'),       href: "/ppdb",      Icon: ClipboardCheck },
-                ].map((item, i) => (
+                ].map((item, i) => {
+                  const isActive = pathname === item.href;
+                  return (
                   <motion.div
                     key={i}
                     initial={{ opacity: 0, x: -10 }}
@@ -215,8 +219,9 @@ const Navbar = () => {
                     <Link
                       href={item.href}
                       onClick={() => setIsMenuOpen(false)}
-                      className="menu-link-item"
+                      className={`menu-link-item${isActive ? " menu-link-item-active" : ""}`}
                       onMouseOver={(e) => {
+                        if (isActive) return;
                         e.currentTarget.style.background = "rgba(249,140,29,0.06)";
                         e.currentTarget.style.borderColor = "rgba(249,140,29,0.25)";
                         e.currentTarget.children[0].style.background = "var(--primary)";
@@ -226,6 +231,7 @@ const Navbar = () => {
                         e.currentTarget.children[2].style.transform = "translateX(2px)";
                       }}
                       onMouseOut={(e) => {
+                        if (isActive) return;
                         e.currentTarget.style.background = "transparent";
                         e.currentTarget.style.borderColor = "transparent";
                         e.currentTarget.children[0].style.background = "rgba(249,140,29,0.08)";
@@ -246,7 +252,8 @@ const Navbar = () => {
                     </Link>
                     {i < (isMobile ? 8 : 0) && <div className="menu-separator" />}
                   </motion.div>
-                ))}
+                  );
+                })}
               </div>
 
               {/* ── Bottom Actions ── */}
