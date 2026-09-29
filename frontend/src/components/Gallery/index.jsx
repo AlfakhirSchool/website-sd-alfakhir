@@ -284,16 +284,16 @@ const Gallery = ({ isSlider = false, defaultCategory = 'ALL' }) => {
                                 onClick={e => e.stopPropagation()}
                             >
                                 <div className="lightbox-grid">
-                                    <div style={{ position: 'relative', aspectRatio: '4/3', background: '#f8fafc', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                        <SmartImage 
-                                            src={urlFor(selectedImg.image || selectedImg.url).width(1200).auto('format').url()} 
+                                    <div style={{ position: 'relative', minHeight: '100%', background: '#f8fafc', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                        <SmartImage
+                                            src={urlFor(selectedImg.image || selectedImg.url).width(1200).auto('format').url()}
                                             lqip={selectedImg.lqip}
-                                            style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
-                                            alt={selectedImg.title} 
+                                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                            alt={selectedImg.title}
                                             loading="eager"
                                         />
                                     </div>
-                                    <div style={{ padding: '60px 50px', display: 'flex', flexDirection: 'column', background: 'white' }}>
+                                    <div style={{ padding: '60px 50px', display: 'flex', flexDirection: 'column', justifyContent: 'center', background: 'white' }}>
                                         <div style={{ display: 'flex', gap: '15px', marginBottom: '25px', alignItems: 'center' }}>
                                             <span style={{ color: 'var(--primary)', fontWeight: 600, fontSize: '0.8rem', letterSpacing: '2px' }}>{selectedImg.date}</span>
                                             <span style={{ width: '4px', height: '4px', borderRadius: '50%', background: '#e2e8f0' }}></span>
@@ -304,8 +304,8 @@ const Gallery = ({ isSlider = false, defaultCategory = 'ALL' }) => {
                                         <div style={{ color: '#64748b', fontSize: '1.1rem', lineHeight: 1.8, fontWeight: 500, overflowY: 'auto', maxHeight: '40vh' }}>
                                             {selectedImg.agenda}
                                         </div>
-                                        <div style={{ marginTop: 'auto', paddingTop: '40px' }}>
-                                             <button 
+                                        <div style={{ marginTop: '40px' }}>
+                                             <button
                                                 onClick={() => setSelectedImg(null)}
                                                 style={{ padding: '15px 40px', borderRadius: '99px', border: '1.5px solid #0f172a', background: 'transparent', color: '#0f172a', fontWeight: 600, cursor: 'pointer', transition: '0.3s' }}
                                                 onMouseOver={e => { e.currentTarget.style.background = '#0f172a'; e.currentTarget.style.color = 'white'; }}
