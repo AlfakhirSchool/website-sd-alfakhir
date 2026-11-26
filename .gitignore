@@ -32,3 +32,5 @@ backend/node_modules/
 backend/dist/
 
 /src/generated/prisma
+.vercel
+.env*
