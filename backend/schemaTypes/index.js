@@ -5,5 +5,6 @@ import news from './news'
 import teacher from './teacher'
 import schoolProfile from './schoolProfile'
 import settings from './settings'
+import studentProfile from './studentProfile'
 
-export const schemaTypes = [gallery, student, facility, news, teacher, schoolProfile, settings]
+export const schemaTypes = [gallery, student, facility, news, teacher, schoolProfile, settings, studentProfile]

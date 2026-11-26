@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { X, Menu, ChevronRight, Home, MessageSquare, BookOpen, Target, Building2, Users, LayoutGrid, Image as ImageIcon, ClipboardCheck, UserPlus } from "lucide-react";
+import { X, Menu, ChevronRight, Home, MessageSquare, BookOpen, Target, Building2, Users, LayoutGrid, Image as ImageIcon, ClipboardCheck, UserPlus, FileUser } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -207,6 +207,7 @@ const Navbar = () => {
                   { label: t('nav','menu.facilities'), sub: t('nav','menu.facilities_sub'), href: "/fasilitas", Icon: LayoutGrid    },
                   { label: t('nav','menu.gallery'),    sub: t('nav','menu.gallery_sub'),    href: "/galeri",    Icon: ImageIcon     },
                   { label: t('nav','menu.ppdb'),       sub: t('nav','menu.ppdb_sub'),       href: "/ppdb",      Icon: ClipboardCheck },
+                  { label: t('nav','menu.profile'),    sub: t('nav','menu.profile_sub'),    href: "/profil-siswa", Icon: FileUser  },
                 ].map((item, i) => {
                   const isActive = pathname === item.href;
                   return (

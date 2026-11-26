@@ -2,15 +2,26 @@ import { NextResponse } from 'next/server';
 import { requireAdminSession } from '@/lib/adminSession';
 import { serverClient } from '@/lib/sanityServer';
 import { studentApi } from '@/lib/studentApi';
+import { nisHash, normalizeNis, seal } from '@/lib/profileCrypto';
 
 export const runtime = 'nodejs';
+
+// studentProfile docs live in a public-read dataset: identifying fields are
+// sealed before they reach Sanity (see lib/profileCrypto.js).
+function sealProfile(doc) {
+    const { nis, name, pdfLink, ...rest } = doc;
+    if (!/^\d{3,25}$/.test(normalizeNis(nis))) throw new Error('NIS harus berupa angka (3-25 digit) untuk setiap profil.');
+    if (!/^\d{4}-(0[1-9]|1[0-2])$/.test(rest.period || '')) throw new Error('Periode profil (bulan dan tahun) tidak valid.');
+    if (pdfLink && !/^https?:\/\/\S+$/i.test(pdfLink)) throw new Error('Link PDF harus diawali http:// atau https://.');
+    return { ...rest, nisHash: nisHash(nis), blob: seal({ nis: normalizeNis(nis), name, pdfLink }) };
+}
 
 // Generic batch mutation endpoint for the admin dashboard. Body shape:
 //   { deletes?: {type: string, id: string}[], creates?: object[], patches?: {id: string, set: object}[] }
 // 'student' items are routed to the self-hosted student-api; everything
 // else goes to Sanity. Restricted to known document types so a compromised
 // admin session can't be used to write arbitrary Sanity document types.
-const SANITY_TYPES = new Set(['gallery', 'teacher', 'yearConfig', 'contactMessage']);
+const SANITY_TYPES = new Set(['gallery', 'teacher', 'yearConfig', 'contactMessage', 'studentProfile']);
 
 export async function POST(req) {
     const session = await requireAdminSession();
@@ -39,9 +50,10 @@ export async function POST(req) {
         }
 
         const studentCreates = creates.filter(d => d._type === 'student');
-        const sanityCreates = creates.filter(d => d._type !== 'student');
+        const toSanity = (doc) => (doc._type === 'studentProfile' ? sealProfile(doc) : doc);
+        const sanityCreates = creates.filter(d => d._type !== 'student').map(toSanity);
         const studentPatches = patches.filter(p => p.set?._type === 'student');
-        const sanityPatches = patches.filter(p => p.set?._type !== 'student');
+        const sanityPatches = patches.filter(p => p.set?._type !== 'student').map(p => ({ ...p, set: toSanity(p.set) }));
         const studentDeletes = deletes.filter(d => d.type === 'student');
         const sanityDeletes = deletes.filter(d => d.type !== 'student');
 

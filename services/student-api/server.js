@@ -67,6 +67,19 @@ for (const col of NEW_COLUMNS) {
     if (!existingColumns.has(col)) db.exec(`ALTER TABLE students ADD COLUMN ${col} TEXT`);
 }
 
+db.exec(`
+CREATE TABLE IF NOT EXISTS profiles (
+    _id TEXT PRIMARY KEY,
+    name TEXT,
+    school TEXT,
+    year TEXT,
+    pdfLink TEXT,
+    publishedAt TEXT,
+    createdAt TEXT DEFAULT (datetime('now')),
+    updatedAt TEXT DEFAULT (datetime('now'))
+);
+`);
+
 const app = express();
 app.use(express.json({ limit: '1mb' }));
 
@@ -149,6 +162,54 @@ app.patch('/students/:id', (req, res) => {
 
 app.delete('/students/:id', (req, res) => {
     db.prepare('DELETE FROM students WHERE _id = ?').run(req.params.id);
+    res.json({ success: true });
+});
+
+// Student profile announcements — their own table, independent of the
+// PPDB/observation students. publishedAt is set when a PDF link is first
+// saved or replaced, and drives the "newest first" order on the public page.
+const PROFILE_COLUMNS = ['name', 'school', 'year', 'pdfLink', 'publishedAt'];
+
+app.get('/profiles', (req, res) => {
+    res.json(db.prepare(`SELECT _id, ${PROFILE_COLUMNS.join(',')} FROM profiles ORDER BY publishedAt DESC, createdAt DESC`).all());
+});
+
+app.get('/profiles/public', (req, res) => {
+    res.json(db.prepare(
+        `SELECT _id, ${PROFILE_COLUMNS.join(',')} FROM profiles WHERE pdfLink IS NOT NULL AND pdfLink != '' ORDER BY publishedAt DESC`
+    ).all());
+});
+
+app.post('/profiles', (req, res) => {
+    const doc = req.body || {};
+    const _id = doc._id || crypto.randomUUID();
+    const params = { _id, name: doc.name ?? null, school: doc.school ?? null, year: doc.year ?? null, pdfLink: doc.pdfLink ?? null,
+        publishedAt: doc.pdfLink ? new Date().toISOString() : null };
+    try {
+        db.prepare('INSERT INTO profiles (_id, name, school, year, pdfLink, publishedAt) VALUES (@_id, @name, @school, @year, @pdfLink, @publishedAt)').run(params);
+    } catch (err) {
+        return res.status(500).json({ error: err.message });
+    }
+    res.json({ success: true, _id });
+});
+
+app.patch('/profiles/:id', (req, res) => {
+    const set = req.body?.set || {};
+    const cols = Object.keys(set).filter(c => ['name', 'school', 'year', 'pdfLink'].includes(c));
+    if (cols.length === 0) return res.json({ success: true });
+    const params = { _id: req.params.id };
+    cols.forEach(c => { params[c] = set[c]; });
+    const assignments = cols.map(c => `${c} = @${c}`).join(', ');
+    // The admin sends the whole row on every save, so only a changed, non-empty link counts as a new publish.
+    const prev = db.prepare('SELECT pdfLink FROM profiles WHERE _id = ?').get(req.params.id);
+    const publish = set.pdfLink && prev?.pdfLink !== set.pdfLink;
+    if (publish) params.publishedAt = new Date().toISOString();
+    db.prepare(`UPDATE profiles SET ${assignments}${publish ? ', publishedAt = @publishedAt' : ''}, updatedAt = datetime('now') WHERE _id = @_id`).run(params);
+    res.json({ success: true });
+});
+
+app.delete('/profiles/:id', (req, res) => {
+    db.prepare('DELETE FROM profiles WHERE _id = ?').run(req.params.id);
     res.json({ success: true });
 });
 

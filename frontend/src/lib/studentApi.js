@@ -31,4 +31,9 @@ export const studentApi = {
     create: (doc) => call('/students', { method: 'POST', body: JSON.stringify(doc) }),
     patch: (id, set) => call(`/students/${encodeURIComponent(id)}`, { method: 'PATCH', body: JSON.stringify({ set }) }),
     remove: (id) => call(`/students/${encodeURIComponent(id)}`, { method: 'DELETE' }),
+    listProfiles: () => call('/profiles'),
+    listPublicProfiles: () => call('/profiles/public'),
+    createProfile: (doc) => call('/profiles', { method: 'POST', body: JSON.stringify(doc) }),
+    patchProfile: (id, set) => call(`/profiles/${encodeURIComponent(id)}`, { method: 'PATCH', body: JSON.stringify({ set }) }),
+    removeProfile: (id) => call(`/profiles/${encodeURIComponent(id)}`, { method: 'DELETE' }),
 };
