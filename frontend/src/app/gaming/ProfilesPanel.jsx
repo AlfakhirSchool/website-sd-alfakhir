@@ -9,6 +9,7 @@
  *   profiles: {_id, nis, name, period: 'YYYY-MM', pdfLink, publishedAt}[]   server state
  *   onSave(draft): Promise   create (no _id) or update (_id) one profile
  *   onDelete(profile): Promise
+ *   onDeleteMany(profiles): Promise  one request for the whole list
  *   onImport(docs): Promise  docs may carry _id when they update an existing profile
  */
 
@@ -86,7 +87,7 @@ function ProfileDrawer({ draft, setDraft, saving, error, onSave, onDelete, onClo
     );
 }
 
-export default function ProfilesPanel({ profiles, onSave, onDelete, onImport }) {
+export default function ProfilesPanel({ profiles, onSave, onDelete, onDeleteMany, onImport }) {
     const [now] = useState(() => new Date());
     const [month, setMonth] = useState(now.getMonth() + 1);
     const [year, setYear] = useState(now.getFullYear());
@@ -159,6 +160,10 @@ export default function ProfilesPanel({ profiles, onSave, onDelete, onImport }) 
     const remove = async (profile) => {
         if (!window.confirm(`Delete the profile of ${profile.name} for ${periodLabel(profile.period)}?`)) return;
         if (await run(() => onDelete(profile), 'Profile deleted.')) setDraft(null);
+    };
+    const removeAll = async () => {
+        if (!window.confirm(`Delete ALL ${inPeriod.length} profiles of ${periodLabel(period)}? This cannot be undone.`)) return;
+        await run(() => onDeleteMany(inPeriod), `Deleted ${inPeriod.length} profiles of ${periodLabel(period)}.`);
     };
 
     const copy = async (text) => {
@@ -258,6 +263,7 @@ export default function ProfilesPanel({ profiles, onSave, onDelete, onImport }) 
                     {carryOver.length > 0 && (
                         <Button icon={CopyPlus} onClick={copyStudents} disabled={saving}>Copy {carryOver.length} from {MONTHS[Number(previousPeriod(period).slice(5)) - 1]}</Button>
                     )}
+                    {inPeriod.length > 0 && <Button variant="danger" icon={Trash2} onClick={removeAll} disabled={saving}>Delete all</Button>}
                     <Button icon={Download} onClick={downloadTemplate}>Template</Button>
                     <Button icon={Upload} onClick={() => fileRef.current?.click()}>Import</Button>
                     <Button variant="primary" icon={Plus} onClick={() => { setError(''); setDraft(blank(period)); }}>New profile</Button>

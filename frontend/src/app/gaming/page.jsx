@@ -370,6 +370,11 @@ export default function AdminPage() {
             profiles,
             onSave: (d) => saveItems([d], buildProfile, ['profiles']),
             onDelete: (p) => removeItem('studentProfile', p._id, setProfiles),
+            onDeleteMany: async (list) => {
+                await adminMutate({ deletes: list.map(p => ({ type: 'studentProfile', id: p._id })) });
+                const gone = new Set(list.map(p => p._id));
+                setProfiles(all => all.filter(x => !gone.has(x._id)));
+            },
             onImport: (docs) => saveItems(docs, buildProfile, ['profiles']),
         },
         gallery: {
