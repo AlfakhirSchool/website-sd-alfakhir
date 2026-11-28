@@ -6,7 +6,7 @@ import ProfileAnnouncements from '@/components/ProfileAnnouncements';
 
 export default function ProfilSiswaPage() {
     return (
-        <div style={{ background: '#f8fafc', minHeight: '100vh' }}>
+        <div style={{ background: '#fffaf3', minHeight: '100vh' }}>
             <Navbar theme="light" />
             <ProfileAnnouncements />
             <Footer />
