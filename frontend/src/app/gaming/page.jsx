@@ -258,6 +258,7 @@ export default function AdminPage() {
         return {
             _type: 'studentProfile',
             nis: (p.nis || '').trim(),
+            nisn: (p.nisn || '').trim(),
             name: (p.name || '').trim(),
             period: p.period,
             pdfLink: link,

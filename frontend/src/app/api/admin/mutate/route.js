@@ -9,11 +9,13 @@ export const runtime = 'nodejs';
 // studentProfile docs live in a public-read dataset: identifying fields are
 // sealed before they reach Sanity (see lib/profileCrypto.js).
 function sealProfile(doc) {
-    const { nis, name, pdfLink, ...rest } = doc;
+    const { nis, nisn, name, pdfLink, ...rest } = doc;
     if (!/^\d{3,25}$/.test(normalizeNis(nis))) throw new Error('NIS harus berupa angka (3-25 digit) untuk setiap profil.');
+    if (nisn && !/^\d{3,25}$/.test(normalizeNis(nisn))) throw new Error('NISN harus berupa angka (3-25 digit).');
     if (!/^\d{4}-(0[1-9]|1[0-2])$/.test(rest.period || '')) throw new Error('Periode profil (bulan dan tahun) tidak valid.');
     if (pdfLink && !/^https?:\/\/\S+$/i.test(pdfLink)) throw new Error('Link PDF harus diawali http:// atau https://.');
-    return { ...rest, nisHash: nisHash(nis), blob: seal({ nis: normalizeNis(nis), name, pdfLink }) };
+    // null (not omitted) so a patch clears a removed NISN.
+    return { ...rest, nisHash: nisHash(nis), nisnHash: nisn ? nisHash(nisn) : null, blob: seal({ nis: normalizeNis(nis), nisn: nisn ? normalizeNis(nisn) : '', name, pdfLink }) };
 }
 
 // Generic batch mutation endpoint for the admin dashboard. Body shape:

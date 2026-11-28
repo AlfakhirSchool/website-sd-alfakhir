@@ -6,6 +6,7 @@ export default {
   readOnly: true,
   fields: [
     { name: 'nisHash', type: 'string', title: 'NIS (hash)' },
+    { name: 'nisnHash', type: 'string', title: 'NISN (hash)' },
     { name: 'blob', type: 'text', title: 'Data terenkripsi' },
     { name: 'period', type: 'string', title: 'Periode (YYYY-MM)' },
     { name: 'publishedAt', type: 'datetime', title: 'Tanggal Terbit' }

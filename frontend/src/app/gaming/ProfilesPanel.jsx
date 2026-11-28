@@ -3,7 +3,7 @@
 /**
  * Student profile announcements (public page /profil-siswa).
  * Profiles are collected every month: one row = one student's profile PDF for one month.
- * Parents find theirs by NIS (digits) and see the newest month first.
+ * Parents find theirs by NIS or NISN (digits) and see the newest month first.
  *
  * Props (supplied by page.jsx):
  *   profiles: {_id, nis, name, period: 'YYYY-MM', pdfLink, publishedAt}[]   server state
@@ -28,7 +28,7 @@ const validNis = (v) => /^\d{3,25}$/.test(v);
 const toPeriod = (year, month) => `${year}-${String(month).padStart(2, '0')}`;
 const periodLabel = (p) => { const [y, m] = p.split('-'); return `${MONTHS[Number(m) - 1]} ${y}`; };
 const previousPeriod = (p) => { const [y, m] = p.split('-').map(Number); return m === 1 ? toPeriod(y - 1, 12) : toPeriod(y, m - 1); };
-const blank = (period) => ({ nis: '', name: '', period, pdfLink: '' });
+const blank = (period) => ({ nis: '', nisn: '', name: '', period, pdfLink: '' });
 
 // Spreadsheet headers are matched loosely so a teacher's own column names still work.
 const pick = (row, names) => {
@@ -39,6 +39,7 @@ const pick = (row, names) => {
 function ProfileDrawer({ draft, setDraft, saving, error, onSave, onDelete, onClose }) {
     const isNew = !draft._id;
     const nisBad = !validNis(draft.nis || '');
+    const nisnBad = !!draft.nisn && !validNis(draft.nisn);
     const nameBad = !draft.name?.trim();
     const linkBad = draft.pdfLink && !isUrl(draft.pdfLink);
     const set = (k, v) => setDraft(d => ({ ...d, [k]: v }));
@@ -53,15 +54,19 @@ function ProfileDrawer({ draft, setDraft, saving, error, onSave, onDelete, onClo
                     {isNew ? <span /> : <Button variant="danger" icon={Trash2} onClick={onDelete} disabled={saving}>Delete</Button>}
                     <div style={{ display: 'flex', gap: 10 }}>
                         <Button onClick={onClose} disabled={saving}>Cancel</Button>
-                        <Button variant="primary" onClick={onSave} disabled={saving || nisBad || nameBad || linkBad}>{saving ? 'Saving...' : 'Save'}</Button>
+                        <Button variant="primary" onClick={onSave} disabled={saving || nisBad || nisnBad || nameBad || linkBad}>{saving ? 'Saving...' : 'Save'}</Button>
                     </div>
                 </>
             }
         >
             {error && <Notice tone="bad" style={{ marginBottom: 18 }}>{error}</Notice>}
-            <Field label="NIS" hint="Digits only. Parents type this number to find the profile." error={draft.nis && nisBad && 'Use 3 to 25 digits.'}>
+            <Field label="NIS" hint="Digits only. Parents can type this number to find the profile." error={draft.nis && nisBad && 'Use 3 to 25 digits.'}>
                 <input autoFocus inputMode="numeric" style={{ ...inputStyle(draft.nis && nisBad), letterSpacing: '1px' }} placeholder="e.g. 2026001"
                     value={draft.nis || ''} onChange={e => set('nis', e.target.value.replace(/\D/g, ''))} />
+            </Field>
+            <Field label="NISN (optional)" hint="Digits only. Parents can use this number instead of the NIS." error={nisnBad && 'Use 3 to 25 digits.'}>
+                <input inputMode="numeric" style={{ ...inputStyle(nisnBad), letterSpacing: '1px' }} placeholder="e.g. 0123456789"
+                    value={draft.nisn || ''} onChange={e => set('nisn', e.target.value.replace(/\D/g, ''))} />
             </Field>
             <Field label="Student name">
                 <input style={inputStyle(false)} placeholder="Full name" value={draft.name || ''} onChange={e => set('name', e.target.value)} />
@@ -118,7 +123,7 @@ export default function ProfilesPanel({ profiles, onSave, onDelete, onImport }) 
         const q = query.toLowerCase();
         return inPeriod.filter(p =>
             (tab === 'all' || (tab === 'published' ? p.pdfLink : !p.pdfLink)) &&
-            `${p.name || ''}${p.nis || ''}`.toLowerCase().includes(q));
+            `${p.name || ''}${p.nis || ''}${p.nisn || ''}`.toLowerCase().includes(q));
     }, [inPeriod, tab, query]);
 
     // Students of the previous month that have no profile row in this month yet.
@@ -148,7 +153,7 @@ export default function ProfilesPanel({ profiles, onSave, onDelete, onImport }) 
     };
 
     const save = async () => {
-        const doc = { ...draft, nis: normNis(draft.nis), name: draft.name.trim() };
+        const doc = { ...draft, nis: normNis(draft.nis), nisn: normNis(draft.nisn), name: draft.name.trim() };
         if (await run(() => onSave(doc), 'Profile saved.')) setDraft(null);
     };
     const remove = async (profile) => {
@@ -161,14 +166,14 @@ export default function ProfilesPanel({ profiles, onSave, onDelete, onImport }) 
     };
 
     const copyStudents = async () => {
-        const docs = carryOver.map(p => ({ nis: p.nis, name: p.name, period, pdfLink: '' }));
+        const docs = carryOver.map(p => ({ nis: p.nis, nisn: p.nisn || '', name: p.name, period, pdfLink: '' }));
         await run(() => onImport(docs), `Copied ${docs.length} students from ${periodLabel(previousPeriod(period))}. Add their PDF links next.`);
     };
 
     const downloadTemplate = async () => {
         const XLSX = await import('xlsx');
         const sheet = XLSX.utils.json_to_sheet([
-            { NIS: '2026001', Nama: 'Contoh Nama Siswa', 'Link PDF': 'https://drive.google.com/file/d/xxxx/view' },
+            { NIS: '2026001', NISN: '0123456789', Nama: 'Contoh Nama Siswa', 'Link PDF': 'https://drive.google.com/file/d/xxxx/view' },
         ]);
         const book = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(book, sheet, 'Profil Siswa');
@@ -185,13 +190,14 @@ export default function ProfilesPanel({ profiles, onSave, onDelete, onImport }) 
             let skipped = 0;
             data.forEach((row) => {
                 const nis = normNis(pick(row, ['nis', 'nomorinduk', 'nomorindukssiswa', 'nomorindukssiswanis']));
+                const nisn = normNis(pick(row, ['nisn']));
                 const name = pick(row, ['nama', 'namasiswa', 'name', 'namalengkap']);
                 const link = pick(row, ['linkpdf', 'link', 'pdf', 'pdflink', 'url', 'linkprofil']);
-                if (!validNis(nis) || !name || (link && !isUrl(link))) { skipped++; return; }
+                if (!validNis(nis) || (nisn && !validNis(nisn)) || !name || (link && !isUrl(link))) { skipped++; return; }
                 const existing = profiles.find(p => p.nis === nis && p.period === period);
                 docs.push(existing
-                    ? { ...existing, name, pdfLink: link || existing.pdfLink }
-                    : { nis, name, period, pdfLink: link });
+                    ? { ...existing, nisn: nisn || existing.nisn || '', name, pdfLink: link || existing.pdfLink }
+                    : { nis, nisn, name, period, pdfLink: link });
             });
             setPending({ docs, skipped, updates: docs.filter(d => d._id).length });
         } catch {
@@ -247,7 +253,7 @@ export default function ProfilesPanel({ profiles, onSave, onDelete, onImport }) 
 
             <Toolbar
                 style={{ marginTop: 22 }}
-                left={<SearchInput value={query} onChange={v => { setQuery(v); setPage(1); }} placeholder="Search name or NIS" />}
+                left={<SearchInput value={query} onChange={v => { setQuery(v); setPage(1); }} placeholder="Search name, NIS or NISN" />}
                 right={<>
                     {carryOver.length > 0 && (
                         <Button icon={CopyPlus} onClick={copyStudents} disabled={saving}>Copy {carryOver.length} from {MONTHS[Number(previousPeriod(period).slice(5)) - 1]}</Button>
@@ -265,7 +271,7 @@ export default function ProfilesPanel({ profiles, onSave, onDelete, onImport }) 
                 <Notice tone="info" style={{ marginTop: 16 }}>
                     <span>
                         Ready to import {pending.docs.length} profiles into {periodLabel(period)} ({pending.docs.length - pending.updates} new, {pending.updates} updates)
-                        {pending.skipped > 0 && `, ${pending.skipped} skipped (needs a numeric NIS and a name, and a valid link if given)`}.
+                        {pending.skipped > 0 && `, ${pending.skipped} skipped (needs a numeric NIS and a name, a numeric NISN if given, and a valid link if given)`}.
                     </span>
                     <span style={{ display: 'flex', gap: 8 }}>
                         <Button size="sm" onClick={() => setPending(null)} disabled={saving}>Cancel</Button>
@@ -304,7 +310,7 @@ export default function ProfilesPanel({ profiles, onSave, onDelete, onImport }) 
                                 <Avatar name={p.name} />
                                 <div style={{ minWidth: 0 }}>
                                     <div style={{ fontSize: '0.92rem', fontWeight: 600, color: C.ink, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{p.name}</div>
-                                    <div style={{ marginTop: 3, fontSize: '0.78rem', color: C.muted }}>NIS {p.nis}</div>
+                                    <div style={{ marginTop: 3, fontSize: '0.78rem', color: C.muted }}>NIS {p.nis}{p.nisn ? ` · NISN ${p.nisn}` : ''}</div>
                                 </div>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: 4, minWidth: 0 }} onClick={e => e.stopPropagation()}>
                                     {p.pdfLink ? (

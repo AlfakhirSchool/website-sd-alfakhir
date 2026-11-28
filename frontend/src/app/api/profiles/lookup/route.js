@@ -21,7 +21,7 @@ export async function GET(req) {
 
     try {
         const docs = await serverClient.fetch(
-            '*[_type == "studentProfile" && nisHash == $h] | order(period desc, publishedAt desc) {period, publishedAt, blob}',
+            '*[_type == "studentProfile" && (nisHash == $h || nisnHash == $h)] | order(period desc, publishedAt desc) {period, publishedAt, blob}',
             { h: nisHash(nis) },
         );
         const results = docs
